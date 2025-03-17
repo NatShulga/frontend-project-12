@@ -1,12 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  root: path.resolve(__dirname, 'frontend'),
-  build: {
-    outDir: 'dist', 
-  },
+  root: path.resolve(__dirname, 'frontend/public'),
   server: {
     port: 5002,
     proxy: {
@@ -19,5 +17,8 @@ export default defineConfig({
         rewriteWsOrigin: true,
       },
     },
+  },
+    build: {
+    outDir: '../../dist',
   },
 });

@@ -6,7 +6,6 @@ import NotFound from './components/NotFound';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Button, Container } from 'react-bootstrap';
 
-
 const App = () => {
     const isLoggedIn = true;
 
