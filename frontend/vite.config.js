@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  root: path.resolve(__dirname, 'frontend/public'),
+  root: path.resolve(__dirname, 'frontend'),
   server: {
     port: 5002,
     proxy: {
@@ -18,7 +18,11 @@ export default defineConfig({
       },
     },
   },
-    build: {
-    outDir: '../../dist',
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'frontend/index.html'),
+      },
+    },
   },
 });
