@@ -3,7 +3,7 @@ import axios from 'axios';
 const api_base_url = 'http://localhost:5001';
 
 const api = axios.create({
-    base_url: api_base_url,
+    baseURL: api_base_url,
 });
 
 api.interceptors.response.use(
