@@ -14,10 +14,7 @@ return (
     <Routes>
         <Route path="/login" element={<Login />} />
         {/* тут логика если пользователь авторизовался, то перенаправляется в чат, если нет то назад на форму логина. Navigate для перенаправления. */}
-        <Route
-        path="/"
-        element={isLoggedIn ? <Chat /> : <Navigate to="/login" />}
-        />
+        <Route path="/"element={isLoggedIn ? <Chat /> : <Navigate to="/login" />} />
         <Route path="*" element={<NotFound />} /> {/* Страница 404 */}
     </Routes>
     </Router>
