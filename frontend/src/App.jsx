@@ -3,20 +3,33 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Chat from './components/Chat';
 import NotFound from './components/NotFound';
-import 'bootstrap/dist/css/bootstrap.css';
-import { Button, Container } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Navbar from './components/header/Navbar.jsx';
+
+const PrivateRoute = ({ children }) => {
+    const isLoggedIn = localStorage.getItem('token'); //проверка на наличие токена
+
+    return isLoggedIn ? children : <Navigate to="/login" />;
+};
 
 const App = () => {
-    const isLoggedIn = true;
 
 return (
     <Router>
-    <Routes>
+      <Navbar />
+      <ToastContainer />
+      <Routes>
         <Route path="/login" element={<Login />} />
-        {/* тут логика если пользователь авторизовался, то перенаправляется в чат, если нет то назад на форму логина. Navigate для перенаправления. */}
-        <Route path="/"element={isLoggedIn ? <Chat /> : <Navigate to="/login" />} />
-        <Route path="*" element={<NotFound />} /> {/* Страница 404 */}
-    </Routes>
+        <Route path="/"element={
+            <PrivateRoute>
+              <Chat />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </Router>
 );
 };

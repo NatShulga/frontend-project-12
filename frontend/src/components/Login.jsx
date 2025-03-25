@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form, Alert } from 'react-bootstrap';
+import axios from 'axios';
 
 function Login() {
     const navigate = useNavigate();
+    const [error, setError] = useState('');
 
     const formik = useFormik({
         initialValues: {
@@ -16,20 +19,22 @@ function Login() {
                 const response = await axios.post('/api/login', values); // Отправляем данные на сервер
                 const token = response.data.token; // если ответ от сервера соответствует верному(логин и пароль), то получаем токен
         
-                localStorage.setItem('token', token); // Сохраняем токен в локалсторидже
+                localStorage.setItem('token', token);
+                toast.success('Урааа, вы успешно вошли!'); // Сохраняем токен в локалсторидже
                 navigate('/'); // Редирект на главную страницу
             } catch (err) {
                 console.error('Ошибка авторизации:', err);
-                setError('Неверное имя пользователя или пароль.'); // Сообщение об ошибке
+                setError('Неверное имя пользователя или пароль.');
+                toast.error('Уппс, пожалуйста, попробуйте еще раз.'); // Сообщение об ошибке
             }
             },
         });
         
         return (
-            <div className="container">
+          <div className="container">
               <h2>Login</h2>
-              {error && <Alert variant="danger">{error}</Alert>} {/* Отображаем сообщение об ошибке */}
-              <Form onSubmit={formik.handleSubmit}> {/* Подключаем formik.handleSubmit к форме */}
+              {error && <Alert variant="danger">{error}</Alert>}
+              <Form onSubmit={formik.handleSubmit}>
                 <Form.Group controlId="formBasicUsername">
                   <Form.Label>Имя пользователя</Form.Label>
                   <Form.Control
@@ -52,11 +57,11 @@ function Login() {
                   />
                 </Form.Group>
         
-                <Button variant="primary" type="submit"> {/* Добавляем кнопку submit внутри формы */}
+                <Button variant="primary" type="submit">
                   Login
                 </Button>
               </Form>
             </div>
           );
-        }
+      };
 export default Login;
