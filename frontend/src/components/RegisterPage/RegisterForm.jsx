@@ -6,6 +6,8 @@ import { Button, Form, Alert, Container, Row, Col, Card } from 'react-bootstrap'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoginProsses from '@/assets/LoginProsses.jpg';
+
 
 function RegisterPage() {
     const navigate = useNavigate();
@@ -57,7 +59,23 @@ function RegisterPage() {
             <Row className="w-100">
                 <Col md={8} lg={6} className="mx-auto">
                     <Card className="shadow-lg border-0">
+
                         <Card.Body className="p-5">
+                        <div className="d-flex align-items-start">
+                            <Col md={6} className="">
+                                <img src={LoginProsses} alt=""
+                                className="img-fluid"
+                                style={{ 
+                                    maxWidth: '100%', 
+                                    height: 'auto',
+                                    maxHeight: '200px',
+                                    position: 'absolute',
+                                    left: '60px',
+                                    top: '140px'
+                                    }}
+                                />
+                            </Col>
+                        </div>
                             <div className="text-center mb-4">
                                 <h2 className="fw-bold">Регистрация</h2>
                                 <p className="text-muted">Создайте новый аккаунт</p>
@@ -67,11 +85,9 @@ function RegisterPage() {
                             
                             <Form onSubmit={formik.handleSubmit}>
                                 <Row>
-                                    
                                     <Form.Group className="mb-4">
                                     <div className="d-flex justify-content-end">
                                         <div style={{
-                                            
                                             display: 'flex',
                                             justifyContent: 'flex-end',
                                             width: '100%'

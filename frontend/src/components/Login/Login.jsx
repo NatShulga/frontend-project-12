@@ -6,7 +6,7 @@ import { Button, Form, Alert, Container, Row, Col, Card } from 'react-bootstrap'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Bingo from '@/assets/Bingo.jpg';
 
 
 function LoginPage() {
@@ -33,9 +33,9 @@ function LoginPage() {
     });
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
             <Row className="w-100">
-                <Col md={8} lg={6} className="mx-auto">
+                <Col md={6} lg={6} className="mx-auto">
                     <Card className="shadow">
                         <Card.Body className="p-5">
                             <div className="text-center mb-4">
@@ -43,9 +43,24 @@ function LoginPage() {
                             </div>
                             
                             {error && <Alert variant="danger">{error}</Alert>}
-                            
+
                             <Form onSubmit={formik.handleSubmit}>
                                 <Form.Group className="mb-4">
+                                <div className="d-flex align-items-start">
+                            <Col md={6} className="">
+                                <img src={Bingo} alt=""
+                                className="img-fluid"
+                                style={{ 
+                                    maxWidth: '100%', 
+                                    height: 'auto',
+                                    maxHeight: '200px',
+                                    Top: '20px',
+                                    position: 'absolute',
+                                    left: '20px',
+                                    }}
+                                />
+                            </Col>
+                        </div>
                                     <Form.Control
                                         type="text"
                                         name="username"
@@ -56,9 +71,9 @@ function LoginPage() {
                                         style={{ maxWidth: '250px' ,
                                                 marginLeft: 'auto',
                                                 marginRight: '1px',
-                                        }}
-                                    />
-                                </Form.Group>
+                                                }}
+                                            />
+                                        </Form.Group>
 
                                 <Form.Group className="mb-4">
                                     <Form.Control

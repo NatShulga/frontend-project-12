@@ -8,12 +8,26 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:5001',
+        changeOrigin: true,
+        secure: false,
       },
       '/socket.io': {
         target: 'ws://localhost:5001',
         ws: true,
+        changeOrigin: true,
+        secure: false,
         rewriteWsOrigin: true,
       },
     },
+  },
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
+  esbuild: {
+    loader: "jsx",
+    include: /src\/.*\.jsx?$/,
+    exclude: [],
   },
 });
