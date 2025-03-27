@@ -21,7 +21,7 @@ const navBar = () => {
 return (
     <Navbar bg="white" expand="lg" className="shadow-sm">
       <Container fluid>
-      <Navbar.Brand href="/" style={{ color: '#333' }}>Hexlet Chat</Navbar.Brand>
+      <Navbar.Brand href="/" style={{ color: '#333', marginLeft: '43rem' }}>Hexlet Chat</Navbar.Brand>
       </Container>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">

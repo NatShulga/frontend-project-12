@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
-import Chat from './components/Chat';
+import Login from './components/Login/Login';
+import RegisterPage from './components/RegisterPage/RegisterForm.jsx';
+import Chat from './components/Chat/Chat.jsx';
 import NotFound from './components/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
@@ -22,6 +23,8 @@ return (
       <ToastContainer />
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterPage />} />
+        
         <Route path="/"element={
             <PrivateRoute>
               <Chat />
