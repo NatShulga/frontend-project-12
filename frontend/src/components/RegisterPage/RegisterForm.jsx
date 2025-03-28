@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginProsses from '@/assets/LoginProsses.jpg';
 
-
 function RegisterPage() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -24,7 +23,7 @@ function RegisterPage() {
             
             if (!values.nameUser) {
                 errors.nameUser = 'Обязательное поле';
-                } 
+            } 
             
             if (!values.password) {
                 errors.password = 'Обязательное поле';
@@ -59,131 +58,123 @@ function RegisterPage() {
             <Row className="w-100">
                 <Col md={8} lg={6} className="mx-auto">
                     <Card className="shadow-lg border-0">
-
                         <Card.Body className="p-5">
-                        <div className="d-flex align-items-start">
-                            <Col md={6} className="">
-                                <img src={LoginProsses} alt=""
-                                className="img-fluid"
-                                style={{ 
-                                    maxWidth: '100%', 
-                                    height: 'auto',
-                                    maxHeight: '200px',
-                                    position: 'absolute',
-                                    left: '60px',
-                                    top: '140px'
-                                    }}
-                                />
-                            </Col>
-                        </div>
-                            <div className="text-center mb-4">
-                                <h2 className="fw-bold">Регистрация</h2>
-                                <p className="text-muted">Создайте новый аккаунт</p>
-                            </div>
-                            
-                            {error && <Alert variant="danger" className="text-center">{error}</Alert>}
-                            
-                            <Form onSubmit={formik.handleSubmit}>
-                                <Row>
-                                    <Form.Group className="mb-4">
-                                    <div className="d-flex justify-content-end">
-                                        <div style={{
-                                            display: 'flex',
-                                            justifyContent: 'flex-end',
-                                            width: '100%'
-                                        }}>
-                                            <Form.Control
-                                                type="text"
-                                                name="nameUser"
-                                                placeholder="Имя пользователя"
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.nameUser}
-                                                isInvalid={formik.touched.nameUser && !!formik.errors.nameUser}
-                                                style={{ maxWidth: '250px',
-                                                    marginLeft: 'auto',
-                                                    marginRight: '1px'
-                                                }}
-                                                />
-                                            <Form.Control.Feedback type="invalid" style={{ 
-                                                    marginLeft: 'auto',
-                                                    marginRight: '1px' // Сохраняем отступ как у поля
-                                                    }}>
-                                                {formik.errors.nameUser}
-                                            </Form.Control.Feedback>
-                                        </div>
+                            <div className="d-flex align-items-start">
+                                <Col md={6} className="d-none d-md-block pe-4">
+                                    <img 
+                                        src={LoginProsses} 
+                                        alt="Процесс регистрации"
+                                        className="img-fluid rounded"
+                                        style={{ 
+                                            maxHeight: '200px',
+                                            objectFit: 'contain'
+                                        }}
+                                    />
+                                </Col>
+                                <div style={{ flex: 1 }}>
+                                    <div className="text-center mb-4">
+                                        <h2 className="fw-bold">Регистрация</h2>
+                                        <p className="text-muted">Создайте новый аккаунт</p>
                                     </div>
-                                        </Form.Group>
-                                        
                                     
-                                
-                                <Form.Group className="mb-4">
-                                    <Form.Control
-                                        type="password"
-                                        name="password"
-                                        placeholder="Пароль"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.password}
-                                        isInvalid={formik.touched.password && !!formik.errors.password}
-                                        style={{ maxWidth: '250px' ,
-                                            marginLeft: 'auto',
-                                            marginRight: '1px',
-                                    }}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.password}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                
-                                <Form.Group className="mb-4">
-                                    <Form.Control
-                                        type="password"
-                                        name="confirmPassword"
-                                        placeholder="Подтвердите пароль"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.confirmPassword}
-                                        isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
-                                        style={{ maxWidth: '250px' ,
-                                            marginLeft: 'auto',
-                                            marginRight: '1px',
-                                    }}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.confirmPassword}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
+                                    {error && <Alert variant="danger" className="text-center">{error}</Alert>}
+                                    
+                                    <Form onSubmit={formik.handleSubmit}>
+                                        {/* Поле имени пользователя */}
+                                        <Form.Group className="mb-3">
+                                            <div className="d-flex justify-content-end">
+                                                <div style={{ width: '250px' }}>
+                                                    <Form.Control
+                                                        type="text"
+                                                        name="nameUser"
+                                                        placeholder="Имя пользователя"
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.nameUser}
+                                                        isInvalid={formik.touched.nameUser && !!formik.errors.nameUser}
+                                                    />
+                                                    {formik.touched.nameUser && formik.errors.nameUser && (
+                                                        <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
+                                                            {formik.errors.nameUser}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Form.Group>
 
-                                
-                                <Button 
-                                    variant="primary" 
-                                    type="submit" 
-                                    className="w-100 py-2 mb-3"
-                                    style={{ backgroundColor: '#eec111', border: 'none',
-                                        maxWidth: '250px' ,
-                                        marginLeft: 'auto',
-                                        marginRight: '12px'
-                                    }}
-                                    disabled={formik.isSubmitting}
-                                >
-                                    {formik.isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
-                                </Button>
-                                
-                                
-                                <div className="text-center mt-3">
-                                <span className="text-muted">Уже есть аккаунт? </span>
-                                <Link 
-                                    to="/login" 
-                                    className="auth-link text-decoration-none fw-bold" 
-                                    style={{color: "#eec111"}}
-                                >
-                                    Войти
-                                </Link>
+                                        {/* Поле пароля */}
+                                        <Form.Group className="mb-3">
+                                            <div className="d-flex justify-content-end">
+                                                <div style={{ width: '250px' }}>
+                                                    <Form.Control
+                                                        type="password"
+                                                        name="password"
+                                                        placeholder="Пароль"
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.password}
+                                                        isInvalid={formik.touched.password && !!formik.errors.password}
+                                                    />
+                                                    {formik.touched.password && formik.errors.password && (
+                                                        <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
+                                                            {formik.errors.password}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Form.Group>
+
+                                        {/* Подтверждение пароля */}
+                                        <Form.Group className="mb-4">
+                                            <div className="d-flex justify-content-end">
+                                                <div style={{ width: '250px' }}>
+                                                    <Form.Control
+                                                        type="password"
+                                                        name="confirmPassword"
+                                                        placeholder="Подтвердите пароль"
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.confirmPassword}
+                                                        isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                                                    />
+                                                    {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                                        <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
+                                                            {formik.errors.confirmPassword}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Form.Group>
+
+                                        <div className="d-flex justify-content-end">
+                                            <Button 
+                                                variant="primary" 
+                                                type="submit" 
+                                                className="py-2 mb-3"
+                                                style={{ 
+                                                    backgroundColor: '#eec111', 
+                                                    border: 'none',
+                                                    width: '250px'
+                                                }}
+                                                disabled={formik.isSubmitting}
+                                            >
+                                                {formik.isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+                                            </Button>
+                                        </div>
+
+                                        <div className="text-center mt-3">
+                                            <span className="text-muted">Уже есть аккаунт? </span>
+                                            <Link 
+                                                to="/login" 
+                                                className="auth-link text-decoration-none fw-bold" 
+                                                style={{color: "#eec111"}}
+                                            >
+                                                Войти
+                                            </Link>
+                                        </div>
+                                    </Form>
                                 </div>
-                                </Row>
-                            </Form>
-                            
+                            </div>
                         </Card.Body>
                     </Card>
                 </Col>
