@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
@@ -8,29 +8,46 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Bingo from '@/assets/Bingo.jpg';
 
-
 function LoginPage() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const [isMounted, setIsMounted] = useState(false);
 
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
         },
-        onSubmit: async (values) => {
+        enableReinitialize: true,
+        onSubmit: async (values, { resetForm }) => {
             try {
                 const response = await axios.post('/api/login', values);
-                const token = response.data.token;
-                localStorage.setItem('token', token);
+                localStorage.setItem('token', response.data.token);
                 toast.success('Успешный вход!');
+                resetForm({ values: { username: '', password: '' } });
                 navigate('/');
             } catch (err) {
                 setError('Неверное имя пользователя или пароль');
                 toast.error('Ошибка входа');
+                formik.setValues({ username: values.username, password: '' });
             }
         },
     });
+
+    useEffect(() => {
+        setIsMounted(true);
+        formik.setValues({ username: '', password: '' }, false); // Второй параметр - не валидировать!!
+        
+        if (typeof window !== 'undefined') {
+            setTimeout(() => {
+                document.querySelectorAll('input').forEach(input => {
+                    input.value = '';
+                });
+            }, 100);
+        }
+        
+        return () => setIsMounted(false);
+    }, []);
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
@@ -45,22 +62,24 @@ function LoginPage() {
                             {error && <Alert variant="danger">{error}</Alert>}
 
                             <Form onSubmit={formik.handleSubmit}>
-                                <Form.Group className="mb-4">
                                 <div className="d-flex align-items-start">
-                            <Col md={6} className="">
-                                <img src={Bingo} alt=""
-                                className="img-fluid"
-                                style={{ 
-                                    maxWidth: '100%', 
-                                    height: 'auto',
-                                    maxHeight: '200px',
-                                    Top: '20px',
-                                    position: 'absolute',
-                                    left: '20px',
-                                    }}
-                                />
-                            </Col>
-                        </div>
+                                    <Col md={6} className="">
+                                        <img 
+                                            src={Bingo} 
+                                            alt=""
+                                            className="img-fluid"
+                                            style={{ 
+                                                maxWidth: '100%', 
+                                                height: 'auto',
+                                                maxHeight: '200px',
+                                                position: 'absolute',
+                                                left: '20px',
+                                            }}
+                                        />
+                                    </Col>
+                                </div>
+                                
+                                <Form.Group className="mb-4">
                                     <Form.Control
                                         type="text"
                                         name="username"
@@ -68,12 +87,14 @@ function LoginPage() {
                                         onChange={formik.handleChange}
                                         value={formik.values.username}
                                         className="py-2"
-                                        style={{ maxWidth: '250px' ,
-                                                marginLeft: 'auto',
-                                                marginRight: '1px',
-                                                }}
-                                            />
-                                        </Form.Group>
+                                        style={{ 
+                                            maxWidth: '250px',
+                                            marginLeft: 'auto',
+                                            marginRight: '1px',
+                                        }}
+                                        autoComplete="off"
+                                    />
+                                </Form.Group>
 
                                 <Form.Group className="mb-4">
                                     <Form.Control
@@ -83,34 +104,39 @@ function LoginPage() {
                                         onChange={formik.handleChange}
                                         value={formik.values.password}
                                         className="py-2"
-                                        style={{ maxWidth: '250px' ,
+                                        style={{ 
+                                            maxWidth: '250px',
                                             marginLeft: 'auto',
                                             marginRight: '1px',
-                                    }}
+                                        }}
+                                        autoComplete="new-password"
                                     />
                                 </Form.Group>
                                 
                                 <div className="d-flex justify-content-end">
-                                <Button 
-                                    variant="primary" 
-                                    type="submit" 
-                                    className="w-100 py-2 mb-3 ms-auto"
-                                    style={{ backgroundColor: '#eec111', 
-                                        border: 'none',
-                                        maxWidth: '250px' ,
-                                        
-                                    }}
-                                >
-                                    Войти
-                                </Button>
+                                    <Button 
+                                        variant="primary" 
+                                        type="submit" 
+                                        className="w-100 py-2 mb-3 ms-auto"
+                                        style={{ 
+                                            backgroundColor: '#eec111', 
+                                            border: 'none',
+                                            maxWidth: '250px',
+                                        }}
+                                    >
+                                        Войти
+                                    </Button>
                                 </div>
 
                                 <div className="text-center mt-3">
                                     <span className="text-muted">Нет аккаунта? </span>
-                                    <Link to="/register" 
+                                    <Link 
+                                        to="/register" 
                                         className="auth-link text-decoration-none" 
-                                        style={{ color: '#eec111'}} 
-                                        > Зарегистрируйтесь </Link>
+                                        style={{ color: '#eec111'}}
+                                    >
+                                        Зарегистрируйтесь
+                                    </Link>
                                 </div>
                             </Form>
                         </Card.Body>

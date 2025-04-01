@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
@@ -11,13 +11,17 @@ import LoginProsses from '@/assets/LoginProsses.jpg';
 function RegisterPage() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const [isMounted, setIsMounted] = useState(false);
+
+    const initialFormValues = {
+        nameUser: '',
+        password: '',
+        confirmPassword: ''
+    };
 
     const formik = useFormik({
-        initialValues: {
-            nameUser: '',
-            password: '',
-            confirmPassword: ''
-        },
+        initialValues: initialFormValues,
+        enableReinitialize: true,
         validate: values => {
             const errors = {};
             
@@ -37,7 +41,7 @@ function RegisterPage() {
             
             return errors;
         },
-        onSubmit: async (values) => {
+        onSubmit: async (values, { resetForm }) => {
             try {
                 await axios.post('/api/register', {
                     nameUser: values.nameUser,
@@ -45,13 +49,34 @@ function RegisterPage() {
                 });
                 
                 toast.success('Регистрация прошла успешно!');
+                resetForm({ values: initialFormValues });
                 navigate('/login');
             } catch (err) {
                 setError(err.response?.data?.message || 'Ошибка регистрации');
                 toast.error('Не удалось зарегистрироваться');
+                formik.setValues({ 
+                    nameUser: values.nameUser, 
+                    password: '', 
+                    confirmPassword: '' 
+                });
             }
         },
     });
+
+    useEffect(() => {
+        setIsMounted(true);
+        formik.setValues(initialFormValues, false);
+        
+        if (typeof window !== 'undefined') {
+            setTimeout(() => {
+                document.querySelectorAll('input').forEach(input => {
+                    input.value = '';
+                });
+            }, 100);
+        }
+        
+        return () => setIsMounted(false);
+    }, []);
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
@@ -65,10 +90,7 @@ function RegisterPage() {
                                         src={LoginProsses} 
                                         alt="Процесс регистрации"
                                         className="img-fluid rounded"
-                                        style={{ 
-                                            maxHeight: '200px',
-                                            objectFit: 'contain'
-                                        }}
+                                        style={{ maxHeight: '200px' }}
                                     />
                                 </Col>
                                 <div style={{ flex: 1 }}>
@@ -80,7 +102,6 @@ function RegisterPage() {
                                     {error && <Alert variant="danger" className="text-center">{error}</Alert>}
                                     
                                     <Form onSubmit={formik.handleSubmit}>
-                                        {/* Поле имени пользователя */}
                                         <Form.Group className="mb-3">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
@@ -92,6 +113,7 @@ function RegisterPage() {
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.nameUser}
                                                         isInvalid={formik.touched.nameUser && !!formik.errors.nameUser}
+                                                        autoComplete="off"
                                                     />
                                                     {formik.touched.nameUser && formik.errors.nameUser && (
                                                         <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
@@ -102,7 +124,6 @@ function RegisterPage() {
                                             </div>
                                         </Form.Group>
 
-                                        {/* Поле пароля */}
                                         <Form.Group className="mb-3">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
@@ -114,6 +135,7 @@ function RegisterPage() {
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.password}
                                                         isInvalid={formik.touched.password && !!formik.errors.password}
+                                                        autoComplete="new-password"
                                                     />
                                                     {formik.touched.password && formik.errors.password && (
                                                         <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
@@ -124,7 +146,6 @@ function RegisterPage() {
                                             </div>
                                         </Form.Group>
 
-                                        {/* Подтверждение пароля */}
                                         <Form.Group className="mb-4">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
@@ -136,6 +157,7 @@ function RegisterPage() {
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.confirmPassword}
                                                         isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                                                        autoComplete="new-password"
                                                     />
                                                     {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                                                         <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
