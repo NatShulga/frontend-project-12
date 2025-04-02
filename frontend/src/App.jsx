@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import RegisterPage from './components/RegisterPage/RegisterForm.jsx';
-import Chat from './components/Chat/Chat.jsx';
+import Chat from './components/Chat/ChatToken.jsx';
 import NotFound from './components/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/header/Navbar.jsx';
 
 const PrivateRoute = ({ children }) => {
-    const isLoggedIn = localStorage.getItem('token'); //проверка на наличие токена
+    const isLoggedIn = localStorage.getItem('token');
 
     return isLoggedIn ? children : <Navigate to="/login" />;
 };

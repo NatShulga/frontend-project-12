@@ -90,7 +90,7 @@ function RegisterPage() {
                                         src={LoginProsses} 
                                         alt="Процесс регистрации"
                                         className="img-fluid rounded"
-                                        style={{ maxHeight: '200px' }}
+                                        style={{ maxHeight: '200px' , position: 'relative', top: '20px', left: '15px'}}
                                     />
                                 </Col>
                                 <div style={{ flex: 1 }}>
