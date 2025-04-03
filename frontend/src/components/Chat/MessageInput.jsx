@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
-import { BiSend, BiPaperclip } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMessage, selectCurrentChannelId } from './chatSlice';
+import { addMessage, selectCurrentChannel } from '../../features/chat/chatSlice';
 
 const MessageInput = () => {
   const [text, setText] = useState('');
-  const currentChannelId = useSelector(selectCurrentChannelId);
+  const currentChannelId = useSelector(selectCurrentChannel);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {

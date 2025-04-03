@@ -7,6 +7,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Bingo from '@/assets/Bingo.jpg';
+import ChatPage from '../Chat/ChatPage';
+
+const api = axios.create({
+    baseURL: 'http://localhost:5001/api',
+    headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+    }
+});
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -21,15 +30,19 @@ function LoginPage() {
         enableReinitialize: true,
         onSubmit: async (values, { resetForm }) => {
             try {
-                const response = await axios.post('/api/login', values);
+                const response = await api.post('/login', {
+                    username: values.username,
+                    password: values.password
+                });
                 localStorage.setItem('token', response.data.token);
                 toast.success('Успешный вход!');
                 resetForm({ values: { username: '', password: '' } });
-                navigate('/');
+                navigate('/chat');
             } catch (err) {
-                setError('Неверное имя пользователя или пароль');
-                toast.error('Ошибка входа');
-                formik.setValues({ username: values.username, password: '' });
+                const errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
+                setError(errorMessage);
+                toast.error(`Ошибка входа: ${errorMessage}`);
+                formik.setFieldValue('password', '');
             }
         },
     });

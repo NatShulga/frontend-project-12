@@ -1,8 +1,7 @@
 import React from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
-import { BiPlus } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllChannels, selectCurrentChannel, setCurrentChannel, addChannel } from './chatSlice';
+import { selectAllChannels, selectCurrentChannel, setCurrentChannel, addChannel } from '../../features/chat/chatSlice';
 import AddChannelModal from './AddChannelModal';
 
 const ChannelList = () => {

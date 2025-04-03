@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import ChannelList from '../features/chat/ChannelList';
-import MessageList from '../features/chat/MessageList';
-import MessageInput from '../features/chat/MessageInput';
-import ChatHeader from '../features/chat/ChatHeader';
+import ChannelList from './ChannelList';
+import MessageList from './MessageList';
+import MessageInput from './MessageInput';
+
 
 const ChatPage = () => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentMessages } from './chatSlice';
+import { selectCurrentMessages } from '../../features/chat/chatSlice';
 
 const MessageList = () => {
   const messages = useSelector(selectCurrentMessages);
