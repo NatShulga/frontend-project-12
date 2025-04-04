@@ -10,7 +10,6 @@ import Bingo from '@/assets/Bingo.jpg';
 import ChatPage from '../Chat/ChatPage';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5001/api',
     headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
@@ -30,7 +29,7 @@ function LoginPage() {
         enableReinitialize: true,
         onSubmit: async (values, { resetForm }) => {
             try {
-                const response = await api.post('/login', {
+                const response = await api.post('/api/login', {
                     username: values.username,
                     password: values.password
                 });
