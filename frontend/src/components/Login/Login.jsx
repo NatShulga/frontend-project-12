@@ -23,7 +23,7 @@ function LoginPage() {
         enableReinitialize: true,
         onSubmit: async (values, { resetForm }) => {
             try {
-                const response = await api.post('/api/vi/login', {
+                const response = await api.post('/api/v1/login', {
                     username: values.username,
                     password: values.password
                 });
@@ -123,27 +123,27 @@ function LoginPage() {
                                 </Form.Group>
                                 
                                 <div className="d-flex justify-content-end">
-  <Button 
-    variant="primary" 
-    type="submit" 
-    className="w-100 py-2 mb-3 ms-auto"
-    style={{ 
-      backgroundColor: '#eec111',
-      border: 'none',
-      maxWidth: '250px',
-      transform: isButtonPressed ? 'translateY(2px)' : 'translateY(0)',
-      boxShadow: isButtonPressed 
-        ? '0 1px 2px rgba(0,0,0,0.1)' 
-        : '0 2px 5px rgba(0,0,0,0.2)',
-      transition: 'all 0.1s ease',
-    }}
-    onMouseDown={() => setIsButtonPressed(true)}
-    onMouseUp={() => setIsButtonPressed(false)}
-    onMouseLeave={() => setIsButtonPressed(false)}
-  >
-    Войти
-  </Button>
-</div>
+                                <Button 
+                                    variant="primary" 
+                                    type="submit" 
+                                    className="w-100 py-2 mb-3 ms-auto"
+                                    style={{ 
+                                    backgroundColor: '#eec111',
+                                    border: 'none',
+                                    maxWidth: '250px',
+                                    transform: isButtonPressed ? 'translateY(2px)' : 'translateY(0)',
+                                    boxShadow: isButtonPressed 
+                                        ? '0 1px 2px rgba(0,0,0,0.1)' 
+                                        : '0 2px 5px rgba(0,0,0,0.2)',
+                                    transition: 'all 0.1s ease',
+                                    }}
+                                    onMouseDown={() => setIsButtonPressed(true)}
+                                    onMouseUp={() => setIsButtonPressed(false)}
+                                    onMouseLeave={() => setIsButtonPressed(false)}
+                                >
+                                    Войти
+                                </Button>
+                                </div>
 
                                 <div className="text-center mt-3">
                                     <span className="text-muted">Нет аккаунта? </span>

@@ -43,8 +43,9 @@ function RegisterPage() {
             return errors;
         },
         onSubmit: async (values, { resetForm }) => {
+
             try {
-                await axios.post('/api/register', {
+                await axios.post('/api/v1/register', {
                     nameUser: values.nameUser,
                     password: values.password
                 });
@@ -52,7 +53,9 @@ function RegisterPage() {
                 toast.success('Регистрация прошла успешно!');
                 resetForm({ values: initialFormValues });
                 navigate('/login');
+
             } catch (err) {
+                if (isMounted) {
                 setError(err.response?.data?.message || 'Ошибка регистрации');
                 toast.error('Не удалось зарегистрироваться');
                 formik.setValues({ 
@@ -61,6 +64,7 @@ function RegisterPage() {
                     confirmPassword: '' 
                 });
             }
+        }
         },
     });
 
