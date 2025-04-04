@@ -3,23 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button, Form, Alert, Container, Row, Col, Card } from 'react-bootstrap';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Bingo from '@/assets/Bingo.jpg';
-import ChatPage from '../Chat/ChatPage';
+import api from '../../services/api';
 
-const api = axios.create({
-    headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-    }
-});
 
 function LoginPage() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
+    const [isButtonPressed, setIsButtonPressed] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -29,11 +23,13 @@ function LoginPage() {
         enableReinitialize: true,
         onSubmit: async (values, { resetForm }) => {
             try {
-                const response = await api.post('/api/login', {
+                const response = await api.post('/api/vi/login', {
                     username: values.username,
                     password: values.password
                 });
-                localStorage.setItem('token', response.data.token);
+                
+                const { token } = response.data;
+                    localStorage.setItem('token', token);
                 toast.success('Успешный вход!');
                 resetForm({ values: { username: '', password: '' } });
                 navigate('/chat');
@@ -61,6 +57,7 @@ function LoginPage() {
         return () => setIsMounted(false);
     }, []);
 
+    
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
             <Row className="w-100">
@@ -126,19 +123,27 @@ function LoginPage() {
                                 </Form.Group>
                                 
                                 <div className="d-flex justify-content-end">
-                                    <Button 
-                                        variant="primary" 
-                                        type="submit" 
-                                        className="w-100 py-2 mb-3 ms-auto"
-                                        style={{ 
-                                            backgroundColor: '#eec111', 
-                                            border: 'none',
-                                            maxWidth: '250px',
-                                        }}
-                                    >
-                                        Войти
-                                    </Button>
-                                </div>
+  <Button 
+    variant="primary" 
+    type="submit" 
+    className="w-100 py-2 mb-3 ms-auto"
+    style={{ 
+      backgroundColor: '#eec111',
+      border: 'none',
+      maxWidth: '250px',
+      transform: isButtonPressed ? 'translateY(2px)' : 'translateY(0)',
+      boxShadow: isButtonPressed 
+        ? '0 1px 2px rgba(0,0,0,0.1)' 
+        : '0 2px 5px rgba(0,0,0,0.2)',
+      transition: 'all 0.1s ease',
+    }}
+    onMouseDown={() => setIsButtonPressed(true)}
+    onMouseUp={() => setIsButtonPressed(false)}
+    onMouseLeave={() => setIsButtonPressed(false)}
+  >
+    Войти
+  </Button>
+</div>
 
                                 <div className="text-center mt-3">
                                     <span className="text-muted">Нет аккаунта? </span>

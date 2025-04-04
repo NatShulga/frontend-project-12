@@ -12,6 +12,7 @@ function RegisterPage() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
+    const [isButtonPressed, setIsButtonPressed] = useState(false);
 
     const initialFormValues = {
         nameUser: '',
@@ -176,9 +177,17 @@ function RegisterPage() {
                                                 style={{ 
                                                     backgroundColor: '#eec111', 
                                                     border: 'none',
-                                                    width: '250px'
+                                                    width: '250px',
+                                                    transform: isButtonPressed ? 'translateY(2px)' : 'translateY(0)',
+                                                    boxShadow: isButtonPressed 
+                                                        ? '0 1px 2px rgba(0,0,0,0.1)' 
+                                                        : '0 2px 5px rgba(0,0,0,0.2)',
+                                                    transition: 'all 0.1s ease',
                                                 }}
                                                 disabled={formik.isSubmitting}
+                                                onMouseDown={() => setIsButtonPressed(true)}
+                                                onMouseUp={() => setIsButtonPressed(false)}
+                                                onMouseLeave={() => setIsButtonPressed(false)}
                                             >
                                                 {formik.isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
                                             </Button>
