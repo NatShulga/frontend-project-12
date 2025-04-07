@@ -15,7 +15,7 @@ function RegisterPage() {
     const [isButtonPressed, setIsButtonPressed] = useState(false);
 
     const initialFormValues = {
-        nameUser: '',
+        userName: '',
         password: '',
         confirmPassword: ''
     };
@@ -26,8 +26,8 @@ function RegisterPage() {
         validate: values => {
             const errors = {};
             
-            if (!values.nameUser) {
-                errors.nameUser = 'Обязательное поле';
+            if (!values.userName) {
+                errors.userName = 'Обязательное поле';
             } 
             
             if (!values.password) {
@@ -45,9 +45,9 @@ function RegisterPage() {
         onSubmit: async (values, { resetForm }) => {
 
             try {
-                await axios.post('/api/v1/register', {
-                    nameUser: values.nameUser,
-                    password: values.password
+                await axios.post('/api/v1/signup', {
+                userName: 'newuser',
+                password: '123456'
                 });
                 
                 toast.success('Регистрация прошла успешно!');
@@ -59,7 +59,7 @@ function RegisterPage() {
                 setError(err.response?.data?.message || 'Ошибка регистрации');
                 toast.error('Не удалось зарегистрироваться');
                 formik.setValues({ 
-                    nameUser: values.nameUser, 
+                    userName: values.userName,
                     password: '', 
                     confirmPassword: '' 
                 });
@@ -112,7 +112,7 @@ function RegisterPage() {
                                                 <div style={{ width: '250px' }}>
                                                     <Form.Control
                                                         type="text"
-                                                        name="nameUser"
+                                                        name="userName"
                                                         placeholder="Имя пользователя"
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}

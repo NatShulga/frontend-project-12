@@ -6,7 +6,6 @@ import { Button, Form, Alert, Container, Row, Col, Card } from 'react-bootstrap'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Bingo from '@/assets/Bingo.jpg';
-import api from '../../services/api';
 
 
 function LoginPage() {
