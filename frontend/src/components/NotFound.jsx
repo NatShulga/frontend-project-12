@@ -1,7 +1,9 @@
 import React from 'react';
 import NotFoundImage from '@/assets/NotFoundImage.jpg'; 
+import { useTranslation } from 'react-i18next';
 
 function NotFound() {
+  const {t} = useTranslation();
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <Row className="text-center">

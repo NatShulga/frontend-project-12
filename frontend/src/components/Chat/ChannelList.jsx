@@ -3,8 +3,10 @@ import { ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllChannels, selectCurrentChannel, setCurrentChannel, addChannel } from '../../features/chat/chatSlice';
 import AddChannelModal from './AddChannelModal';
+import { useTranslation } from 'react-i18next';
 
 const ChannelList = () => {
+  const {t} = useTranslation();
   const [showModal, setShowModal] = React.useState(false);
   const channels = useSelector(selectAllChannels);
   const currentChannel = useSelector(selectCurrentChannel);

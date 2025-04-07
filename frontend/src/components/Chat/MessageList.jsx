@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useTransition } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentMessages } from '../../features/chat/chatSlice';
+import { useTranslation } from 'react-i18next';
 
 const MessageList = () => {
+  const {t} = useTransition();
   const messages = useSelector(selectCurrentMessages);
 
   return (

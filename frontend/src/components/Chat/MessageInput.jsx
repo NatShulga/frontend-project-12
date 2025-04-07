@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { addMessage, selectCurrentChannel } from '../../features/chat/chatSlice';
 
 const MessageInput = () => {
+  const {t} = useTranslation();
   const [text, setText] = useState('');
   const currentChannelId = useSelector(selectCurrentChannel);
   const dispatch = useDispatch();

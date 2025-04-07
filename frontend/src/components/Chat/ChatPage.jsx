@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Container, Row, Col } from 'react-bootstrap';
 import ChannelList from './ChannelList';
 import MessageList from './MessageList';
@@ -6,6 +7,7 @@ import MessageInput from './MessageInput';
 
 
 const ChatPage = () => {
+  const {t} = useTranslation();
   return (
     <Container fluid className="vh-100 p-0">
       <Row className="g-0 h-100">

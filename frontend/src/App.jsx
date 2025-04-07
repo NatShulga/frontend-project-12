@@ -7,8 +7,10 @@ import NotFound from './components/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './i18n';
 import Navbar from './components/header/Navbar';
 import ChatPage from './components/Chat/ChatPage';
+
 
 const PrivateRoute = ({ children }) => {
     const isLoggedIn = !!localStorage.getItem('token');

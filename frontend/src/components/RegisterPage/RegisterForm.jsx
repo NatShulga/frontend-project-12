@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
@@ -9,13 +10,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoginProsses from '@/assets/LoginProsses.jpg';
 
 function RegisterPage() {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
     const [isButtonPressed, setIsButtonPressed] = useState(false);
 
     const initialFormValues = {
-        userName: '',
+        username: '',
         password: '',
         confirmPassword: ''
     };
@@ -26,40 +28,40 @@ function RegisterPage() {
         validate: values => {
             const errors = {};
             
-            if (!values.userName) {
-                errors.userName = 'Обязательное поле';
+            if (!values.username) {
+                errors.username = t('Обязательное поле');
             } 
             
             if (!values.password) {
-                errors.password = 'Обязательное поле';
+                errors.password = t('Обязательное поле');
             } else if (values.password.length < 6) {
-                errors.password = 'Пароль должен быть не менее 6 символов';
+                errors.password = t('Пароль должен быть не менее 6 символов');
             }
             
             if (values.password !== values.confirmPassword) {
-                errors.confirmPassword = 'Пароли не совпадают';
+                errors.confirmPassword = t('Пароли не совпадают');
             }
             
             return errors;
         },
-        onSubmit: async (values, { resetForm }) => {
 
+        onSubmit: async (values, { resetForm }) => {
             try {
                 await axios.post('/api/v1/signup', {
-                userName: 'newuser',
-                password: '123456'
+                username: values.username,
+                password: values.password
                 });
                 
-                toast.success('Регистрация прошла успешно!');
+                toast.success(t('Регистрация прошла успешно!'));
                 resetForm({ values: initialFormValues });
                 navigate('/login');
 
             } catch (err) {
                 if (isMounted) {
-                setError(err.response?.data?.message || 'Ошибка регистрации');
-                toast.error('Не удалось зарегистрироваться');
+                setError(err.response?.data?.message || t('Ошибка регистрации'));
+                toast.error(t('Не удалось зарегистрироваться'));
                 formik.setValues({ 
-                    userName: values.userName,
+                    username: values.username,
                     password: '', 
                     confirmPassword: '' 
                 });
@@ -93,15 +95,15 @@ function RegisterPage() {
                                 <Col md={6} className="d-none d-md-block pe-4">
                                     <img 
                                         src={LoginProsses} 
-                                        alt="Процесс регистрации"
+                                        alt={t("Процесс регистрации")}
                                         className="img-fluid rounded"
                                         style={{ maxHeight: '200px' , position: 'relative', top: '20px', left: '15px'}}
                                     />
                                 </Col>
                                 <div style={{ flex: 1 }}>
                                     <div className="text-center mb-4">
-                                        <h2 className="fw-bold">Регистрация</h2>
-                                        <p className="text-muted">Создайте новый аккаунт</p>
+                                        <h2 className="fw-bold">{t("Регистрация")}</h2>
+                                        <p className="text-muted">{t("Создайте новый аккаунт")}</p>
                                     </div>
                                     
                                     {error && <Alert variant="danger" className="text-center">{error}</Alert>}
@@ -112,17 +114,17 @@ function RegisterPage() {
                                                 <div style={{ width: '250px' }}>
                                                     <Form.Control
                                                         type="text"
-                                                        name="userName"
-                                                        placeholder="Имя пользователя"
+                                                        name="username"
+                                                        placeholder={t("Имя пользователя")}
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
-                                                        value={formik.values.nameUser}
-                                                        isInvalid={formik.touched.nameUser && !!formik.errors.nameUser}
+                                                        value={formik.values.username}
+                                                        isInvalid={formik.touched.username && !!formik.errors.username}
                                                         autoComplete="off"
                                                     />
-                                                    {formik.touched.nameUser && formik.errors.nameUser && (
+                                                    {formik.touched.username && formik.errors.username && (
                                                         <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
-                                                            {formik.errors.nameUser}
+                                                            {formik.errors.username}
                                                         </div>
                                                     )}
                                                 </div>
@@ -135,7 +137,7 @@ function RegisterPage() {
                                                     <Form.Control
                                                         type="password"
                                                         name="password"
-                                                        placeholder="Пароль"
+                                                        placeholder={t("Пароль")}
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.password}
@@ -157,7 +159,7 @@ function RegisterPage() {
                                                     <Form.Control
                                                         type="password"
                                                         name="confirmPassword"
-                                                        placeholder="Подтвердите пароль"
+                                                        placeholder={t("Подтвердите пароль")}
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.confirmPassword}
@@ -193,12 +195,12 @@ function RegisterPage() {
                                                 onMouseUp={() => setIsButtonPressed(false)}
                                                 onMouseLeave={() => setIsButtonPressed(false)}
                                             >
-                                                {formik.isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+                                                {formik.isSubmitting ? t('Регистрация...') : t('Зарегистрироваться')}
                                             </Button>
                                         </div>
 
                                         <div className="text-center mt-3">
-                                            <span className="text-muted">Уже есть аккаунт? </span>
+                                            <span className="text-muted">{t("Уже есть аккаунт?")} </span>
                                             <Link 
                                                 to="/login" 
                                                 className="auth-link text-decoration-none fw-bold" 

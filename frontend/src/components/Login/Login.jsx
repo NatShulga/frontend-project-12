@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
@@ -9,6 +10,7 @@ import Bingo from '@/assets/Bingo.jpg';
 
 
 function LoginPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
@@ -29,13 +31,13 @@ function LoginPage() {
                 
                 const { token } = response.data;
                     localStorage.setItem('token', token);
-                toast.success('Успешный вход!');
+                toast.success(t('Успешный вход!'));
                 resetForm({ values: { username: '', password: '' } });
                 navigate('/chat');
             } catch (err) {
-                const errorMessage = err.response?.data?.message || err.message || 'Ошибка сервера';
+                const errorMessage = err.response?.data?.message || err.message || t('Ошибка сервера')
                 setError(errorMessage);
-                toast.error(`Ошибка входа: ${errorMessage}`);
+                toast.error(t(`Ошибка входа: ${errorMessage}`));
                 formik.setFieldValue('password', '');
             }
         },
@@ -64,7 +66,7 @@ function LoginPage() {
                     <Card className="shadow">
                         <Card.Body className="p-5">
                             <div className="text-center mb-4">
-                                <h2>Вход в систему</h2>
+                                <h2>{t("Вход в систему")}</h2>
                             </div>
                             
                             {error && <Alert variant="danger">{error}</Alert>}
@@ -91,7 +93,7 @@ function LoginPage() {
                                     <Form.Control
                                         type="text"
                                         name="username"
-                                        placeholder="Ваш ник"
+                                        placeholder={t("Ваш ник")}
                                         onChange={formik.handleChange}
                                         value={formik.values.username}
                                         className="py-2"
@@ -108,7 +110,7 @@ function LoginPage() {
                                     <Form.Control
                                         type="password"
                                         name="password"
-                                        placeholder="Пароль"
+                                        placeholder={t("Пароль")}
                                         onChange={formik.handleChange}
                                         value={formik.values.password}
                                         className="py-2"
@@ -145,7 +147,7 @@ function LoginPage() {
                                 </div>
 
                                 <div className="text-center mt-3">
-                                    <span className="text-muted">Нет аккаунта? </span>
+                                    <span className="text-muted">{t("Нет аккаунта?")}</span>
                                     <Link 
                                         to="/register" 
                                         className="auth-link text-decoration-none" 

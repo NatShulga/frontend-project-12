@@ -1,7 +1,9 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const AddChannelModal = ({ show, onHide, onAdd }) => {
+  const {t} = useTranslation();
   const [channelName, setChannelName] = React.useState('');
 
   const handleSubmit = (e) => {
