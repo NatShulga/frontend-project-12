@@ -1,6 +1,6 @@
 import React, { useTransition } from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentMessages } from '../../features/chat/chatSlice';
+import { selectCurrentMessages } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
 
 const MessageList = () => {

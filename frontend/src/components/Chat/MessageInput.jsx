@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { addMessage, selectCurrentChannel } from '../../features/chat/chatSlice';
+import { addMessage, selectCurrentChannel } from '../../features/slice/chatSlice';
 
 const MessageInput = () => {
   const {t} = useTranslation();
@@ -30,7 +30,7 @@ const MessageInput = () => {
         <Form.Control
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type a message..."
+          placeholder={t("Введите сообщение...")}
         />
         <Button variant="primary" type="submit">
           <BiSend />

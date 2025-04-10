@@ -1,23 +1,24 @@
 import React from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllChannels, selectCurrentChannel, setCurrentChannel, addChannel } from '../../features/chat/chatSlice';
+import { selectAllChannels, selectCurrentChannel, setCurrentChannel, addChannel } from '../../features/slice/chatSlice';
 import AddChannelModal from './AddChannelModal';
 import { useTranslation } from 'react-i18next';
+
 
 const ChannelList = () => {
   const {t} = useTranslation();
   const [showModal, setShowModal] = React.useState(false);
   const channels = useSelector(selectAllChannels);
   const currentChannel = useSelector(selectCurrentChannel);
-  const dispatch = useDispatch();
+
 
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5>Channels</h5>
+        <h5>{t("Каналы")}</h5>
         <Button variant="outline-primary" size="sm" onClick={() => setShowModal(true)}>
-          <BiPlus />
+          + 
         </Button>
       </div>
       

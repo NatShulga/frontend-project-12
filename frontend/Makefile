@@ -3,6 +3,9 @@ install:
 
 start:
 	npm start
+
+start - server:
+	npx start-server
 	
 build:
 	npm run build

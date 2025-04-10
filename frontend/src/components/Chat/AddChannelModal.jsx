@@ -17,17 +17,17 @@ const AddChannelModal = ({ show, onHide, onAdd }) => {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t("Добавить канал")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>Название канала</Form.Label>
+            <Form.Label>{t("Название канала")}</Form.Label>
             <Form.Control
               type="text"
               value={channelName}
               onChange={(e) => setChannelName(e.target.value)}
-              placeholder="Введите название"
+              placeholder= {t("Введите название")}
               autoFocus
             />
           </Form.Group>
@@ -35,14 +35,14 @@ const AddChannelModal = ({ show, onHide, onAdd }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Отмена
+          {t("Отмена")}
         </Button>
         <Button 
           variant="primary" 
           onClick={handleSubmit}
           disabled={!channelName.trim()}
         >
-          Добавить
+          {t("Добавить канал")}
         </Button>
       </Modal.Footer>
     </Modal>

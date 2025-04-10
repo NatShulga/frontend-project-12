@@ -7,14 +7,18 @@ import { Button, Form, Alert, Container, Row, Col, Card } from 'react-bootstrap'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Bingo from '@/assets/Bingo.jpg';
+import axios from 'axios';
 
 
 function LoginPage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const [token, setToken] = useState(null);
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
     const [isButtonPressed, setIsButtonPressed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const formik = useFormik({
         initialValues: {
@@ -23,15 +27,32 @@ function LoginPage() {
         },
         enableReinitialize: true,
         onSubmit: async (values, { resetForm }) => {
+            setIsLoading(true);
+            setError('');
             try {
-                const response = await api.post('/api/v1/login', {
+                const response = await axios.post('/api/v1/login', {
                     username: values.username,
                     password: values.password
+                }, {
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                    }
                 });
+
+                if(!response.data) {
+                    throw new Error ('пустой ответ от сервера'); //проверка наличие данных
+                }
                 
-                const { token } = response.data;
-                    localStorage.setItem('token', token);
-                toast.success(t('Успешный вход!'));
+                const receivedToken = response.data.token || response.data.access_token;
+                if (!receivedToken) {
+                    throw new Error('Токен не найден в ответе сервера');
+                }
+
+                    localStorage.setItem('token', receivedToken);
+                    setToken(receivedToken);
+
+                toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
                 navigate('/chat');
             } catch (err) {
@@ -39,11 +60,16 @@ function LoginPage() {
                 setError(errorMessage);
                 toast.error(t(`Ошибка входа: ${errorMessage}`));
                 formik.setFieldValue('password', '');
-            }
-        },
+            } finally {
+                setIsLoading(false);
+        }},
     });
 
     useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            setToken(storedToken);
+        }
         setIsMounted(true);
         formik.setValues({ username: '', password: '' }, false); // Второй параметр - не валидировать!!
         
@@ -128,6 +154,7 @@ function LoginPage() {
                                     variant="primary" 
                                     type="submit" 
                                     className="w-100 py-2 mb-3 ms-auto"
+                                    disabled={isLoading}
                                     style={{ 
                                     backgroundColor: '#eec111',
                                     border: 'none',
@@ -141,8 +168,10 @@ function LoginPage() {
                                     onMouseDown={() => setIsButtonPressed(true)}
                                     onMouseUp={() => setIsButtonPressed(false)}
                                     onMouseLeave={() => setIsButtonPressed(false)}
+
                                 >
-                                    Войти
+                                    
+                                    {t("Войти")}
                                 </Button>
                                 </div>
 
@@ -153,7 +182,7 @@ function LoginPage() {
                                         className="auth-link text-decoration-none" 
                                         style={{ color: '#eec111'}}
                                     >
-                                        Зарегистрируйтесь
+                                    {t("Зарегистрируйтесь")}
                                     </Link>
                                 </div>
                             </Form>

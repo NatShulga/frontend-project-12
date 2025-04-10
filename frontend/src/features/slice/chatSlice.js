@@ -44,8 +44,8 @@ export const chatSlice = createSlice({
 
       if (action.payload.incrementUnread) {
         state.channels.forEach(channel => {
-          if (channel.id !== state.currentChannelId) {
-            channel.unread += 1;
+          if (channel.id !== (action.payload.channelId || state.currentChannelId)) {
+            channel.unread = (channel.unread || 0) + 1;
           }
         });
       }
