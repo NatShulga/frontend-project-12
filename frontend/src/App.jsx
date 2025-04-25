@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import Login from './components/Login/Login';
 import RegisterPage from './components/RegisterPage/RegisterForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -31,7 +30,7 @@ const App = () => {
                 <Route path="*" element={<Navigate to="/login" replace />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
-            <h1>Текущий канал</h1>
+
         </Router>
     );
 };

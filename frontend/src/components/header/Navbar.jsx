@@ -25,13 +25,25 @@ return (
       </Container>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          {token ? (
-            <Button variant="outline-danger" onClick={logout}> {}
-              {t("logout")}
-            </Button>
-          ) : null}
-        </Nav>
+      <Nav className="ml-auto" style={{ position: 'relative' }}>
+  {token && (
+    <Button 
+      variant="outline-danger"
+      onClick={logout}
+      className="logout-btn"
+      style={{
+        position: 'absolute',
+        right: '50px',
+        top: '-18px',
+        backgroundColor: '#eec111',
+        color: 'white',
+        border: 'none',
+      }}
+    >
+      {t("Выйти")}
+    </Button>
+  )}
+</Nav>
       </Navbar.Collapse>
     </Navbar>
   );

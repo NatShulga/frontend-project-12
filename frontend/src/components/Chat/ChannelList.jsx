@@ -1,17 +1,19 @@
 import React from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllChannels, selectCurrentChannel, setCurrentChannel, addChannel } from '../../features/slice/chatSlice';
+import { selectAllChannels, selectCurrentChannel } from '../../features/slice/chatSlice';
 import AddChannelModal from './AddChannelModal';
 import { useTranslation } from 'react-i18next';
 
 
 const ChannelList = () => {
+  const dispatch = useDispatch();
   const {t} = useTranslation();
   const [showModal, setShowModal] = React.useState(false);
-  const channels = useSelector(selectAllChannels);
+  const channels = useSelector(selectAllChannels) || [];
   const currentChannel = useSelector(selectCurrentChannel);
-
+  
+  if (!channels) return <div>Загрузка каналов...</div>;
 
   return (
     <>
@@ -27,7 +29,7 @@ const ChannelList = () => {
           <ListGroup.Item
             key={channel.id}
             active={channel.id === currentChannel?.id}
-            onClick={() => dispatch(setCurrentChannel(channel.id))}
+            onClick={() => dispatch(selectCurrentChannel(channel.id))}
             action
           >
             # {channel.name}

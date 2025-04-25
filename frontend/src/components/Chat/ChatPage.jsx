@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import ChannelList from './ChannelList';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
-
 
 const ChatPage = () => {
   const location = useLocation();
@@ -26,7 +25,6 @@ const ChatPage = () => {
     }
   }, [navigate]);
 
-
   const handleSendMessage = (text) => {
     const newMessage = {
       id: Date.now(),
@@ -37,7 +35,6 @@ const ChatPage = () => {
     setMessages([...messages, newMessage]);
   };
 
-  
   if (!authChecked) {
     return (
       <Container className="d-flex justify-content-center align-items-center vh-100">
@@ -51,15 +48,12 @@ const ChatPage = () => {
   return (
     <Container fluid className="vh-100 p-0">
       <Row className="g-0 h-100">
-      
         <Col md={3} className="bg-light h-100 border-end">
           <ChannelList 
             currentChannel={currentChannel}
             onChangeChannel={setCurrentChannel}
           />
         </Col>
-
-        
         <Col md={9} className="d-flex flex-column h-100">
           {currentChannel ? (
             <>
@@ -82,7 +76,7 @@ const ChatPage = () => {
             </>
           ) : (
             <div className="d-flex justify-content-center align-items-center h-100">
-              <h4>{t('chat.select_channel')}</h4>
+              <h4>{t('')}</h4>
             </div>
           )}
         </Col>

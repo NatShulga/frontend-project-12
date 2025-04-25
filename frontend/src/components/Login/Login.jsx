@@ -46,6 +46,7 @@ function LoginPage() {
                 
                 const receivedToken = response.data.token || response.data.access_token;
                 if (!receivedToken) {
+                    
                     throw new Error('Токен не найден в ответе сервера');
                 }
 
@@ -180,7 +181,9 @@ function LoginPage() {
                                     <Link 
                                         to="/register" 
                                         className="auth-link text-decoration-none" 
-                                        style={{ color: '#eec111'}}
+                                        style={{ color: '#eec111',
+                                            
+                                        }}
                                     >
                                     {t("Зарегистрируйтесь")}
                                     </Link>
