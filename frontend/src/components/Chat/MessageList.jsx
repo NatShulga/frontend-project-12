@@ -2,6 +2,8 @@ import React, { useTransition } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentMessages } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
+import MessageInput from './MessageInput';
+
 
 const MessageList = () => {
   const {t} = useTransition();
@@ -19,6 +21,8 @@ const MessageList = () => {
         </div>
       ))}
     </div>
+
+    
   );
 };
 

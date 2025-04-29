@@ -33,7 +33,7 @@ return (
       className="logout-btn"
       style={{
         position: 'absolute',
-        right: '50px',
+        right: '80px',
         top: '-18px',
         backgroundColor: '#eec111',
         color: 'white',

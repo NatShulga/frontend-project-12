@@ -23,7 +23,6 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/chat" element={
                     <>
-                        <ChannelList />
                         <ChatPage />
                     </>
                 } />

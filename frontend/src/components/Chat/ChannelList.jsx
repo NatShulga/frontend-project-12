@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllChannels, selectCurrentChannel } from '../../features/slice/chatSlice';
+import { selectAllChannels, selectCurrentChannel, addChannel } from '../../features/slice/chatSlice';
 import AddChannelModal from './AddChannelModal';
 import { useTranslation } from 'react-i18next';
 
@@ -17,10 +17,16 @@ const ChannelList = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5>{t("Каналы")}</h5>
-        <Button variant="outline-primary" size="sm" onClick={() => setShowModal(true)}>
-          + 
+      <div className="d-flex align-items-center mb-3 ps-3 pe-2 py-2 border-bottom bg-light">
+        <h5 className="mb-0 me-2 fw-normal">{t("Каналы")}</h5>
+        <Button 
+          variant="outline-primary" 
+          size="sm" 
+          onClick={() => setShowModal(true)}
+          className="ms-auto"
+          style={{ minWidth: '32px' }}
+        >
+          +
         </Button>
       </div>
       
@@ -34,9 +40,12 @@ const ChannelList = () => {
           >
             # {channel.name}
             {channel.unread > 0 && (
-              <span className="badge bg-primary rounded-pill float-end">
-                {channel.unread}
-              </span>
+            <span 
+            className="badge rounded-pill float-end"
+            style={{ backgroundColor: '#eec111', color: '#fff' }}
+          >
+            {channel.unread}
+          </span>
             )}
           </ListGroup.Item>
         ))}

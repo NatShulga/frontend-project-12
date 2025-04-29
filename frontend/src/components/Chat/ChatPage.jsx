@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import ChannelList from './ChannelList';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
+
 
 const ChatPage = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [username] = useState(location.state?.username || t('chat.anonymous'));
 
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -24,6 +26,7 @@ const ChatPage = () => {
       setAuthChecked(true);
     }
   }, [navigate]);
+
 
   const handleSendMessage = (text) => {
     const newMessage = {
@@ -35,53 +38,53 @@ const ChatPage = () => {
     setMessages([...messages, newMessage]);
   };
 
-  if (!authChecked) {
-    return (
-      <Container className="d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">{t('chat.loading')}</span>
-        </div>
-      </Container>
-    );
-  }
 
   return (
-    <Container fluid className="vh-100 p-0">
-      <Row className="g-0 h-100">
-        <Col md={3} className="bg-light h-100 border-end">
-          <ChannelList 
-            currentChannel={currentChannel}
-            onChangeChannel={setCurrentChannel}
-          />
-        </Col>
-        <Col md={9} className="d-flex flex-column h-100">
-          {currentChannel ? (
-            <>
-              <ChatHeader 
-                title={currentChannel.name} 
-                usersCount={currentChannel.users?.length || 0}
-              />
-              <MessageList 
-                messages={messages.filter(
-                  msg => msg.channelId === currentChannel.id
-                )} 
-              />
-              <MessageInput 
-                onSend={handleSendMessage}
-                placeholder={t('chat.message_placeholder')}
-              />
-              <Button variant="danger" onClick={handleLogout}>
-                Выйти
-              </Button>
-            </>
-          ) : (
-            <div className="d-flex justify-content-center align-items-center h-100">
-              <h4>{t('')}</h4>
-            </div>
-          )}
-        </Col>
-      </Row>
-    </Container>
+      <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+        <div 
+          className="d-flex rounded shadow-lg" 
+          style={{
+            width: '90%',
+            maxWidth: '1200px',
+            height: '90vh',
+            backgroundColor: 'white'
+          }}
+        >
+          <Row className="g-0 h-100 w-100">
+            <Col md={3} className="h-100 border-end bg-light">
+              <ChannelList />
+            </Col>
+    
+
+            <Col md={9} className="d-flex flex-column h-100 position-relative">
+              {currentChannel ? (
+                <>
+                  <ChatHeader 
+                    title={currentChannel.name} 
+                    usersCount={currentChannel.users?.length || 0}
+                  >
+                  </ChatHeader>
+                  
+                  <MessageList 
+                    messages={messages.filter(
+                      msg => msg.channelId === currentChannel.id
+                    )} 
+                  />
+                  
+                  <MessageInput 
+                    onSend={handleSendMessage}
+                    placeholder={t('chat.message_placeholder')}
+                  />
+                </>
+              ) : (
+                <div className="d-flex justify-content-center align-items-center h-100">
+                  <h4>{t('Выберите канал')}</h4>
+                </div>
+              )}
+            </Col>
+          </Row>
+        </div>
+      </Container>
   );
 };
 
