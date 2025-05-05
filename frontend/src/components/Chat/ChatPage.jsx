@@ -6,6 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import ChannelList from './ChannelList';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
+import ChatContainer from './ChatContainer';
 
 
 const ChatPage = () => {
@@ -40,19 +41,22 @@ const ChatPage = () => {
 
 
   return (
-      <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+      <Container fluid className="vh-90 d-flex justify-content-center align-items-center mt-3">
         <div 
           className="d-flex rounded shadow-lg" 
           style={{
             width: '90%',
             maxWidth: '1200px',
-            height: '90vh',
-            backgroundColor: 'white'
+            height: '80vh',
+            backgroundColor: 'white',
+            top: '70px,'
           }}
         >
           <Row className="g-0 h-100 w-100">
             <Col md={3} className="h-100 border-end bg-light">
-              <ChannelList />
+              <ChannelList 
+              onChannelSelect={setCurrentChannel} 
+              />
             </Col>
     
 
@@ -75,10 +79,14 @@ const ChatPage = () => {
                     onSend={handleSendMessage}
                     placeholder={t('chat.message_placeholder')}
                   />
+                  <ChatContainer 
+                  currentChannel={currentChannel}
+                  username={username}
+                />
                 </>
               ) : (
                 <div className="d-flex justify-content-center align-items-center h-100">
-                  <h4>{t('Выберите канал')}</h4>
+                  <h4 style={{ color: '#a0a0a0' }}>{t('Выберите канал')}</h4>
                 </div>
               )}
             </Col>

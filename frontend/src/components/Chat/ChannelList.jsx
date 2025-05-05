@@ -17,37 +17,73 @@ const ChannelList = () => {
 
   return (
     <>
-      <div className="d-flex align-items-center mb-3 ps-3 pe-2 py-2 border-bottom bg-light">
-        <h5 className="mb-0 me-2 fw-normal">{t("Каналы")}</h5>
-        <Button 
-          variant="outline-primary" 
-          size="sm" 
-          onClick={() => setShowModal(true)}
-          className="ms-auto"
-          style={{ minWidth: '32px' }}
+      <div className="d-flex align-items-center mb-3 ps-3 pe-3 py-2 border-bottom bg-light">
+      <h5 className="mb-0 me-2 fw-normal">{t("Каналы")}</h5>
+      <Button 
+      variant="outline-primary" 
+      size="sm" 
+      onClick={() => setShowModal(true)}
+      className="ms-auto p-0 d-flex align-items-center justify-content-center"
+      style={{ 
+        width: '23px', 
+        height: '23px',
+        color: '#4682B4',
+        border: '2px solid #4682B4',
+        backgroundColor: 'transparent',
+        borderRadius: '50%',
+        padding: 0,
+        lineHeight: 1,
+      }}
         >
-          +
+          <span style={{
+            display: 'block',
+            width: '100%',
+            textAlign: 'center',
+            fontSize: '17px',
+            marginTop: '-3px',
+            
+          }}>
+            +
+          </span>
         </Button>
       </div>
       
       <ListGroup>
         {channels.map(channel => (
           <ListGroup.Item
-            key={channel.id}
-            active={channel.id === currentChannel?.id}
-            onClick={() => dispatch(selectCurrentChannel(channel.id))}
-            action
-          >
-            # {channel.name}
+          key={channel.id}
+          active={channel.id === currentChannel?.id}
+          onClick={() => dispatch(selectCurrentChannel(channel.id))}
+          action
+          className="channel-item"
+          style={{
+            backgroundColor: channel.id === currentChannel?.id ? ' 	#4682B4' : '#f8f9fa',
+            color: channel.id === currentChannel?.id ? '#fff' : '#333',
+            borderLeft: '4px solid ' + (channel.id === currentChannel?.id ? ' 	#4682B4' : 'transparent'),
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <div className="d-flex align-items-center w-100 ms-auto">
+          # {channel.name}
             {channel.unread > 0 && (
-            <span 
-            className="badge rounded-pill float-end"
-            style={{ backgroundColor: '#eec111', color: '#fff' }}
-          >
-            {channel.unread}
-          </span>
-            )}
-          </ListGroup.Item>
+            <span
+              className="badge rounded-pill ms-auto p-0 d-flex align-items-center justify-content-center"
+              style={{ 
+                backgroundColor: channel.id === currentChannel?.id ? '#fff' : '#eec111',
+                color: channel.id === currentChannel?.id ? '#eec111' : '#fff',
+                width: '23px',
+                height: '23px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                lineHeight: 'normal',
+                
+              }}
+            >
+              {channel.unread}
+            </span>
+          )}
+          </div>
+        </ListGroup.Item>
         ))}
       </ListGroup>
 

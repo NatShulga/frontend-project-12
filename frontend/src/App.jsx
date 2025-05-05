@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import './i18n';
 import Navbar from './components/header/Navbar';
 import ChatPage from './components/Chat/ChatPage';
-import ChannelList from './components/Chat/ChannelList';
 import NotFound from './components/NotFound';
 
 
