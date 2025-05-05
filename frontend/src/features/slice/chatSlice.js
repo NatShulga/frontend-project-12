@@ -6,10 +6,14 @@ const initialState = {
     { id: 2, name: 'random', unread: 3 },
   ],
   currentChannelId: 1, // Храним только ID текущего канала
-  messages: [ // Добавляем messages в состояние
-    { id: 1, channelId: 1, text: 'Welcome!', sender: 'System', timestamp: Date.now() },
-    { id: 2, channelId: 1, text: 'Hello everyone!', sender: 'User1', timestamp: Date.now() },
-  ],
+  messages:  {
+    loading: false,
+    error: null,
+    data: [  // Переносим сообщения в data
+      { id: 1, channelId: 1, text: 'Welcome!', sender: 'System', timestamp: Date.now() },
+      { id: 2, channelId: 1, text: 'Hello everyone!', sender: 'User1', timestamp: Date.now() },
+    ]
+  }
 };
 
 export const chatSlice = createSlice({
@@ -59,11 +63,14 @@ export const { addChannel, setCurrentChannel, addMessage } = chatSlice.actions;
 
 // Селекторы
 export const selectAllChannels = state => state.chat.channels;
+
 export const selectCurrentChannel = state => 
   state.chat.channels.find(c => c.id === state.chat.currentChannelId);
-export const selectCurrentMessages = state => 
-  state.chat.messages.filter(m => m.channelId === state.chat.currentChannelId);
 
-
+export const selectCurrentMessages = state => {
+  const messages = state.chat.messages.data;  // Доступ через data
+  const currentChannelId = state.chat.currentChannelId;
+  return messages.filter(m => m.channelId === currentChannelId);
+};
 
 export default chatSlice.reducer;

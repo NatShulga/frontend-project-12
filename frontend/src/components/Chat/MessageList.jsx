@@ -1,15 +1,41 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectCurrentMessages } from '../../features/slice/chatSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentMessages, setCurrentChannel } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
 
 const MessageList = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const messages = useSelector(selectCurrentMessages);
+  const currentChannelId = useSelector(state => state.chat.currentChannelId);
+
+  // Отладка
+  console.log('Current channel ID:', currentChannelId);
+  console.log('Messages:', messages);
+
+  if (messages === undefined || messages === null) {
+    console.error('Сообщение не загрузилось!');
+    return <div className="text-center text-danger p-3">{t("Ошибка загрузки сообщений")}</div>;
+  }
 
   return (
     <div className="d-flex flex-column h-100">
+      {/* Кнопки выбора канала - добавьте этот блок */}
+      <div className="d-flex p-2 border-bottom">
+        <button 
+          className="btn btn-outline-primary me-2"
+          onClick={() => dispatch(setCurrentChannel(1))}  // ID канала general
+        >
+          General
+        </button>
+        <button
+          className="btn btn-outline-primary"
+          onClick={() => dispatch(setCurrentChannel(2))}  // ID канала random
+        >
+          Random
+        </button>
+      </div>
       
       <div className="flex-grow-1 overflow-auto p-3">
         {messages.length === 0 ? (
@@ -30,8 +56,9 @@ const MessageList = () => {
       </div>
 
       <div className="border-top">
-        <MessageInput />
+        
       </div>
+      {currentChannelId && <MessageInput />}
     </div>
   );
 };
