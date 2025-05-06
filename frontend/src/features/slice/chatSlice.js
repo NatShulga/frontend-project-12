@@ -7,7 +7,7 @@ const initialState = {
   ],
   currentChannelId: 1,
   messages: {
-    loading: false,
+    loading: true,
     error: null,
     data: [
       { id: 1, channelId: 1, text: 'Welcome!', sender: 'System', timestamp: Date.now() },
@@ -80,7 +80,7 @@ export const selectCurrentChannel = state => {
   
   if (!currentChannelId || !channels) {
     console.warn('No currentChannelId or channels in state');
-    return null;
+    return state.chat.channels.find(c => c.id === state.chat.currentChannelId);
   }
   
   const channel = channels.find(c => c.id === currentChannelId);

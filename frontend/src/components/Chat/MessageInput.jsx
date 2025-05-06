@@ -15,6 +15,7 @@ const MessageInput = () => {
     if (text.trim()) {
       dispatch(addMessage({
         text,
+        sender,
         channelId: currentChannelId,
       }));
       setText('');
@@ -25,15 +26,13 @@ const MessageInput = () => {
     <Form onSubmit={handleSubmit} className="p-3 border-top">
       <InputGroup>
         <Button variant="light">
-          <BiPaperclip />
         </Button>
-        <Form.Control
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder={t("Введите сообщение...")}
-        />
-        <Button variant="primary" type="submit">
-          <BiSend />
+          <Form.Control
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={t("Введите сообщение...")}
+            />
+          <Button variant="primary" type="submit">
         </Button>
       </InputGroup>
     </Form>
