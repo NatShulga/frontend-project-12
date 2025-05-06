@@ -5,11 +5,11 @@ const initialState = {
     { id: 1, name: 'general', unread: 0 },
     { id: 2, name: 'random', unread: 3 },
   ],
-  currentChannelId: 1, // Храним только ID текущего канала
-  messages:  {
+  currentChannelId: 1,
+  messages: {
     loading: false,
     error: null,
-    data: [  // Переносим сообщения в data
+    data: [
       { id: 1, channelId: 1, text: 'Welcome!', sender: 'System', timestamp: Date.now() },
       { id: 2, channelId: 1, text: 'Hello everyone!', sender: 'User1', timestamp: Date.now() },
     ]
@@ -18,7 +18,7 @@ const initialState = {
 
 export const chatSlice = createSlice({
   name: 'chat',
-  initialState, // Используем подготовленные данные
+  initialState,
   reducers: {
     addChannel: (state, action) => {
       const newChannel = {
@@ -30,27 +30,34 @@ export const chatSlice = createSlice({
     },
     
     setCurrentChannel: (state, action) => {
+      console.log('Setting current channel to:', action.payload); // Отладка
       state.currentChannelId = action.payload;
       
-      // Сбрасываем счётчик непрочитанных
       const channel = state.channels.find(c => c.id === action.payload);
-      if (channel) channel.unread = 0;
+      if (channel) {
+        console.log('Resetting unread for channel:', channel.id); // Отладка
+        channel.unread = 0;
+      }
     },
     
     addMessage: (state, action) => {
+      const channelId = action.payload.channelId || state.currentChannelId;
+      console.log('Adding message to channel:', channelId); // Отладка
+      
       const newMessage = {
         id: Date.now(),
-        channelId: action.payload.channelId || state.currentChannelId,
+        channelId,
         text: action.payload.text,
         sender: action.payload.sender || 'Anonymous',
         timestamp: Date.now(),
       };
-      state.messages.push(newMessage);
+      
+      state.messages.data.push(newMessage);
 
-      // Увеличиваем счётчик непрочитанных для других каналов
       if (action.payload.incrementUnread) {
         state.channels.forEach(channel => {
-          if (channel.id !== (action.payload.channelId || state.currentChannelId)) {
+          if (channel.id !== channelId) {
+            console.log('Incrementing unread for channel:', channel.id); // Отладка
             channel.unread = (channel.unread || 0) + 1;
           }
         });
@@ -59,18 +66,38 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { addChannel, setCurrentChannel, addMessage } = chatSlice.actions;
 
-// Селекторы
-export const selectAllChannels = state => state.chat.channels;
+export const selectAllChannels = state => {
+  const channels = state?.chat?.channels;
+  console.log('All channels:', channels); // Отладка
+  return channels || [];
+};
 
-export const selectCurrentChannel = state => 
-  state.chat.channels.find(c => c.id === state.chat.currentChannelId);
+export const selectCurrentChannel = state => {
+  const currentChannelId = state?.chat?.currentChannelId;
+  const channels = state?.chat?.channels;
+  
+  if (!currentChannelId || !channels) {
+    console.warn('No currentChannelId or channels in state');
+    return null;
+  }
+  
+  const channel = channels.find(c => c.id === currentChannelId);
+  console.log('Current channel:', channel); // Отладка
+  return channel || null;
+};
 
 export const selectCurrentMessages = state => {
-  const messages = state.chat.messages.data;  // Доступ через data
-  const currentChannelId = state.chat.currentChannelId;
+  const messages = state?.chat?.messages?.data || [];
+  const currentChannelId = state?.chat?.currentChannelId;
+  
+  console.log('Filtering messages for channel:', currentChannelId); // Отладка
+  console.log('All messages:', messages);
+  
+  if (!currentChannelId) return [];
+  
   return messages.filter(m => m.channelId === currentChannelId);
 };
 
+export const { addChannel, setCurrentChannel, addMessage } = chatSlice.actions;
 export default chatSlice.reducer;

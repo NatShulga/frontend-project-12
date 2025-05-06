@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllChannels, selectCurrentChannel, addChannel } from '../../features/slice/chatSlice';
+import { selectAllChannels, selectCurrentChannel, addChannel, setCurrentChannel } from '../../features/slice/chatSlice';
 import AddChannelModal from './AddChannelModal';
 import { useTranslation } from 'react-i18next';
 
@@ -53,7 +53,7 @@ const ChannelList = () => {
           <ListGroup.Item
           key={channel.id}
           active={channel.id === currentChannel?.id}
-          onClick={() => dispatch(selectCurrentChannel(channel.id))}
+          onClick={() => dispatch(setCurrentChannel(channel.id))}
           action
           className="channel-item"
           style={{

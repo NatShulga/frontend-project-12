@@ -9,10 +9,13 @@ const MessageList = () => {
   const dispatch = useDispatch();
   const messages = useSelector(selectCurrentMessages);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
+  const currentChannelName = currentChannelId === 1 ? 'General' : currentChannelId === 2 ? 'Random' : 'Unknown Channel';// добавление нахвания выбранного канала в хедер мессаджЛиста
 
   // Отладка
   console.log('Current channel ID:', currentChannelId);
   console.log('Messages:', messages);
+  console.log('Current channel name:', currentChannelName);
+
 
   if (messages === undefined || messages === null) {
     console.error('Сообщение не загрузилось!');
@@ -21,7 +24,10 @@ const MessageList = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      {/* Кнопки выбора канала - добавьте этот блок */}
+      <div className="bg-light text-center p-2 shadow-sm">
+        <h5>{currentChannelName}</h5>
+      </div>
+
       <div className="d-flex p-2 border-bottom">
         <button 
           className="btn btn-outline-primary me-2"
