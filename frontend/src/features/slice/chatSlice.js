@@ -66,6 +66,7 @@ export const chatSlice = createSlice({
   },
 });
 
+export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
 
 export const selectAllChannels = state => {
   const channels = state?.chat?.channels;
