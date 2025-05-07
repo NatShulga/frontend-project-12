@@ -8,7 +8,7 @@ const ChatHeader = ({ title, usersCount }) => {
     <div className="bg-light p-3 border-bottom">
       <h5 className="m-0">#{title}</h5>
       <small className="text-muted">
-        {t('chat.users_online', { count: usersCount || 0 })}
+        {t('0 сообщений', { count: usersCount || 0 })}
       </small>
     </div>
   );

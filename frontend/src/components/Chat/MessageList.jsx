@@ -11,7 +11,7 @@ const MessageList = () => {
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
   
   // Определяется название канала куда тыкаем
-  const currentChannelName = currentChannelId === 1 ? 'General' : currentChannelId === 2 ? 'Random' : 'Unknown Channel';
+  const currentChannelName = currentChannelId;
 
   // Отладка
   console.log('Current channel ID:', currentChannelId);
@@ -25,26 +25,7 @@ const MessageList = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      {/* Заголовок канала */}
-      <div className="bg-light text-center p-2 shadow-sm">
-        <h5>{currentChannelName}</h5>
-      </div>
-
-      {/* Кнопки выбора канала */}
-      <div className="d-flex p-2 border-bottom">
-        <button 
-          className="btn btn-outline-primary me-2"
-          onClick={() => dispatch(setCurrentChannel(1))}  // ID канала general
-        >
-          General
-        </button>
-        <button
-          className="btn btn-outline-primary"
-          onClick={() => dispatch(setCurrentChannel(2))}  // ID канала random
-        >
-          Random
-        </button>
-      </div>
+    
       
       <div className="flex-grow-1 overflow-auto p-3">
         {messages.length === 0 ? (
@@ -64,8 +45,7 @@ const MessageList = () => {
         )}
       </div>
 
-      <div className="border-top"></div>
-      {currentChannelId && <MessageInput />}
+      
     </div>
   );
 };

@@ -23,19 +23,28 @@ const MessageInput = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="p-3 border-top">
+    <div style={{ position: 'fixed', bottom: "100px", width: '50%', margin: "0 auto" }}>
       <InputGroup>
-        <Button variant="light">
-        </Button>
           <Form.Control
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={t("Введите сообщение...")}
             />
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit"
+          style={{
+            width: "40px",
+            height: "38px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 0, 
+            backgroundColor: '#4682B4',
+            border: '2px solid #4682B4',
+          }}
+            >
         </Button>
       </InputGroup>
-    </Form>
+      </div>
   );
 };
 
