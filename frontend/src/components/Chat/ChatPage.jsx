@@ -9,6 +9,7 @@ import MessageInput from './MessageInput';
 import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
 import { selectCurrentChannel } from '../../features/slice/chatSlice';
+import ChatComponent from './ChatComponent';
 
 const ChatPage = () => {
   const location = useLocation();
@@ -86,6 +87,7 @@ const ChatPage = () => {
             )}
           </Col>
         </Row>
+        <ChatComponent />
       </div>
     </Container>
   );

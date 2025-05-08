@@ -9,6 +9,7 @@ import './i18n';
 import Navbar from './components/header/Navbar';
 import ChatPage from './components/Chat/ChatPage';
 import NotFound from './components/NotFound';
+import ChatComponent from '../src/components/Chat/ChatComponent';
 
 
 const App = () => {
@@ -25,7 +26,8 @@ const App = () => {
                         <ChatPage />
                     </>
                 } />
-                <Route path="*" element={<Navigate to="/login" replace />} />
+                <Route path="/chat-component" element={<ChatComponent />} />
+                <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 

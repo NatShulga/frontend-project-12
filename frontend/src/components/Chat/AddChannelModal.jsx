@@ -41,6 +41,12 @@ const AddChannelModal = ({ show, onHide, onAdd }) => {
           variant="primary" 
           onClick={handleSubmit}
           disabled={!channelName.trim()}
+          className='custom-modal-color'
+          style = {{
+            backgroundColor: " #4682B4",
+            border: '2px solid #4682B4',
+            borderRadius: '4px',
+        }}
         >
           {t("Добавить канал")}
         </Button>

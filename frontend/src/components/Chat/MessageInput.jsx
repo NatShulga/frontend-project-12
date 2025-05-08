@@ -3,6 +3,7 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { addMessage } from '../../features/slice/chatSlice';
+import sendIcon from '../../assets/стрелка вверх.svg'; 
 
 const MessageInput = () => {
   const {t} = useTranslation();
@@ -23,7 +24,9 @@ const MessageInput = () => {
   };
 
   return (
-    <div style={{ position: 'fixed', bottom: "100px", width: '50%', margin: "0 auto" }}>
+    <div style={{ position: 'fixed', bottom: "100px", width: '50%', 
+      padding: '0 15px',
+      left: '35%' }}>
       <InputGroup>
           <Form.Control
             value={text}
@@ -42,6 +45,17 @@ const MessageInput = () => {
             border: '2px solid #4682B4',
           }}
             >
+              <img 
+                src={sendIcon} 
+                alt=""
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginLeft: '1px',
+                  filter: 'invert(83%) sepia(33%) saturate(4206%) hue-rotate(1deg) brightness(105%) contrast(87%)',
+                  
+                  }}
+              />
         </Button>
       </InputGroup>
       </div>

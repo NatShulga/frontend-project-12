@@ -17,7 +17,8 @@ const ChannelList = () => {
 
   return (
     <>
-      <div className="d-flex align-items-center mb-3 ps-3 pe-3 py-2 border-bottom bg-light">
+      <div className="d-flex align-items-center mb-3 ps-3 pe-3 bg-light"
+      style={{ paddingTop: '20px' }} >
       <h5 className="mb-0 me-2 fw-normal">{t("Каналы")}</h5>
       <Button 
       variant="outline-primary" 
@@ -48,7 +49,11 @@ const ChannelList = () => {
         </Button>
       </div>
       
-      <ListGroup>
+      <ListGroup
+      style={{ 
+        marginTop: '40px', 
+
+      }}>
         {channels.map(channel => (
           <ListGroup.Item
           key={channel.id}

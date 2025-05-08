@@ -1,6 +1,4 @@
 import React from 'react';
-import MessageList from './MessageList';
-import MessageInput from './MessageInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMessage } from '../../features/slice/chatSlice';
 
@@ -18,10 +16,6 @@ const ChatContainer = ({ }) => {
 
   return (
     <div className="d-flex flex-column h-100">
-      {/* Блок для сообщений */}
-      
-
-      {/* Блок ввода должен быть прижат к низу*/}
 
     </div>
   );
