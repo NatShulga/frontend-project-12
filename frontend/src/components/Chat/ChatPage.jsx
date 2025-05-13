@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +21,7 @@ const ChatPage = () => {
   const [username] = useState(location.state?.username || t('chat.anonymous'));
   
   const currentChannel = useSelector(selectCurrentChannel);
+  const socketRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');

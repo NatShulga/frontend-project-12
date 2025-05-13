@@ -1,6 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ChatWebSocket from '../../services/chatWebSocket';
-import { Form, InputGroup, Button } from 'react-bootstrap';
+import { io } from 'socket.io-client';
+
+class ChatWebSocket {
+    constructor(url, onMessage) {
+      this.socket = new WebSocket(url);
+      this.socket.onmessage = (event) => {
+        onMessage(JSON.parse(event.data));
+      };
+    }
+  
+    send(message) {
+      this.socket.send(JSON.stringify(message));
+    }
+  
+    close() {
+      this.socket.close();
+    }
+  }
+
 
 const ChatComponent = () => {
   const [text, setText] = useState('');
@@ -39,8 +56,8 @@ const ChatComponent = () => {
   };
 
   return (
-    <div style={{ /* ваши стили */ }}>
-      {/* Остальной JSX */}
+    <div style={{ }}>
+    
     </div>
   );
 };
