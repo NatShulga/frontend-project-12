@@ -5,18 +5,19 @@ import { useTranslation } from 'react-i18next';
 import { addMessage } from '../../features/slice/chatSlice';
 import sendIcon from '../../assets/5064452.svg'; 
 
-const MessageInput = () => {
+const MessageInput = ({ onSend, placeholder }) => {
   const {t} = useTranslation();
   const [text, setText] = useState('');
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.auth.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text.trim()) {
       dispatch(addMessage({
         text,
-        sender,
+        sender: currentUser?.username || 'Anonymous',
         channelId: currentChannelId,
       }));
       setText('');
@@ -37,7 +38,7 @@ const MessageInput = () => {
             />
           <Button variant="primary" 
           type="submit"
-          onClick={handleSubmit}
+          //onClick={handleSubmit}
           style={{
             width: "40px",
             height: "38px",
