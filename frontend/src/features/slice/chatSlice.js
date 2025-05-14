@@ -30,25 +30,25 @@ export const chatSlice = createSlice({
     },
     
     setCurrentChannel: (state, action) => {
-      console.log('Setting current channel to:', action.payload); // Отладка
+      console.log('Setting current channel to:', action.payload);
       state.currentChannelId = action.payload;
       
       const channel = state.channels.find(c => c.id === action.payload);
       if (channel) {
-        console.log('Resetting unread for channel:', channel.id); // Отладка
+        console.log('Resetting unread for channel:', channel.id);
         channel.unread = 0;
       }
     },
     
     addMessage: (state, action) => {
       const channelId = action.payload.channelId || state.currentChannelId;
-      console.log('Adding message to channel:', channelId); // Отладка
+      console.log('Adding message to channel:', channelId);
       
       const newMessage = {
         id: Date.now(),
         channelId,
         text: action.payload.text,
-        sender: action.payload.sender || 'Anonymous',
+        sender: action.payload.sender || 'Anonymous', // Используем переданное имя или 'Anonymous'
         timestamp: Date.now(),
       };
       
@@ -57,7 +57,7 @@ export const chatSlice = createSlice({
       if (action.payload.incrementUnread) {
         state.channels.forEach(channel => {
           if (channel.id !== channelId) {
-            console.log('Incrementing unread for channel:', channel.id); // Отладка
+            console.log('Incrementing unread for channel:', channel.id);
             channel.unread = (channel.unread || 0) + 1;
           }
         });
@@ -66,11 +66,12 @@ export const chatSlice = createSlice({
   },
 });
 
+// Обновленные селекторы с учетом структуры сообщений
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
 
 export const selectAllChannels = state => {
   const channels = state?.chat?.channels;
-  console.log('All channels:', channels); // Отладка
+  console.log('All channels:', channels);
   return channels || [];
 };
 
@@ -84,7 +85,7 @@ export const selectCurrentChannel = state => {
   }
   
   const channel = channels.find(c => c.id === currentChannelId);
-  console.log('Current channel:', channel); // Отладка
+  console.log('Current channel:', channel);
   return channel || null;
 };
 
@@ -92,7 +93,7 @@ export const selectCurrentMessages = state => {
   const messages = state?.chat?.messages?.data || [];
   const currentChannelId = state?.chat?.currentChannelId;
   
-  console.log('Filtering messages for channel:', currentChannelId); // Отладка
+  console.log('Filtering messages for channel:', currentChannelId);
   console.log('All messages:', messages);
   
   if (!currentChannelId) return [];

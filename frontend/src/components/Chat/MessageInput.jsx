@@ -10,15 +10,16 @@ const MessageInput = ({ onSend, placeholder }) => {
   const [text, setText] = useState('');
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.auth.user);
+  const user = useSelector(state => state.auth.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text.trim()) {
       dispatch(addMessage({
         text,
-        sender: currentUser?.username || 'Anonymous',
+        author: user?.username || user?.name || 'Гость',
         channelId: currentChannelId,
+        timestamp: new Date().toISOString(),
       }));
       setText('');
     }

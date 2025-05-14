@@ -9,6 +9,7 @@ const MessageList = () => {
   const dispatch = useDispatch();
   const messages = useSelector(selectCurrentMessages);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
+  const user = useSelector(state => state.auth.user);
   
   // Получаем название текущего канала
   const currentChannel = useSelector(state => 
@@ -16,29 +17,11 @@ const MessageList = () => {
   );
   const currentChannelName = currentChannel?.name || t('chat.default_channel_name');
 
-  // Отладка
-  console.log('Current channel ID:', currentChannelId);
-  console.log('Messages:', messages);
-  console.log('Current channel name:', currentChannelName);
-
-  // Фильтруем сообщения по текущему каналу
+  // Фильтр сообщений
   const filteredMessages = messages.filter(
     message => message.channelId === currentChannelId
   );
 
-    const handleSubmit = (e) => {
-    e.preventDefault();
-    if (text.trim()) {
-      dispatch(sendMessage({
-        text,
-        channelId: currentChannelId,
-        author: user?.username || 'Гость', // Используем имя пользователя
-        timestamp: new Date().toISOString(),
-      }));
-      setText('');
-    }
-  };
-  
   return (
     <div className="d-flex flex-column h-100">
       <div className="channel-header p-3 border-bottom">
@@ -48,6 +31,11 @@ const MessageList = () => {
             {filteredMessages.length} {t('сообщений')}
           </span>
         </h5>
+        {user && (
+          <div className="text-muted small">
+            Добро пожаловать, <strong>{user.username || user.name || 'Гость'}</strong>!
+          </div>
+        )}
       </div>
       
       <div className="flex-grow-1 overflow-auto p-3 messages-container">
@@ -57,13 +45,12 @@ const MessageList = () => {
               <i className="bi bi-chat-square-text fs-1"></i>
             </div>
             <h5>{t('нет сообщений')}</h5>
-            
           </div>
         ) : (
           filteredMessages.map(message => (
             <div key={message.id} className="message mb-3 p-3 rounded bg-light">
               <div className="d-flex justify-content-between align-items-start mb-1">
-                <strong className="message-author">{message.author || 'Ваше имя'}</strong>
+                <strong className="message-author">{message.author || 'Гость'}</strong>
                 <small className="text-muted message-time">
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </small>
