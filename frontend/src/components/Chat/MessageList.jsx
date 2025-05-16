@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentMessages, setCurrentChannel } from '../../features/slice/chatSlice';
+import { selectCurrentMessages } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
 
@@ -22,6 +22,12 @@ const MessageList = () => {
     message => message.channelId === currentChannelId
   );
 
+  const fullState = useSelector(state => state);
+    console.log('Полное состояние Redux:', fullState);
+    console.log('Данные пользователя:', user);
+    console.log('Сообщения:', messages);
+    console.log('Текущий канал ID:', currentChannelId);
+
   return (
     <div className="d-flex flex-column h-100">
       <div className="channel-header p-3 border-bottom">
@@ -38,7 +44,8 @@ const MessageList = () => {
         )}
       </div>
       
-      <div className="flex-grow-1 overflow-auto p-3 messages-container">
+      <div className="flex-grow-1 overflow-auto p-3 messages-container"> 
+      
         {filteredMessages.length === 0 ? (
           <div className="text-center text-muted h-100 d-flex flex-column align-items-center justify-content-center">
             <div className="mb-3">
@@ -50,7 +57,7 @@ const MessageList = () => {
           filteredMessages.map(message => (
             <div key={message.id} className="message mb-3 p-3 rounded bg-light">
               <div className="d-flex justify-content-between align-items-start mb-1">
-                <strong className="message-author">{message.author || 'Гость'}</strong>
+                <strong className="message-author">{message.author || 'name'}</strong>
                 <small className="text-muted message-time">
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </small>

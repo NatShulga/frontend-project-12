@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import RegisterPage from './components/RegisterPage/RegisterForm';
@@ -13,6 +14,10 @@ import ChatComponent from '../src/components/Chat/ChatComponent';
 
 
 const App = () => {
+    const authState = useSelector(state => state.auth);
+    useEffect(() => {
+    console.log('Auth state:', authState);
+}, [authState]);
     
     return (
         <Router>

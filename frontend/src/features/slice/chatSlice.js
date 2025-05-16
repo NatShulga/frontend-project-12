@@ -48,7 +48,7 @@ export const chatSlice = createSlice({
         id: Date.now(),
         channelId,
         text: action.payload.text,
-        sender: action.payload.sender || 'Anonymous', // Используем переданное имя или 'Anonymous'
+        sender: action.payload.sender || 'Anonymous',
         timestamp: Date.now(),
       };
       
@@ -66,7 +66,6 @@ export const chatSlice = createSlice({
   },
 });
 
-// Обновленные селекторы с учетом структуры сообщений
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
 
 export const selectAllChannels = state => {
