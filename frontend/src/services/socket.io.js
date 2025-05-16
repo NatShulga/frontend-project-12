@@ -14,7 +14,6 @@ const ChatComponent = () => {
     const newSocket = io('http://localhost:5002');
     setSocket(newSocket);
 
-    // Подписки на события
     newSocket.on('newMessage', (payload) => {
       console.log('New message:', payload);
       if (payload.channelId === currentChannelId) {
@@ -39,10 +38,8 @@ const ChatComponent = () => {
       ));
     });
 
-    // Загрузка начальных данных
     newSocket.on('connect', () => {
       console.log('Connected to server');
-      // Здесь можно запросить начальные сообщения и каналы
     });
 
     return () => {
@@ -57,7 +54,7 @@ const ChatComponent = () => {
     socket.emit('newMessage', {
       body: message,
       channelId: currentChannelId,
-      username: 'currentUser' // Замените на реальное имя пользователя
+      username: 'currentUser' // Заменить на реальное имя пользователя
     });
 
     setMessage('');

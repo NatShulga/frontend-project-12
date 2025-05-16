@@ -15,7 +15,7 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
       state.isAuthenticated = !!action.payload.token;
       localStorage.setItem('token', action.payload);
-      localStorage.setItem('user', JSON.stringify(action.payload.user));
+      localStorage.setItem('user', JSON.stringify(action.payload.token));
     },
     clearToken: (state) => {
       state.token = null;

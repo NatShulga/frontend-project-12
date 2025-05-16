@@ -11,6 +11,7 @@ const AddChannelModal = ({ show, onHide, onAdd }) => {
     if (channelName.trim()) {
       onAdd(channelName.trim());
       setChannelName('');
+      onHide();
     }
   };
 

@@ -12,13 +12,6 @@ function Chat() {
         navigate('/login');
         }
     }, [navigate]);
-
-return (
-    <div>
-        <h2>{t("Чат")}</h2>
-        <p>{t("Добро пожаловать в чат")}</p>
-    </div>
-)
 };
 
 export default Chat;

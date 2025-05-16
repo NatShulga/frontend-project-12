@@ -41,7 +41,7 @@ function LoginPage() {
                 });
 
                 if(!response.data) {
-                    throw new Error ('пустой ответ от сервера'); //проверка наличие данных
+                    throw new Error ('пустой ответ от сервера');
                 }
                 
                 const receivedToken = response.data.token || response.data.access_token;
