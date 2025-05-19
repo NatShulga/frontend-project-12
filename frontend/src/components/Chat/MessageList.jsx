@@ -1,8 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectCurrentMessages } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
+import ProfanityFilter from 'leo-profanity';
 
 const MessageList = () => {
   const { t } = useTranslation();
@@ -10,14 +11,16 @@ const MessageList = () => {
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
   const user = useSelector(state => state.auth.user);
   
-  const currentChannel = useSelector(state => 
-    state.chat.channels.find(ch => ch.id === currentChannelId)
-  );
-  const currentChannelName = currentChannel?.name || t('chat.default_channel_name');
-
   const filteredMessages = messages.filter(
     message => message.channelId === currentChannelId
   );
+
+  const cleanText = (text) => {
+    if (!text) return text;
+    const cleaned = ProfanityFilter.clean(text, '****');
+    console.log('Original:', text, 'Cleaned:', cleaned);
+    return ProfanityFilter.clean(text, '****');
+  };
 
   return (
     <div className="d-flex flex-column h-100">
@@ -35,7 +38,7 @@ const MessageList = () => {
         </h5>
         {user && (
           <div className="text-muted small">
-            Добро пожаловать, <strong>{user.username || user.name || 'Гость'}</strong>!
+            Добро пожаловать, <strong>{cleanText(user.username || user.name || 'Гость')}</strong>!
           </div>
         )}
       </div>
@@ -53,12 +56,16 @@ const MessageList = () => {
             {filteredMessages.map(message => (
               <div key={message.id} className="mb-2">
                 <div className="d-flex justify-content-between">
-                  <strong className="message-author">{message.author || 'Гость'}</strong>
+                  <strong className="message-author">
+                    {cleanText(message.author || 'Гость')}
+                  </strong>
                   <small className="text-muted">
                     {new Date(message.timestamp).toLocaleTimeString()}
                   </small>
                 </div>
-                <div className="message-text">{message.text}</div>
+                <div className="message-text">
+                  {cleanText(message.text)}
+                </div>
               </div>
             ))}
           </div>
