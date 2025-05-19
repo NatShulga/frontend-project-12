@@ -1,26 +1,30 @@
 import React from 'react';
-import { ListGroup, Button, Dropdown } from 'react-bootstrap'; // Добавлен Dropdown в импорты
+import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllChannels, selectCurrentChannel, addChannel, setCurrentChannel } from '../../features/slice/chatSlice';
+import { selectAllChannels, selectCurrentChannel, addChannel, setCurrentChannel, removeChannel, renameChannel } from '../../features/slice/chatSlice';
 import AddChannelModal from './AddChannelModal';
 import { useTranslation } from 'react-i18next';
+import RenameChannelModal from './RenameChannelModal';
 
 const ChannelList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showModal, setShowModal] = React.useState(false);
+  const [showRenameModal, setShowRenameModal] = React.useState(false);
+  const [currentChannelId, setCurrentChannelId] = React.useState(null);
   const channels = useSelector(selectAllChannels) || [];
   const currentChannel = useSelector(selectCurrentChannel);
 
 
-  const handleRename = (channelId) => {
-    console.log('Переименовать канал', channelId);
-
+    const handleRename = (channelId) => {
+    setCurrentChannelId(channelId);
+    setShowRenameModal(true);
   };
 
   const handleDelete = (channelId) => {
-    console.log('Удалить канал', channelId);
-
+    if (window.confirm(t('Вы уверены, что хотите удалить канал?'))) {
+      dispatch(removeChannel(channelId));
+    }
   };
   
   if (!channels) return <div>Загрузка каналов...</div>;
@@ -78,19 +82,18 @@ const ChannelList = () => {
               # {channel.name}
             </div>
 
-            {/* Дропдаун меню для general */}
-            {channel.name === 'general' && (
-              <Dropdown onClick={(e) => e.stopPropagation()}>
-                <Dropdown.Toggle 
-                  variant="link" 
-                  id={`dropdown-actions-${channel.id}`}
-                  className="p-0 text-muted"
-                  style={{
-                    color: channel.id === currentChannel?.id ? 'rgba(255,255,255,0.7)' : '#6c757d'
-                  }}
-                >
-                  <i className="bi bi-three-dots-vertical"></i>
-                </Dropdown.Toggle>
+          
+            <Dropdown onClick={(e) => e.stopPropagation()}>
+              <Dropdown.Toggle 
+                variant="link" 
+                id={`dropdown-actions-${channel.id}`}
+                className="p-0 text-muted"
+                style={{
+                  color: channel.id === currentChannel?.id ? 'rgba(255,255,255,0.7)' : '#6c757d'
+                }}
+              >
+                <i className="bi bi-three-dots-vertical"></i>
+              </Dropdown.Toggle>
 
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={() => handleRename(channel.id)}>
@@ -106,10 +109,21 @@ const ChannelList = () => {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            )}
+            
           </ListGroup.Item>
         ))}
       </ListGroup>
+
+      <RenameChannelModal 
+        show={showRenameModal}
+        onHide={() => setShowRenameModal(false)}
+        channelId={currentChannelId}
+        onRename={(newName) => {
+          dispatch(renameChannel({ id: currentChannelId, name: newName }));
+          setShowRenameModal(false);
+        }}
+      />
+
 
       <AddChannelModal 
         show={showModal}

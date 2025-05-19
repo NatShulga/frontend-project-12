@@ -63,8 +63,36 @@ export const chatSlice = createSlice({
         });
       }
     },
+
+    
+    removeChannel: (state, action) => {
+      const channelId = action.payload;
+      
+    
+      state.channels = state.channels.filter(channel => channel.id !== channelId);
+      
+      
+      state.messages.data = state.messages.data.filter(
+        message => message.channelId !== channelId
+      );
+      
+      
+      if (state.currentChannelId === channelId) {
+        state.currentChannelId = 1;
+      }
+    },
+
+    renameChannel: (state, action) => {
+      const { id, name } = action.payload;
+      const channel = state.channels.find(ch => ch.id === id);
+      
+      if (channel) {
+        channel.name = name;
+      }
+    },
   },
 });
+
 
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
 
@@ -100,5 +128,13 @@ export const selectCurrentMessages = state => {
   return messages.filter(m => m.channelId === currentChannelId);
 };
 
-export const { addChannel, setCurrentChannel, addMessage } = chatSlice.actions;
+
+export const { 
+  addChannel, 
+  setCurrentChannel, 
+  addMessage,
+  removeChannel,
+  renameChannel
+} = chatSlice.actions;
+
 export default chatSlice.reducer;
