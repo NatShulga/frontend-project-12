@@ -5,6 +5,11 @@ import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
 import ProfanityFilter from 'leo-profanity';
 
+const cleanText = (text) => {
+  if (!text) return text;
+  return ProfanityFilter.clean(text, '****');
+};
+
 const MessageList = () => {
   const { t } = useTranslation();
   const messages = useSelector(selectCurrentMessages);
@@ -15,15 +20,8 @@ const MessageList = () => {
     message => message.channelId === currentChannelId
   );
 
-  const cleanText = (text) => {
-    if (!text) return text;
-    const cleaned = ProfanityFilter.clean(text, '****');
-    console.log('Original:', text, 'Cleaned:', cleaned);
-    return ProfanityFilter.clean(text, '****');
-  };
-
   return (
-    <div className="d-flex flex-column h-100">
+    <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>
       <div className="channel-header p-3">
         <h5 className="m-0">
           <span 
@@ -36,14 +34,20 @@ const MessageList = () => {
             {filteredMessages.length} {t('сообщений')}
           </span>
         </h5>
-        {user && (
-          <div className="text-muted small">
-            Добро пожаловать, <strong>{cleanText(user.username || user.name || 'Гость')}</strong>!
-          </div>
-        )}
       </div>
       
-      <div className="flex-grow-1 overflow-auto p-3 messages-container"> 
+      <div 
+        className=" mb-4 p-3 small messages-container"
+        style={{ 
+          minHeight: 0,
+          height: '65%',
+          willChange: 'transform',
+          overflow: 'hidden auto',
+          paddingBottom: '80px',
+          backgroundColor: 'white',
+          
+        }}
+      > 
         {filteredMessages.length === 0 ? (
           <div className="text-center text-muted h-100 d-flex flex-column align-items-center justify-content-center">
             <div className="mb-3">
@@ -72,7 +76,13 @@ const MessageList = () => {
         )}
       </div>
 
-      <div className="p-3">
+      <div 
+        className="p-3"
+        style={{
+          position: 'sticky',
+          bottom: 0,
+        }}
+      >
         <MessageInput currentChannelId={currentChannelId} />
       </div>
     </div>

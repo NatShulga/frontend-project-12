@@ -69,10 +69,21 @@ function LoginPage() {
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         if (storedToken) {
-            setToken(storedToken);
+            // Проверяем валидность токена
+            axios.get('/api/v1/check-auth', {
+                headers: { Authorization: `Bearer ${storedToken}` }
+            })
+            .then(() => {
+                navigate('/chat'); // Если токен валиден - перенаправляем
+            })
+            .catch(() => {
+                localStorage.removeItem('token'); // Если не валиден - чистим
+                setToken(null);
+            });
         }
+
         setIsMounted(true);
-        formik.setValues({ username: '', password: '' }, false); // Второй параметр - не валидировать!!
+        formik.setValues({ username: '', password: '' }, false);
         
         if (typeof window !== 'undefined') {
             setTimeout(() => {
@@ -83,7 +94,7 @@ function LoginPage() {
         }
         
         return () => setIsMounted(false);
-    }, []);
+    }, [navigate]);
 
     
     return (

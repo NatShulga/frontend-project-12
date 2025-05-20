@@ -2,7 +2,7 @@
 const ProfanityFilter = require('leo-profanity');
 
 
-ProfanityFilter.add(['редиска', 'козявка']);
+ProfanityFilter.add(['asshole', 'son of a bitch']);
 
 
 function containsProfanity(text) {
