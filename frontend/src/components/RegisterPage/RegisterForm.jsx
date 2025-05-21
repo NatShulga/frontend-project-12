@@ -15,6 +15,7 @@ function RegisterPage() {
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
     const [isButtonPressed, setIsButtonPressed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); 
 
     const initialFormValues = {
         username: '',
@@ -46,15 +47,33 @@ function RegisterPage() {
         },
 
         onSubmit: async (values, { resetForm }) => {
+            setIsLoading(true); //активируется загрузка
+            setError('');
             try {
+                //здесь у нас данный отправляются на рег-ию
                 await axios.post('/api/v1/signup', {
                 username: values.username,
                 password: values.password
                 });
                 
-                toast.success(t('Регистрация прошла успешно!'));
-                resetForm({ values: initialFormValues });
-                navigate('/login');
+                //автоматич.вход после загрузки
+                const loginResponse = await axios.post('/api/v1/login', {
+                    username: values.username,
+                    password: values.password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                //обрабатываетсяп олученый токен
+                const receivedToken = loginResponse.data.token || loginResponse.data.access_toke
+
+                if (!receivedToken) throw new Error('Токен не получен');
+
+                localStorage.setItem('token', receivedToken);
+                toast.success(t('Регистрация и вход выполнены!'));
+                navigate('/chat'); // Перенаправляем сразу в чат
 
             } catch (err) {
                 if (isMounted) {
@@ -66,6 +85,8 @@ function RegisterPage() {
                     confirmPassword: '' 
                 });
             }
+        } finally {
+            setIsLoading(false); //выкл загрузки
         }
         },
     });
@@ -81,7 +102,6 @@ function RegisterPage() {
                 });
             }, 100);
         }
-        
         return () => setIsMounted(false);
     }, []);
 
