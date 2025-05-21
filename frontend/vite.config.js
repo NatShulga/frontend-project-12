@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     port: 5002,
     proxy: {
-      '/api': {
+      '/api/v1': {
         target: 'http://localhost:5001',
         changeOrigin: true,
         secure: false,
@@ -22,7 +22,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': '/src'
     },
   },
   esbuild: {

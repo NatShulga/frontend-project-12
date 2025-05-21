@@ -1,23 +1,25 @@
 import React from 'react';
-import NotFoundImage from '@/assets/NotFoundImage.jpg'; 
+import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import NotFoundImage from '../assets/NotFoundImage.jpg'; // или '../assets/NotFoundImage.jpg'
 
 function NotFound() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  
   return (
     <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <Row className="text-center">
         <Col>
-          
           <img 
             src={NotFoundImage} 
-            alt="Страница не найдена" 
+            alt={t("Страница не найдена")} 
             className="img-fluid mb-4"
             style={{ maxWidth: '400px' }}
           />
           
-          <h2 className="mb-3">404 - Страница не найдена</h2>
-          <p className="lead mb-4">Извините, запрашиваемая страница не существует.</p>
+          <h2 className="mb-3">404 - {t("Страница не найдена")}</h2>
+          <p className="lead mb-4">{t("Извините, запрашиваемая страница не существует.")}</p>
           
           <Link 
             to="/" 
@@ -28,7 +30,7 @@ function NotFound() {
               padding: '10px 25px'
             }}
           >
-            Вернуться на главную
+            {t("Вернуться на главную")}
           </Link>
         </Col>
       </Row>
