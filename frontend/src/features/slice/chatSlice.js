@@ -1,5 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const loadMessagesFromStorage = () => {
+  try {
+    const saved = localStorage.getItem('chatMessages');
+    return saved ? JSON.parse(saved) : null;
+  } catch (e) {
+    console.error('Failed to parse saved messages', e);
+    return null;
+  }
+};
+
+const saveChatState = (state) => {
+  try {
+    localStorage.setItem('chatMessages', JSON.stringify(state.messages.data));
+  } catch (e) {
+    console.error('Failed to save messages', e);
+  }
+};
+
 const initialState = {
   channels: [
     { id: 1, name: 'general', unread: 0 },
@@ -9,7 +27,7 @@ const initialState = {
   messages: {
     loading: true,
     error: null,
-    data: [
+    data: loadMessagesFromStorage() || [
       { id: 1, channelId: 1, text: 'Welcome!', sender: 'System', timestamp: Date.now() },
       { id: 2, channelId: 1, text: 'Hello everyone!', sender: 'User1', timestamp: Date.now() },
     ]
@@ -27,6 +45,7 @@ export const chatSlice = createSlice({
         unread: 0,
       };
       state.channels.push(newChannel);
+      saveChatState(state);
     },
     
     setCurrentChannel: (state, action) => {
@@ -38,6 +57,7 @@ export const chatSlice = createSlice({
         console.log('Resetting unread for channel:', channel.id);
         channel.unread = 0;
       }
+      saveChatState(state);
     },
     
     addMessage: (state, action) => {
@@ -62,6 +82,7 @@ export const chatSlice = createSlice({
           }
         });
       }
+      saveChatState(state);
     },
 
     
@@ -80,6 +101,7 @@ export const chatSlice = createSlice({
       if (state.currentChannelId === channelId) {
         state.currentChannelId = 1;
       }
+      saveChatState(state);
     },
 
     renameChannel: (state, action) => {
@@ -89,6 +111,7 @@ export const chatSlice = createSlice({
       if (channel) {
         channel.name = name;
       }
+      saveChatState(state);
     },
   },
 });

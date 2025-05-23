@@ -67,22 +67,26 @@ function RegisterPage() {
                 });
 
                 //обрабатываетсяп олученый токен
-                const receivedToken = loginResponse.data.token || loginResponse.data.access_toke
+                const receivedToken = loginResponse.data.token || loginResponse.data.access_toke;
+                const userInfo = loginResponse.data.user || {};
 
                 if (!receivedToken) throw new Error('Токен не получен');
 
+                // сохраняем юзера и токет в локал.хранилище
                 localStorage.setItem('token', receivedToken);
+                localStorage.setItem('user', JSON.stringify(userInfo));
+
                 toast.success(t('Регистрация и вход выполнены!'));
                 navigate('/chat'); // Перенаправляем сразу в чат
 
             } catch (err) {
                 if (isMounted) {
-                setError(err.response?.data?.message || t('Ошибка регистрации'));
-                toast.error(t('Не удалось зарегистрироваться'));
-                formik.setValues({ 
-                    username: values.username,
-                    password: '', 
-                    confirmPassword: '' 
+                    setError(err.response?.data?.message || t('Ошибка регистрации'));
+                    toast.error(t('Не удалось зарегистрироваться'));
+                    formik.setValues({ 
+                        username: values.username,
+                        password: '', 
+                        confirmPassword: '' 
                 });
             }
         } finally {

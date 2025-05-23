@@ -1,22 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { io } from 'socket.io-client';
+
 
 class ChatWebSocket {
     constructor(url, onMessage) {
-      this.socket = new WebSocket(url);
-      this.socket.onmessage = (event) => {
-        onMessage(JSON.parse(event.data));
-      };
+        //обработка ошибок
+        this.socket = new WebSocket(url);
+        this.socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+        this.socket.onmessage = (event) => {
+            try {
+                onMessage(JSON.parse(event.data));
+            } catch (err) {
+                console.error('Message parsing error:', err);
+            }
+        };
     }
-  
     send(message) {
-      this.socket.send(JSON.stringify(message));
+        if (this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(JSON.stringify(message));
+        }
     }
-  
+
     close() {
-      this.socket.close();
+        if (this.socket) {
+            this.socket.close();
+        }
     }
-  }
+}
 
 
 const ChatComponent = () => {
@@ -27,7 +38,7 @@ const ChatComponent = () => {
 
   useEffect(() => {
     wsRef.current = new ChatWebSocket(
-      'wss://localhost:5002/chat',
+      'wss://localhost:500/chat',
       (newMessage) => {
         setMessages(prev => [...prev, newMessage]);
       }

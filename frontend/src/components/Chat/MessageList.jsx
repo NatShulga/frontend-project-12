@@ -14,7 +14,8 @@ const MessageList = () => {
   const { t } = useTranslation();
   const messages = useSelector(selectCurrentMessages);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
-  const user = useSelector(state => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
+
   
   const filteredMessages = messages.filter(
     message => message.channelId === currentChannelId
@@ -61,7 +62,7 @@ const MessageList = () => {
               <div key={message.id} className="mb-2">
                 <div className="d-flex justify-content-between">
                   <strong className="message-author">
-                    {cleanText(message.author || 'Гость')}
+                    {cleanText(message.author || 'Гость')} 
                   </strong>
                   <small className="text-muted">
                     {new Date(message.timestamp).toLocaleTimeString()}
