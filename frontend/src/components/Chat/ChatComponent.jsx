@@ -38,7 +38,7 @@ const ChatComponent = () => {
 
   useEffect(() => {
     wsRef.current = new ChatWebSocket(
-      'wss://localhost:500/chat',
+      'wss://localhost:5000/chat',
       (newMessage) => {
         setMessages(prev => [...prev, newMessage]);
       }

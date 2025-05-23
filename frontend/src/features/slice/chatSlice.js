@@ -27,10 +27,7 @@ const initialState = {
   messages: {
     loading: true,
     error: null,
-    data: loadMessagesFromStorage() || [
-      { id: 1, channelId: 1, text: 'Welcome!', sender: 'System', timestamp: Date.now() },
-      { id: 2, channelId: 1, text: 'Hello everyone!', sender: 'User1', timestamp: Date.now() },
-    ]
+    data: loadMessagesFromStorage() || []
   }
 };
 
@@ -60,6 +57,7 @@ export const chatSlice = createSlice({
       saveChatState(state);
     },
     
+    
     addMessage: (state, action) => {
       const channelId = action.payload.channelId || state.currentChannelId;
       console.log('Adding message to channel:', channelId);
@@ -84,19 +82,20 @@ export const chatSlice = createSlice({
       }
       saveChatState(state);
     },
-
+    
+    // редюсер для очистки сообщений
+    clearMessages: (state) => {
+      state.messages.data = [];
+      saveChatState(state);
+    },
     
     removeChannel: (state, action) => {
       const channelId = action.payload;
       
-    
       state.channels = state.channels.filter(channel => channel.id !== channelId);
-      
-      
       state.messages.data = state.messages.data.filter(
         message => message.channelId !== channelId
       );
-      
       
       if (state.currentChannelId === channelId) {
         state.currentChannelId = 1;
@@ -119,36 +118,19 @@ export const chatSlice = createSlice({
 
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
 
-export const selectAllChannels = state => {
-  const channels = state?.chat?.channels;
-  console.log('All channels:', channels);
-  return channels || [];
-};
+export const selectAllChannels = (state) => state?.chat?.channels || [];
 
-export const selectCurrentChannel = state => {
+export const selectCurrentChannel = (state) => {
   const currentChannelId = state?.chat?.currentChannelId;
-  const channels = state?.chat?.channels;
-  
-  if (!currentChannelId || !channels) {
-    console.warn('No currentChannelId or channels in state');
-    return state.chat.channels.find(c => c.id === state.chat.currentChannelId);
-  }
-  
-  const channel = channels.find(c => c.id === currentChannelId);
-  console.log('Current channel:', channel);
-  return channel || null;
+  return selectAllChannels(state).find(c => c.id === currentChannelId) || null;
 };
 
-export const selectCurrentMessages = state => {
+export const selectCurrentMessages = (state) => {
   const messages = state?.chat?.messages?.data || [];
-  const currentChannelId = state?.chat?.currentChannelId;
-  
-  console.log('Filtering messages for channel:', currentChannelId);
-  console.log('All messages:', messages);
-  
-  if (!currentChannelId) return [];
-  
-  return messages.filter(m => m.channelId === currentChannelId);
+  const currentChannelId = selectCurrentChannelId(state);
+  return currentChannelId 
+    ? messages.filter(m => m.channelId === currentChannelId)
+    : [];
 };
 
 
@@ -156,6 +138,7 @@ export const {
   addChannel, 
   setCurrentChannel, 
   addMessage,
+  clearMessages,
   removeChannel,
   renameChannel
 } = chatSlice.actions;

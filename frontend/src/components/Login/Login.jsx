@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
@@ -8,18 +9,20 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Bingo from '@/assets/Bingo.jpg';
 import axios from 'axios';
-
+import { setAuthToken } from '../../features/authSlice';
 
 function LoginPage() {
+    const dispatch = useDispatch();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [token, setToken] = useState(null);
+    //const [token, setAuthToken] = useState(null);
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
     const [isButtonPressed, setIsButtonPressed] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
 
+    //управление форм. и их очистками
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -50,8 +53,13 @@ function LoginPage() {
                     throw new Error('Токен не найден в ответе сервера');
                 }
 
-                    localStorage.setItem('token', receivedToken);
-                    setToken(receivedToken);
+                dispatch(setAuthToken({
+                    token: receivedToken,
+                    user: response.data.user || { username: values.username }
+                }))
+
+                    localStorage.setItem('token', receivedToken);//удалить потом, потому что сохр в редьюс.
+                    //setAuthToken(receivedToken);
 
                 toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
@@ -78,7 +86,7 @@ function LoginPage() {
             })
             .catch(() => {
                 localStorage.removeItem('token'); // Если не валиден - чистим
-                setToken(null);
+                dispatch(setAuthToken({ token: null, user: null }));
             });
         }
 
