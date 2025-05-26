@@ -61,8 +61,8 @@ const MessageList = () => {
             {filteredMessages.map(message => (
               <div key={message.id} className="mb-2">
                 <div className="d-flex justify-content-between">
-                  <strong className="message-sender">
-                    {cleanText(message.sender || 'Гость')} 
+                  <strong className="message-author">
+                    {cleanText(message.author || 'Гость')} 
                   </strong>
                   <small className="text-muted">
                     {new Date(message.timestamp).toLocaleTimeString()}

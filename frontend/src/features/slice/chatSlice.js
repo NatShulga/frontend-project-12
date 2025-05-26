@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const CHAT_STORAGE_KEY = 'chatMessages';
+
 const loadMessagesFromStorage = () => {
   try {
-    const saved = localStorage.getItem('chatMessages');
+    const saved = localStorage.getItem(CHAT_STORAGE_KEY);
     return saved ? JSON.parse(saved) : null;
   } catch (e) {
     console.error('Failed to parse saved messages', e);
@@ -12,9 +14,22 @@ const loadMessagesFromStorage = () => {
 
 const saveChatState = (state) => {
   try {
-    localStorage.setItem('chatMessages', JSON.stringify(state.messages.data));
+    const dataToSave = {
+      messages: state.messages.data,
+      channels: state.channels,
+      currentChannelId: state.currentChannelId
+    };
+    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(dataToSave));
   } catch (e) {
-    console.error('Failed to save messages', e);
+    console.error('Failed to save chat state', e);
+  }
+};
+
+const clearChatStorage = () => {
+  try {
+    localStorage.removeItem(CHAT_STORAGE_KEY);
+  } catch (e) {
+    console.error('Failed to clear chat storage', e);
   }
 };
 
@@ -27,7 +42,7 @@ const initialState = {
   messages: {
     loading: true,
     error: null,
-    data: loadMessagesFromStorage() || []
+    data: loadMessagesFromStorage()?.messages || []
   }
 };
 
@@ -46,27 +61,23 @@ export const chatSlice = createSlice({
     },
     
     setCurrentChannel: (state, action) => {
-      console.log('Setting current channel to:', action.payload);
       state.currentChannelId = action.payload;
       
       const channel = state.channels.find(c => c.id === action.payload);
       if (channel) {
-        console.log('Resetting unread for channel:', channel.id);
         channel.unread = 0;
       }
       saveChatState(state);
     },
     
-    
     addMessage: (state, action) => {
       const channelId = action.payload.channelId || state.currentChannelId;
-      console.log('Adding message to channel:', channelId);
       
       const newMessage = {
         id: Date.now(),
         channelId,
         text: action.payload.text,
-        sender: action.payload.sender || 'Anonymous',
+        author: action.payload.author || 'Anonymous',
         timestamp: Date.now(),
       };
       
@@ -75,7 +86,6 @@ export const chatSlice = createSlice({
       if (action.payload.incrementUnread) {
         state.channels.forEach(channel => {
           if (channel.id !== channelId) {
-            console.log('Incrementing unread for channel:', channel.id);
             channel.unread = (channel.unread || 0) + 1;
           }
         });
@@ -83,12 +93,18 @@ export const chatSlice = createSlice({
       saveChatState(state);
     },
     
-    // редюсер для очистки сообщений
     clearMessages: (state) => {
       state.messages.data = [];
       saveChatState(state);
     },
     
+    resetChatState: (state) => {
+      clearChatStorage();
+      state.messages.data = [];
+      state.currentChannelId = 1;
+      state.channels = initialState.channels;
+    },
+
     removeChannel: (state, action) => {
       const channelId = action.payload;
       
@@ -115,9 +131,7 @@ export const chatSlice = createSlice({
   },
 });
 
-
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
-
 export const selectAllChannels = (state) => state?.chat?.channels || [];
 
 export const selectCurrentChannel = (state) => {
@@ -133,12 +147,12 @@ export const selectCurrentMessages = (state) => {
     : [];
 };
 
-
 export const { 
   addChannel, 
   setCurrentChannel, 
   addMessage,
   clearMessages,
+  resetChatState,
   removeChannel,
   renameChannel
 } = chatSlice.actions;

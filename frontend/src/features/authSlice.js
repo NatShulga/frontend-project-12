@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+//аутентификация пользователя
 // Функция для безопасной загрузки текущего состояния авторизации
 const loadInitialAuthState = () => {
   const token = localStorage.getItem('token');
@@ -8,7 +9,7 @@ const loadInitialAuthState = () => {
   try {
     const userData = localStorage.getItem('user');
     if (userData) {
-      user = JSON.parse(userData); // Безопасный парсинг
+      user = JSON.parse(userData);
     }
   } catch (err) {
     console.error('Ошибка при парсинге данных пользователя:', err);
@@ -19,7 +20,7 @@ const loadInitialAuthState = () => {
   return {
     token,
     user, // Или null, если данных нет
-    isAuthenticated: !!token // Явное преобразование в boolean
+    isAuthenticated: !!token
   };
 };
 
@@ -32,15 +33,20 @@ export const authSlice = createSlice({
     setAuthToken: (state, action) => {
       const { token, user } = action.payload;
 
-      // Валидация входящего payload
-      if (typeof token !== 'string' || !token.trim()) {
-        console.error('Invalid token provided');
-        return;
-      }
+      // проверка 
+      if (!user?.id || !user?.username) {
+    console.error('должно содержать id и имя пользователя');
+    return;
+  }
 
       state.token = token;
-      state.user = user;
       state.isAuthenticated = true;
+      state.user = {
+      id: user.id,          // идентификатор
+      username: user.username, // Отображаемое имя
+       ...user              // Остальные поля (email, avatar и т.д.)
+      };
+      
 
       // Сохраняем токен и профиль пользователя в localStorage
       localStorage.setItem('token', token);
@@ -62,9 +68,10 @@ export const authSlice = createSlice({
     updateUserData: (state, action) => {
       if (!state.token || !action.payload) return;
 
+      const { id, username, ...safeUpdates } = action.payload;
       state.user = {
         ...state.user,
-        ...action.payload
+        ...safeUpdates
       };
 
       try {

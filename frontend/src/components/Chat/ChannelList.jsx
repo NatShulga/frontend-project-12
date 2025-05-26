@@ -70,7 +70,14 @@ const ChannelList = () => {
             style={{
               backgroundColor: channel.id === currentChannel?.id ? '#4682B4' : '#f8f9fa',
               color: channel.id === currentChannel?.id ? '#fff' : '#333',
-              borderLeft: '4px solid ' + (channel.id === currentChannel?.id ? '#4682B4' : 'transparent'),
+              //исправление конфликта стилей
+              borderWidth: '1px',
+              borderStyle: 'solid',
+              borderColor: 'rgba(0,0,0,.125)',
+              borderLeftWidth: '4px',
+              borderLeftStyle: 'solid',
+              borderLeftColor: channel.id === currentChannel?.id ? '#4682B4' : 'transparent',
+
               transition: 'all 0.3s ease',
               cursor: 'pointer',
               display: 'flex',

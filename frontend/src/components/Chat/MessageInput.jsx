@@ -17,7 +17,7 @@ const MessageInput = ({ onSend, placeholder }) => {
     if (text.trim()) {
       dispatch(addMessage({
         text,
-        sender: user?.username || user?.name || 'Гость',
+        author: user?.username || user?.name || 'Гость',
         channelId: currentChannelId,
         timestamp: new Date().toISOString(),
       }));

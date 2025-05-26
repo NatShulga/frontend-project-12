@@ -15,7 +15,7 @@ const ChatPage = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
   const [messages, setMessages] = useState([]);
   const [username] = useState(location.state?.username || t('chat.anonymous'));
