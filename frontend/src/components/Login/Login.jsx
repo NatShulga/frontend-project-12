@@ -55,7 +55,7 @@ function LoginPage() {
 
                 dispatch(setAuthToken({
                     token: receivedToken,
-                    user: response.data.user || { username: values.username }
+                    user: response.data.username
                 }))
 
                     localStorage.setItem('token', receivedToken);//удалить потом, потому что сохр в редьюс.
@@ -86,7 +86,7 @@ function LoginPage() {
             })
             .catch(() => {
                 localStorage.removeItem('token'); // Если не валиден - чистим
-                dispatch(setAuthToken({ token: null, user: null }));
+                dispatch(setAuthToken({ token: null, username: null }));
             });
         }
 

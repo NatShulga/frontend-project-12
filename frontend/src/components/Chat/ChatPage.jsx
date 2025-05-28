@@ -18,9 +18,10 @@ const ChatPage = () => {
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [username] = useState(location.state?.username || t('chat.anonymous'));
+  
   
   const currentChannel = useSelector(selectCurrentChannel);
+  const username = useSelector(state => state.auth.username); 
   const socketRef = useRef(null);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const ChatPage = () => {
     const newMessage = {
       id: Date.now(),
       text,
-      author: username,
+      username: username,
       timestamp: new Date().toLocaleTimeString(),
       channelId: currentChannel.id,
     };

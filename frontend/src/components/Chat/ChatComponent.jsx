@@ -59,7 +59,7 @@ const ChatComponent = () => {
       id: Date.now(),
       text: text,
       timestamp: new Date().toISOString(),
-      sender: 'user'
+      username: 'username'
     };
 
     wsRef.current.send(message);
