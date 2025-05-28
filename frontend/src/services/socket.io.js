@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useSelector } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { io } from 'socket.io-client';
 
@@ -9,9 +9,16 @@ const ChatComponent = () => {
   const [currentChannelId, setCurrentChannelId] = useState(null);
   const [socket, setSocket] = useState(null);
 
+  const username = useSelector(state => state.auth.username);
+
   // Инициализация сокета
   useEffect(() => {
-    const newSocket = io('http://localhost:5002');
+  const newSocket = io('http://localhost:5002', {
+    auth: {
+      token: localStorage.getItem('token'),
+      username: localStorage.getItem('username')// Для аутентиф.
+    }
+  });
     setSocket(newSocket);
 
     newSocket.on('newMessage', (payload) => {
@@ -49,12 +56,12 @@ const ChatComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!message.trim() || !currentChannelId) return;
+    if (!message.trim() || !currentChannelId || !username) return;
 
     socket.emit('newMessage', {
       body: message,
       channelId: currentChannelId,
-      username: 'currentUser' // Заменить на реальное имя пользователя
+      username,
     });
 
     setMessage('');

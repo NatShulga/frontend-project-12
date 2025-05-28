@@ -46,8 +46,10 @@ function LoginPage() {
                 if(!response.data) {
                     throw new Error ('пустой ответ от сервера');
                 }
-                
                 const receivedToken = response.data.token || response.data.access_token;
+                
+                const receivedUsername = response.data.username || response.data.user?.username;
+
                 if (!receivedToken) {
                     
                     throw new Error('Токен не найден в ответе сервера');
@@ -55,7 +57,7 @@ function LoginPage() {
 
                 dispatch(setAuthToken({
                     token: receivedToken,
-                    user: response.data.username
+                    username: receivedUsername
                 }))
 
                     localStorage.setItem('token', receivedToken);//удалить потом, потому что сохр в редьюс.
