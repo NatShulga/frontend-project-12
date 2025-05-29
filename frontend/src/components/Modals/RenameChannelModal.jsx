@@ -6,11 +6,18 @@ const RenameChannelModal = ({ show, onHide, channelId, onRename }) => {
   const { t } = useTranslation();
   const [newName, setNewName] = React.useState('');
 
-  const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newName.trim()) {
-      onRename(newName.trim());
-      setNewName('');
+    if (!channelName.trim()) return;
+
+    try {
+      await onAdd(channelName);
+      toast.success(t('Канал "{{name}}" успешно переименован!', { name: channelName }));
+      setChannelName('');
+      onHide();
+    } catch (err) {
+      console.error(err);
+      toast.error(t('Ошибка при переименовании канала'));
     }
   };
 

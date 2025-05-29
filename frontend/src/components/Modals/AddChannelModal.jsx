@@ -1,17 +1,25 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddChannelModal = ({ show, onHide, onAdd }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [channelName, setChannelName] = React.useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (channelName.trim()) {
-      onAdd(channelName.trim());
+    if (!channelName.trim()) return;
+
+    try {
+      await onAdd(channelName);
+      toast.success(t('Канал "{{name}}" успешно создан!', { name: channelName }));
       setChannelName('');
       onHide();
+    } catch (err) {
+      console.error(err);
+      toast.error(t('Ошибка при создании канала'));
     }
   };
 

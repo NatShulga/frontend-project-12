@@ -2,9 +2,10 @@ import React from 'react';
 import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllChannels, selectCurrentChannel, addChannel, setCurrentChannel, removeChannel, renameChannel } from '../../features/slice/chatSlice';
-import AddChannelModal from './AddChannelModal';
+import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
-import RenameChannelModal from './RenameChannelModal';
+import RenameChannelModal from '../Modals/RenameChannelModal';
+import DeleteModalChannel from '../Modals/DeleteModalChannel';
 
 const ChannelList = () => {
   const dispatch = useDispatch();
