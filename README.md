@@ -16,4 +16,25 @@
  ~ Синхронизацией с localStorage (сообщения не пропадают после обновления)
 
 
-## **Стек: React + Redux Toolkit + localStorage**
+## **Стек: React, Redux Toolkit, React-Bootstrap, React-i18next, Toastify, Leo-profanity**
+
+Installation and Running:
+
+    Install Node.js and npm
+    Clone the repository:
+
+git clone (https://github.com/NatShulga/frontend-project-12.git)
+
+  ~  Change directory:
+
+cd frontend
+
+  ~  Install dependencies:
+
+npm install
+
+  ~  Start the frontend and backend servers:
+
+npx start-server
+
+

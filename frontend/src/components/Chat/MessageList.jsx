@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentMessages } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,11 @@ const MessageList = () => {
   const messages = useSelector(selectCurrentMessages);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
   const username = useSelector((state) => state.auth.username);
+
+  //отладка, проверка загруженных сообщений
+  useEffect(() => {
+    console.log('Текущие сообщения:', messages);
+  }, [messages]);
 
   const filteredMessages = messages.filter(
     message => message.channelId === currentChannelId

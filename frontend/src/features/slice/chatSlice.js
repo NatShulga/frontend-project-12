@@ -1,5 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Функции для работы с localStorage
+const CHAT_STORAGE_KEY = 'chatState';
+
+const loadChatState = () => {
+  try {
+    const saved = localStorage.getItem(CHAT_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : null;
+  } catch (e) {
+    console.error('Failed to load chat state', e);
+    return null;
+  }
+};
+
+const saveChatState = (state) => {
+  try {
+    const dataToSave = {
+      messages: state.messages.data,
+      channels: state.channels,
+      currentChannelId: state.currentChannelId
+    };
+    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(dataToSave));
+  } catch (e) {
+    console.error('Failed to save chat state', e);
+  }
+};
+
+const clearChatStorage = () => {
+  localStorage.removeItem(CHAT_STORAGE_KEY);
+};
+
+// Загружаем начальное состояние из localStorage
+const savedState = loadChatState();
+
 const initialState = {
   channels: [
     { id: 1, name: 'general', unread: 0 },
@@ -13,9 +46,19 @@ const initialState = {
   }
 };
 
+// Состояние загруженния и состояние с initialState
+const combinedInitialState = {
+  ...initialState,
+  ...savedState,
+  messages: {
+    ...initialState.messages,
+    data: savedState?.messages || initialState.messages.data
+  }
+};
+
 export const chatSlice = createSlice({
   name: 'chat',
-  initialState,
+  initialState: combinedInitialState,
   reducers: {
     addChannel: (state, action) => {
       const newChannel = {
@@ -24,7 +67,7 @@ export const chatSlice = createSlice({
         unread: 0,
       };
       state.channels.push(newChannel);
-      
+      saveChatState(state);
     },
     
     setCurrentChannel: (state, action) => {
@@ -34,11 +77,10 @@ export const chatSlice = createSlice({
       if (channel) {
         channel.unread = 0;
       }
-      
+      saveChatState(state);
     },
     
     addMessage: (state, action) => {
-      //const username = localStorage.getItem('username');
       
       const newMessage = {
         id: Date.now(),
@@ -56,7 +98,7 @@ export const chatSlice = createSlice({
           }
         });
       }
-    
+    saveChatState(state);
     },
     
     clearMessages: (state) => {
@@ -82,7 +124,7 @@ export const chatSlice = createSlice({
       if (state.currentChannelId === channelId) {
         state.currentChannelId = 1;
       }
-      
+      saveChatState(state);
     },
 
     renameChannel: (state, action) => {
@@ -92,7 +134,7 @@ export const chatSlice = createSlice({
       if (channel) {
         channel.name = name;
       }
-      
+      saveChatState(state);
     },
   },
 });
