@@ -20,8 +20,9 @@
 
 Installation and Running:
 
-    Install Node.js and npm
-    Clone the repository:
+  Install Node.js and npm.
+  
+  Clone the repository:
 
 git clone (https://github.com/NatShulga/frontend-project-12.git)
 
