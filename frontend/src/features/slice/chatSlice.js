@@ -128,6 +128,7 @@ export const chatSlice = createSlice({
     },
 
     renameChannel: (state, action) => {
+      
       const { id, name } = action.payload;
       const channel = state.channels.find(ch => ch.id === id);
       

@@ -6,7 +6,7 @@ import { selectAllChannels, selectCurrentChannel, addChannel, setCurrentChannel,
 import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
 import RenameChannelModal from '../Modals/RenameChannelModal';
-import DeleteModalChannel from '../Modals/DeleteModalChannel';
+import DeleteChannelModal from '../Modals/DeleteChannelModal';
 
 const ChannelList = () => {
   const dispatch = useDispatch();
@@ -23,16 +23,26 @@ const ChannelList = () => {
     setShowRenameModal(true);
   };
 
-  const handleDelete = (channelId) => {
-    if (window.confirm(t('Вы уверены, что хотите удалить канал?'))) {
-      dispatch(removeChannel(channelId));
+  const handleDelete = async (channelId) => {
+  if (window.confirm(t('Вы уверены, что хотите удалить канал?'))) {
+    try {
+      await dispatch(removeChannel(channelId));
+      toast.success(t('Канал успешно удалён'));
+    } catch (err) {
+      toast.error(t('Ошибка при удалении канала'));
     }
-  };
+  }
+};
   
-  const handleConfirmDelete = () => {
-    dispatch(removeChannel(currentChannelId));
+  const handleConfirmDelete = async () => {
+  try {
+    await dispatch(removeChannel(currentChannelId));
+    toast.success(t('Канал успешно удалён'));
     setShowDeleteModal(false);
-  };
+  } catch (err) {
+    toast.error(t('Ошибка при удалении канала'));
+  }
+};
 
   if (!channels) return <div>Загрузка каналов...</div>;
 
@@ -135,23 +145,23 @@ const ChannelList = () => {
       </ListGroup>
 
       <RenameChannelModal 
-  show={showRenameModal}
-  onHide={() => setShowRenameModal(false)}
-  channelId={currentChannelId}
-  onRename={async (newName) => {
-    try {
-      await dispatch(renameChannel({ 
-        id: currentChannelId, 
-        name: newName 
-      })).unwrap();
-      setShowRenameModal(false);
-    } catch (err) {
-      console.error('Rename error:', err);
-    }
-  }}
-/>
+        show={showRenameModal}
+        onHide={() => setShowRenameModal(false)}
+        channelId={currentChannelId}
+        onRename={async (newName) => {
+          try {
+            await dispatch(renameChannel({ 
+              id: currentChannelId, 
+              name: newName 
+            })).unwrap();
+            setShowRenameModal(false);
+          } catch (err) {
+            console.error('Rename error:', err);
+          }
+        }}
+      />
 
-      <DeleteModalChannel
+      <DeleteChannelModal
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
         onDelete={handleConfirmDelete}

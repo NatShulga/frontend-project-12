@@ -5,15 +5,25 @@ import { toast } from 'react-toastify';
 
 const DeleteChannelModal = ({ show, onHide, channelId, onDelete, channelName }) => {
   const { t } = useTranslation();
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       await onDelete(channelId);
-      toast.success(t('Канал "{{name}}" успешно удален', { name: channelName }));
+      toast.success(t('Канал "{{name}}" успешно удален', { name: channelName }), {
+        position: "top-right",
+        autoClose: 3000,
+      });
       onHide();
     } catch (err) {
-      console.error(err);
-      toast.error(t('Ошибка при удалении канала'));
+      console.error('Delete error:', err);
+      toast.error(t('Ошибка при удалении канала'), {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
