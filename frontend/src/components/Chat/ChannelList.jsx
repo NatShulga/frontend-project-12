@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { selectAllChannels, selectCurrentChannel, addChannel, setCurrentChannel, removeChannel, renameChannel } from '../../features/slice/chatSlice';
 import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
@@ -134,14 +135,21 @@ const ChannelList = () => {
       </ListGroup>
 
       <RenameChannelModal 
-        show={showRenameModal}
-        onHide={() => setShowRenameModal(false)}
-        channelId={currentChannelId}
-        onRename={(newName) => {
-          dispatch(renameChannel({ id: currentChannelId, name: newName }));
-          setShowRenameModal(false);
-        }}
-      />
+  show={showRenameModal}
+  onHide={() => setShowRenameModal(false)}
+  channelId={currentChannelId}
+  onRename={async (newName) => {
+    try {
+      await dispatch(renameChannel({ 
+        id: currentChannelId, 
+        name: newName 
+      })).unwrap();
+      setShowRenameModal(false);
+    } catch (err) {
+      console.error('Rename error:', err);
+    }
+  }}
+/>
 
       <DeleteModalChannel
         show={showDeleteModal}

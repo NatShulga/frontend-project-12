@@ -132,7 +132,7 @@ export const chatSlice = createSlice({
       const channel = state.channels.find(ch => ch.id === id);
       
       if (channel) {
-        channel.name = name;
+        channel.name = String(name);
       }
       saveChatState(state);
     },

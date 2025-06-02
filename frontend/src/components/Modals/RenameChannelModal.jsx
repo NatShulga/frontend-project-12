@@ -12,7 +12,7 @@ const RenameChannelModal = ({ show, onHide, channelId, onRename }) => {
     if (!newName.trim()) return;
 
     try {
-      await onRename(channelId, newName);
+      await onRename(newName);
       toast.success(t('Канал "{{name}}" успешно переименован!', { name: newName }));
       setNewName('');
       onHide();
