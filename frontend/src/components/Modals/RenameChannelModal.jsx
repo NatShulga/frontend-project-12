@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const RenameChannelModal = ({ show, onHide, channelId, onRename }) => {
   const { t } = useTranslation();
@@ -8,12 +9,12 @@ const RenameChannelModal = ({ show, onHide, channelId, onRename }) => {
 
    const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!channelName.trim()) return;
+    if (!newName.trim()) return;
 
     try {
-      await onAdd(channelName);
-      toast.success(t('Канал "{{name}}" успешно переименован!', { name: channelName }));
-      setChannelName('');
+      await onRename(channelId, newName);
+      toast.success(t('Канал "{{name}}" успешно переименован!', { name: newName }));
+      setNewName('');
       onHide();
     } catch (err) {
       console.error(err);

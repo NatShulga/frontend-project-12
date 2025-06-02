@@ -93,7 +93,7 @@ export const chatSlice = createSlice({
 
       if (action.payload.incrementUnread) {
         state.channels.forEach(channel => {
-          if (channel.id !== channelId) {
+          if (channel.id !== action.payload.channelId) {
             channel.unread = (channel.unread || 0) + 1;
           }
         });

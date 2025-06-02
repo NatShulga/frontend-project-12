@@ -12,6 +12,7 @@ const ChannelList = () => {
   const { t } = useTranslation();
   const [showModal, setShowModal] = React.useState(false);
   const [showRenameModal, setShowRenameModal] = React.useState(false);
+   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [currentChannelId, setCurrentChannelId] = React.useState(null);
   const channels = useSelector(selectAllChannels) || [];
   const currentChannel = useSelector(selectCurrentChannel);
@@ -27,6 +28,11 @@ const ChannelList = () => {
     }
   };
   
+  const handleConfirmDelete = () => {
+    dispatch(removeChannel(currentChannelId));
+    setShowDeleteModal(false);
+  };
+
   if (!channels) return <div>Загрузка каналов...</div>;
 
   return (
@@ -135,6 +141,13 @@ const ChannelList = () => {
           dispatch(renameChannel({ id: currentChannelId, name: newName }));
           setShowRenameModal(false);
         }}
+      />
+
+      <DeleteModalChannel
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        onDelete={handleConfirmDelete}
+        channelName={channels.find(c => c.id === currentChannelId)?.name || ''}
       />
 
       <AddChannelModal 
