@@ -23,6 +23,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       external: [
+        'leo-profanity',
         'i18next',
         'react-i18next',
         'i18next-browser-languagedetector',
