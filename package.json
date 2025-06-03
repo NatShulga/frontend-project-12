@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vite",
-    "build": "npm run build --prefix frontend",
+    "dev": "start-server",
+    "build": "cd frontend && npm install && npm run build",
     "serve": "vite preview",
     "start": "start-server -s ./frontend/build"
   },
