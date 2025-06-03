@@ -5,10 +5,10 @@ install:
 	npm ci
 
 start-frontend:
-	npx start-server -s ./frontend/dist
+	npm start-server -s ./frontend/dist
 
 start-backend:
-	npx start-server
+	npm start-server
 
 start:
 	make start-backend
