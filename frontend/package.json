@@ -14,6 +14,7 @@
     "@hexlet/chat-server": "^2.0.4",
     "@reduxjs/toolkit": "^2.6.1",
     "@rollbar/react": "^0.12.1",
+    "@types/react-toastify": "^4.1.0",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.3",
     "formik": "^2.4.6",

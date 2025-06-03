@@ -20,6 +20,14 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      external: [
+        'react-toastify',
+        'react-toastify/dist/ReactToastify.css'
+      ]
+    }
+  },
   resolve: {
     alias: {
       '@': '/src'
