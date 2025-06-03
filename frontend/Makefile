@@ -4,11 +4,8 @@ install:
 start:
 	npm start
 
-start:
-	npm start
-	
 build:
-	npm run build
+	npm build
 
 lint:
-	npx eslint . --ext .js,.jsx --config
+	npx eslint . --ext .js,.jsx --config .eslintrc.yml
