@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import NotFoundImage from '../assets/NotFoundImage.jpg'; // или '../assets/NotFoundImage.jpg'
+import NotFoundImage from '../assets/notFoundImage.jpg';
 
 function NotFound() {
   const { t } = useTranslation();
