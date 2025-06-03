@@ -6,7 +6,6 @@ import Login from './components/Login/Login';
 import RegisterPage from './components/RegisterPage/RegisterForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
-//import 'react-toastify/dist/ReactToastify.css';
 import './i18n';
 import Navbar from './components/header/Navbar';
 import ChatPage from './components/Chat/ChatPage';

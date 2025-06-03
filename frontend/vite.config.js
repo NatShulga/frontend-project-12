@@ -23,6 +23,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       external: [
+        'react-i18next',
         'react-toastify',
         'react-toastify/dist/ReactToastify.css'
       ]
