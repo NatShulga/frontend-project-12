@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "start": "start-server -s ./frontend/build"
+    "start": "npx start-server"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   "dependencies": {
     "@hexlet/chat-server": "^2.0.4",
     "@reduxjs/toolkit": "^2.6.1",
+    "@rollbar/react": "^0.12.1",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.3",
     "express": "^5.1.0",
@@ -35,6 +36,7 @@
     "react-router-dom": "^7.4.1",
     "react-scripts": "^3.0.1",
     "redux-thunk": "^3.1.0",
+    "rollbar": "^2.26.4",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
   },
