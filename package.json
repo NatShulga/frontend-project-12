@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
-    "build": "vite build",
+    "build": "cd frontend && npm install && npm run build",
     "serve": "vite preview",
-    "start": "npx start-server"
+    "start": "npx start-server -s ./frontend/dist"
   },
   "repository": {
     "type": "git",

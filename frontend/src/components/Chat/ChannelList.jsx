@@ -13,7 +13,7 @@ const ChannelList = () => {
   const { t } = useTranslation();
   const [showModal, setShowModal] = React.useState(false);
   const [showRenameModal, setShowRenameModal] = React.useState(false);
-   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [currentChannelId, setCurrentChannelId] = React.useState(null);
   const channels = useSelector(selectAllChannels) || [];
   const currentChannel = useSelector(selectCurrentChannel);
