@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import Login from './components/Login/Login';
 import RegisterPage from './components/RegisterPage/RegisterForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,7 +13,14 @@ import ChatPage from './components/Chat/ChatPage';
 import NotFound from './components/NotFound';
 import ChatComponent from '../src/components/Chat/ChatComponent';
 
-const App = () => {
+const rollbarConfig = {
+  accessToken: 'f4a3d7a1106d41789162305de0df95be',
+  environment: process.env.NODE_ENV || 'development',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+};
+
+const AppContent = () => {
     const authState = useSelector(state => state.auth);
     useEffect(() => {
     console.log('Auth state:', authState);
@@ -37,6 +45,16 @@ const App = () => {
 
         </Router>
     );
+};
+
+const App = () => {
+  return (
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <AppContent />
+      </ErrorBoundary>
+    </RollbarProvider>
+  );
 };
 
 export default App;
