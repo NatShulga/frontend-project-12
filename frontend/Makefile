@@ -2,10 +2,10 @@ install:
 	npm ci
 
 start:
-	make start
+	npx start-server -s ./frontend/dist
 
 build:
-	make build
+	npm run build
 
 lint:
 	npx eslint . --ext .js,.jsx --config .eslintrc.yml

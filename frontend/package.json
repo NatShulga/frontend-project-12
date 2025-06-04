@@ -5,11 +5,10 @@
   "type": "module",
   "proxy": "http://localhost:5001",
   "scripts": {
-    "dev": "vite",
-    "start": "npm start-server -s ./dist",
-    "build": "vite build",
-    "lint": "eslint .",
-    "serve": "vite preview"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "@hexlet/chat-server": "^2.0.4",
@@ -38,7 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.22.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
