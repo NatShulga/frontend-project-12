@@ -77,7 +77,7 @@ function RegisterPage() {
                 localStorage.setItem('user', JSON.stringify(userInfo));
 
                 toast.success(t('Регистрация и вход выполнены!'));
-                navigate('/chat'); // Перенаправляем сразу в чат
+                navigate('/'); // Перенаправляем в корневой
 
             } catch (err) {
                 if (isMounted) {

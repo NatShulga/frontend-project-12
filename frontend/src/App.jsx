@@ -30,6 +30,7 @@ const AppContent = () => {
             <Navbar />
             <ToastContainer position="top-right" autoClose={3000} />
             <Routes>
+              
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/chat" element={
