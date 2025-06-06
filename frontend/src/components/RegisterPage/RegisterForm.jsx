@@ -96,17 +96,15 @@ function RegisterPage() {
     });
 
     useEffect(() => {
-        setIsMounted(true);
-        formik.setValues(initialFormValues, false);
+        const clearInputs = () => {
+            document.querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        };
         
-        if (typeof window !== 'undefined') {
-            setTimeout(() => {
-                document.querySelectorAll('input').forEach(input => {
-                    input.value = '';
-                });
-            }, 100);
-        }
-        return () => setIsMounted(false);
+        const timer = setTimeout(clearInputs, 100);
+        return () => clearTimeout(timer);
+        //return () => setIsMounted(false);
     }, []);
 
     return (
