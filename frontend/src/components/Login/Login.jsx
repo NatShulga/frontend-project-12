@@ -202,11 +202,12 @@ function LoginPage() {
                                     <Link 
                                         to="/register" 
                                         className="auth-link text-decoration-none" 
-                                        style={{ color: '#eec111',
-                                            
+                                        style={{ 
+                                            color: '#eec111', 
+                                            margin: '5px',
                                         }}
                                     >
-                                    {t("Зарегистрируйтесь")}
+                                    {t("Регистрация")}
                                     </Link>
                                 </div>
                             </Form>

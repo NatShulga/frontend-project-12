@@ -7,6 +7,7 @@ import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
 import RenameChannelModal from '../Modals/RenameChannelModal';
 import DeleteChannelModal from '../Modals/DeleteChannelModal';
+import defaultChannel from './defaultChannel';
 
 const ChannelList = () => {
   const dispatch = useDispatch();
@@ -80,72 +81,69 @@ const ChannelList = () => {
       </div>
       
       <ListGroup style={{ marginTop: '40px' }}>
-        {channels.map(channel => (
-          <div
-            key={channel.id}
-            className={`channel-item d-flex justify-content-between align-items-center list-group-item ${channel.id === currentChannel?.id ? 'active' : ''}`}
-            onClick={() => dispatch(setCurrentChannel(channel.id))}
-            style={{
-              backgroundColor: channel.id === currentChannel?.id ? '#4682B4' : '#f8f9fa',
-              color: channel.id === currentChannel?.id ? '#fff' : '#333',
-              //исправление конфликта стилей
-              borderWidth: '1px',
-              borderStyle: 'solid',
-              borderColor: 'rgba(0,0,0,.125)',
-              borderLeftWidth: '4px',
-              borderLeftStyle: 'solid',
-              borderLeftColor: channel.id === currentChannel?.id ? '#4682B4' : 'transparent',
+  {channels.map((channel) => (
+    <div
+      key={channel.id}
+      className={`channel-item d-flex justify-content-between align-items-center list-group-item ${channel.id === currentChannel?.id ? 'active' : ''}`}
+      onClick={() => dispatch(setCurrentChannel(channel.id))}
+      style={{
+        backgroundColor: channel.id === currentChannel?.id ? '#4682B4' : '#f8f9fa',
+        color: channel.id === currentChannel?.id ? '#fff' : '#333',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'rgba(0,0,0,.125)',
+        borderLeftWidth: '4px',
+        borderLeftStyle: 'solid',
+        borderLeftColor: channel.id === currentChannel?.id ? '#4682B4' : 'transparent',
+        transition: 'all 0.3s ease',
+        cursor: 'pointer',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '0.75rem 1.25rem',
+        marginBottom: '-1px',
+        border: '1px solid rgba(0,0,0,.125)'
+      }}
+    >
+      <div className="d-flex align-items-center">
+        # {channel.name}
+      </div>
 
-              transition: 'all 0.3s ease',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '0.75rem 1.25rem',
-              marginBottom: '-1px',
-              border: '1px solid rgba(0,0,0,.125)'
+      {channel.name !== 'general' && channel.name !== 'random' && (
+        <Dropdown onClick={(e) => e.stopPropagation()}>
+          <Dropdown.Toggle
+            as={Button}
+            variant="link"
+            id={`dropdown-actions-${channel.id}`}
+            className="p-0 text-muted"
+            style={{
+              color: channel.id === currentChannel?.id ? 'rgba(255,255,255,0.7)' : '#6c757d',
+              background: 'none',
+              border: 'none',
+              boxShadow: 'none'
             }}
           >
-            <div className="d-flex align-items-center">
-              # {channel.name}
-            </div>
+            <i className="bi bi-three-dots-vertical"></i>
+          </Dropdown.Toggle>
 
-          
-          {channel.name !== 'general' && channel.name !== 'random' && ( //условие для дропдовнменю
-            <Dropdown onClick={(e) => e.stopPropagation()}>
-              <Dropdown.Toggle 
-                as={Button} 
-                variant="link" 
-                id={`dropdown-actions-${channel.id}`}
-                className="p-0 text-muted"
-                style={{
-                  color: channel.id === currentChannel?.id ? 'rgba(255,255,255,0.7)' : '#6c757d',
-                  background: 'none',
-                  border: 'none',
-                  boxShadow: 'none'
-                }}
-              >
-                <i className="bi bi-three-dots-vertical"></i>
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleRename(channel.id)}>
-                  <i className="bi bi-pencil me-2"></i>
-                  {t("Переименовать")}
-                </Dropdown.Item>
-                <Dropdown.Item 
-                  onClick={() => handleDelete(channel.id)}
-                  className="text-danger"
-                >
-                  <i className="bi bi-trash me-2"></i>
-                  {t("Удалить")}
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          )}
-          </div>
-        ))}
-      </ListGroup>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleRename(channel.id)}>
+              <i className="bi bi-pencil me-2"></i>
+              {t("Переименовать")}
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => handleDelete(channel.id)}
+              className="text-danger"
+            >
+              <i className="bi bi-trash me-2"></i>
+              {t("Удалить")}
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
+    </div>
+  ))}
+</ListGroup>
 
       <RenameChannelModal 
         show={showRenameModal}

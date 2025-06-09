@@ -77,7 +77,7 @@ function RegisterPage() {
                 localStorage.setItem('user', JSON.stringify(userInfo));
 
                 toast.success(t('Регистрация и вход выполнены!'));
-                navigate('/'); // Перенаправляем в корневой
+                navigate('/chat'); // Перенаправляем в корневой
 
             } catch (err) {
                 if (isMounted) {
@@ -219,7 +219,7 @@ function RegisterPage() {
                                                 onMouseUp={() => setIsButtonPressed(false)}
                                                 onMouseLeave={() => setIsButtonPressed(false)}
                                             >
-                                                {formik.isSubmitting ? t('Регистрация...') : t('Зарегистрироваться')}
+                                                {formik.isSubmitting ? t('Регистрация...') : t('Регистрация')}
                                             </Button>
                                         </div>
 

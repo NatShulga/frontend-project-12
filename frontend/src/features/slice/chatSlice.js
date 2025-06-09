@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import defaultChannel from '../../components/Chat/defaultChannel';
 
 // Функции для работы с localStorage
 const CHAT_STORAGE_KEY = 'chatState';
@@ -65,6 +66,7 @@ export const chatSlice = createSlice({
         id: Date.now(),
         name: action.payload,
         unread: 0,
+        removable: true
       };
       state.channels.push(newChannel);
       saveChatState(state);
@@ -139,6 +141,11 @@ export const chatSlice = createSlice({
     },
   },
 });
+
+export const selectIsChannelRemovable = (channelId) => (state) => {
+  const channel = state.chat.channels.find(c => c.id === channelId);
+  return channel ? channel.removable : false;
+};
 
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
 export const selectAllChannels = (state) => state?.chat?.channels || [];
