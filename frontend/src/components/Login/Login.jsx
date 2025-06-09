@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Route } from 'react-router-dom';
 import { Button, Form, Alert, Container, Row, Col, Card } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -65,7 +65,7 @@ function LoginPage() {
 
                 toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
-                navigate('/chat');
+                navigate('/');
             } catch (err) {
                 const errorMessage = err.response?.data?.message || err.message || t('Ошибка сервера')
                 setError(errorMessage);

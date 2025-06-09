@@ -36,6 +36,6 @@ npm install
 
   ~  Start the frontend and backend servers:
 
-npm start-server
+npm start
 
 

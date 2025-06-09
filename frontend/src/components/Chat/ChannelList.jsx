@@ -110,6 +110,8 @@ const ChannelList = () => {
               # {channel.name}
             </div>
 
+          
+          {channel.name !== 'general' && channel.name !== 'random' && ( //условие для дропдовнменю
             <Dropdown onClick={(e) => e.stopPropagation()}>
               <Dropdown.Toggle 
                 as={Button} 
@@ -140,6 +142,7 @@ const ChannelList = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+          )}
           </div>
         ))}
       </ListGroup>

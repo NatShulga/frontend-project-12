@@ -16,7 +16,7 @@ const ChatPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [authChecked, setAuthChecked] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);//убираем связаное состояние
   const [messages, setMessages] = useState([]);
   
   
@@ -24,6 +24,7 @@ const ChatPage = () => {
   const username = useSelector(state => state.auth.username); 
   const socketRef = useRef(null);
 
+  //проверка авторизации перенесена в мейн
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
