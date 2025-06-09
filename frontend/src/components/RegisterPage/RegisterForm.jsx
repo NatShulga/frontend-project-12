@@ -67,7 +67,7 @@ function RegisterPage() {
                 });
 
                 //обрабатываетсяп олученый токен
-                const receivedToken = loginResponse.data.token || loginResponse.data.access_toke;
+                const receivedToken = loginResponse.data.token || loginResponse.data.access_token;
                 const userInfo = loginResponse.data.user || {};
 
                 if (!receivedToken) throw new Error('Токен не получен');
@@ -96,15 +96,17 @@ function RegisterPage() {
     });
 
     useEffect(() => {
-        const clearInputs = () => {
-            document.querySelectorAll('input').forEach(input => {
-                input.value = '';
-            });
-        };
+        setIsMounted(true);
+        formik.setValues(initialFormValues, false);
         
-        const timer = setTimeout(clearInputs, 100);
-        return () => clearTimeout(timer);
-        //return () => setIsMounted(false);
+        if (typeof window !== 'undefined') {
+            setTimeout(() => {
+                document.querySelectorAll('input').forEach(input => {
+                    input.value = '';
+                });
+            }, 100);
+        }
+        return () => setIsMounted(false);
     }, []);
 
     return (

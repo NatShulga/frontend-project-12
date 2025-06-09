@@ -65,7 +65,7 @@ function LoginPage() {
 
                 toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
-                navigate('/');
+                navigate('/chat');
             } catch (err) {
                 const errorMessage = err.response?.data?.message || err.message || t('Ошибка сервера')
                 setError(errorMessage);
@@ -84,7 +84,7 @@ function LoginPage() {
                 headers: { Authorization: `Bearer ${storedToken}` }
             })
             .then(() => {
-                navigate('/'); // Если токен валиден - перенаправляем 
+                navigate('/chat'); // Если токен валиден - перенаправляем
             })
             .catch(() => {
                 localStorage.removeItem('token'); // Если не валиден - чистим
