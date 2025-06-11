@@ -200,7 +200,7 @@ function LoginPage() {
                                 <div className="text-center mt-3">
                                     <span className="text-muted">{t("Нет аккаунта?")}</span>
                                     <Link 
-                                        to="/register" 
+                                        to="/signup" 
                                         className="auth-link text-decoration-none" 
                                         style={{ 
                                             color: '#eec111', 
