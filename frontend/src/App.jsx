@@ -38,12 +38,11 @@ const AppContent = () => {
                         <ChatPage />
                     </>
                 } />
-                <Route path="/chat-component" element={<ChatComponent />} />
+                <Route path="/chat" element={<ChatComponent />} />
                 {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
-
-        </Router>
+          </Router>
     );
 };
 

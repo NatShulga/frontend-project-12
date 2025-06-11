@@ -1,24 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import { useSelector } from 'react-redux';
+import { selectChatResetFlag } from './authSlice'; // Убедитесь, что путь правильный
 
 class ChatWebSocket {
     constructor(url, onMessage) {
-        //обработка ошибок
         this.socket = new WebSocket(url);
+        
         this.socket.onerror = (error) => {
             console.error('WebSocket error:', error);
         };
+        
+        this.socket.onopen = () => {
+            console.log('WebSocket connected');
+        };
+        
         this.socket.onmessage = (event) => {
             try {
-                onMessage(JSON.parse(event.data));
+                const data = JSON.parse(event.data);
+                onMessage(data);
             } catch (err) {
                 console.error('Message parsing error:', err);
             }
         };
     }
+    
     send(message) {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify(message));
+        } else {
+            console.warn('WebSocket is not open');
         }
     }
 
@@ -29,48 +39,56 @@ class ChatWebSocket {
     }
 }
 
-
 const ChatComponent = () => {
-  const [text, setText] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [isConnected, setIsConnected] = useState(false);
-  const wsRef = useRef(null);
+    const [text, setText] = useState('');
+    const [messages, setMessages] = useState([]);
+    const [isConnected, setIsConnected] = useState(false);
+    const wsRef = useRef(null);
+    const resetFlag = useSelector(selectChatResetFlag);
+    const username = useSelector(state => state.auth.username); // Добавлено получение username
 
-  useEffect(() => {
-    wsRef.current = new ChatWebSocket(
-      'wss://localhost:5000/chat',
-      (newMessage) => {
-        setMessages(prev => [...prev, newMessage]);
-      }
+    useEffect(() => {
+        // Инициализация WebSocket
+        wsRef.current = new ChatWebSocket('ws://your-websocket-url', (message) => {
+            setMessages(prev => [...prev, message]);
+            setIsConnected(true);
+        });
+
+        return () => {
+            if (wsRef.current) {
+                wsRef.current.close();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (resetFlag) {
+            setMessages([]);
+        }
+    }, [resetFlag]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!text.trim()) return;
+
+        const message = {
+            id: Date.now(),
+            text: text,
+            timestamp: new Date().toISOString(),
+            username: username // Используем реальное имя пользователя
+        };
+
+        if (wsRef.current) {
+            wsRef.current.send(message);
+        }
+        setText('');
+    };
+
+    return (
+        <div style={{ /* ваши стили */ }}>
+
+        </div>
     );
-
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!text.trim()) return;
-
-    const message = {
-      id: Date.now(),
-      text: text,
-      timestamp: new Date().toISOString(),
-      username: 'username'
-    };
-
-    wsRef.current.send(message);
-    setText('');
-  };
-
-  return (
-    <div style={{ }}>
-    
-    </div>
-  );
 };
 
 export default ChatComponent;

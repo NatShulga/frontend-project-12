@@ -6,10 +6,10 @@ const ChatContainer = ({ }) => {
   const dispatch = useDispatch();
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
 
-  const handleSendMessage = ({ text, sender }) => {
+  const handleSendMessage = ({ text, username }) => {
     dispatch(addMessage({
       text,
-      sender,
+      username,
       channelId: currentChannelId,
     }));
   };

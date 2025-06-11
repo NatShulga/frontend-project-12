@@ -2,17 +2,22 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify'; 
+import { useDispatch } from 'react-redux';
 
 const navBar = () => {
     const { t } = useTranslation();
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-
-    const logout = () => {
+  
+    const logout = async () => {
         try {
-          localStorage.removeItem("token"); // Удаляем только токен
+          await dispatch(resetStore());
+          localStorage.removeItem('token');
         navigate("/login");
+        toast.success(t("Вы успешно вышли"));
         } catch (error) {
         console.error("Ошибка при выходе:", error);
         }

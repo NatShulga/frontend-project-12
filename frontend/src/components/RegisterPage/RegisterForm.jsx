@@ -77,7 +77,7 @@ function RegisterPage() {
                 localStorage.setItem('user', JSON.stringify(userInfo));
 
                 toast.success(t('Регистрация и вход выполнены!'));
-                navigate('/chat'); // Перенаправляем в корневой
+                navigate('/'); // Перенаправляем в корневой
 
             } catch (err) {
                 if (isMounted) {
@@ -96,18 +96,9 @@ function RegisterPage() {
     });
 
     useEffect(() => {
-        setIsMounted(true);
-        formik.setValues(initialFormValues, false);
-        
-        if (typeof window !== 'undefined') {
-            setTimeout(() => {
-                document.querySelectorAll('input').forEach(input => {
-                    input.value = '';
-                });
-            }, 100);
-        }
-        return () => setIsMounted(false);
-    }, []);
+    setIsMounted(true);
+    return () => setIsMounted(false);
+}, []);
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
