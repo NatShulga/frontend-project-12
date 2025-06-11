@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectChatResetFlag } from './authSlice'; // Убедитесь, что путь правильный
+import { selectChatResetFlag } from '../../features/authSlice';
 
 class ChatWebSocket {
     constructor(url, onMessage) {
