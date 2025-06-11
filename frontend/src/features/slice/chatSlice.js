@@ -70,6 +70,9 @@ export const chatSlice = createSlice({
       };
       state.channels.push(newChannel);
       saveChatState(state);
+    }, 
+    resetMessages: (state) => {
+      state.messages = [];
     },
     
     setCurrentChannel: (state, action) => {
@@ -154,6 +157,8 @@ export const selectCurrentChannel = (state) => {
   const currentChannelId = state?.chat?.currentChannelId;
   return selectAllChannels(state).find(c => c.id === currentChannelId) || null;
 };
+
+export const selectAllMessages = (state) => state.chat.messages;
 
 export const selectCurrentMessages = (state) => {
   const messages = state?.chat?.messages?.data || [];

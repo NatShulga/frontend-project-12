@@ -32,7 +32,7 @@ const AppContent = () => {
             <Routes>
               
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/signup" element={<RegisterPage />} />
                 <Route path="/" element={
                     <>
                         <ChatPage />

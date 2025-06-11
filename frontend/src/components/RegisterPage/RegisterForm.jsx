@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFormik } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
@@ -10,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoginProsses from '@/assets/LoginProsses.jpg';
 
 function RegisterPage() {
+    const location = useLocation();
+        console.log(location.pathname);
     const {t} = useTranslation();
     const navigate = useNavigate();
     const [error, setError] = useState('');
