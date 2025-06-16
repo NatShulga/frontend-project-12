@@ -1,66 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-//аутентификация пользователя
-// Функция для безопасной загрузки текущего состояния авторизации
 const loadInitialAuthState = () => {
   const token = localStorage.getItem('token');
   const username = localStorage.getItem('username');
-  //const dispatch = resetChat();
+
   return {
     token,
-    username: username || null, //null, если данных нет
-    isAuthenticated: !!token, //авторизован если есть токен
-    chatResetFlag: false // Флаг для сброса чата
+    username: username || null,
+    isAuthenticated: !!token,
+    chatResetFlag: false
   };
 };
 
-// хранение данных авторизации
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: loadInitialAuthState(), // Загружаем начальное состояние
+  initialState: loadInitialAuthState(),
   reducers: {
-    // Установка нового токена и данных пользователя
     setAuthToken: (state, action) => {
       const { token, username } = action.payload;
       state.token = token;
       state.isAuthenticated = true;
       state.username = username;
-      state.chatResetFlag = false; // Сбрасываем флаг при новой авторизации
+      state.chatResetFlag = false;
 
-      // Сохраняем токен и профиль пользователя в localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('username', username);
     },
-    resetChat: () => initialState,
-    
 
-    // Удаление токена и данных пользователя
-    clearAuthToken: (state) => {
-      state.token = null;
-      state.username = null;
-      state.isAuthenticated = false;
-
-      // Удаляем сохраненные данные из localStorage
-      localStorage.clear();
-      //localStorage.removeItem('token');
-      //localStorage.removeItem('username');
-    },
-
-    //Сброс только состояния чата
+    // Сброс только чата (без выхода)
     softReset: (state) => {
-      state.chatResetFlag = true; // Устанавливаем флаг для сброса чата
-      // Токен и username остаются!
+      state.chatResetFlag = true;
     },
 
-    //полный сброс
-    hardReset: (state) => {
+    // Полный выход с очисткой чата
+    logout: (state) => {
       state.token = null;
       state.username = null;
       state.isAuthenticated = false;
-      state.chatResetFlag = true;
+      state.chatResetFlag = true; // Флаг для очистки чата
       
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
+      // Полная очистка localStorage
+      localStorage.clear();
     },
 
     restoreAuth: (state) => {
@@ -73,8 +53,16 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setAuthToken, softReset,  hardReset, restoreAuth } = authSlice.actions;
+// Экспорт действий
+export const { 
+  setAuthToken, 
+  softReset,
+  logout,  // Заменили hardReset на более понятное название
+  restoreAuth 
+} = authSlice.actions;
 
+// Селекторы
 export const selectChatResetFlag = (state) => state.auth.chatResetFlag;
+export const selectAuthState = (state) => state.auth;
 
 export default authSlice.reducer;

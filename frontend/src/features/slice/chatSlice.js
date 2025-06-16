@@ -1,39 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import defaultChannel from '../../components/Chat/defaultChannel';
 
-// Функции для работы с localStorage
-const CHAT_STORAGE_KEY = 'chatState';
-
-const loadChatState = () => {
-  try {
-    const saved = localStorage.getItem(CHAT_STORAGE_KEY);
-    return saved ? JSON.parse(saved) : null;
-  } catch (e) {
-    console.error('Failed to load chat state', e);
-    return null;
-  }
-};
-
-const saveChatState = (state) => {
-  try {
-    const dataToSave = {
-      messages: state.messages.data,
-      channels: state.channels,
-      currentChannelId: state.currentChannelId
-    };
-    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(dataToSave));
-  } catch (e) {
-    console.error('Failed to save chat state', e);
-  }
-};
-
-const clearChatStorage = () => {
-  localStorage.removeItem(CHAT_STORAGE_KEY);
-};
-
-// Загружаем начальное состояние из localStorage
-const savedState = loadChatState();
-
 const initialState = {
   channels: [
     { id: 1, name: 'general', unread: 0 },
@@ -48,18 +15,17 @@ const initialState = {
 };
 
 // Состояние загруженния и состояние с initialState
-const combinedInitialState = {
-  ...initialState,
-  ...savedState,
-  messages: {
-    ...initialState.messages,
-    data: savedState?.messages || initialState.messages.data
-  }
-};
+//const combinedInitialState = {
+  //...initialState,
+  //messages: {
+    //...initialState.messages,
+    //data: savedState?.messages || initialState.messages.data
+  //}
+//};
 
 export const chatSlice = createSlice({
   name: 'chat',
-  initialState: combinedInitialState,
+  initialState,
   reducers: {
     addChannel: (state, action) => {
       const newChannel = {
@@ -69,7 +35,6 @@ export const chatSlice = createSlice({
         removable: true
       };
       state.channels.push(newChannel);
-      saveChatState(state);
     }, 
     resetMessages: (state) => {
       state.messages = [];
@@ -82,7 +47,6 @@ export const chatSlice = createSlice({
       if (channel) {
         channel.unread = 0;
       }
-      saveChatState(state);
     },
     
     addMessage: (state, action) => {
@@ -103,7 +67,6 @@ export const chatSlice = createSlice({
           }
         });
       }
-    saveChatState(state);
     },
     
     clearMessages: (state) => {
@@ -112,10 +75,11 @@ export const chatSlice = createSlice({
     },
     
     resetChatState: (state) => {
-      clearChatStorage();
-      state.messages.data = [];
-      state.currentChannelId = 1;
-      state.channels = initialState.channels;
+      return initialState;
+      //clearChatStorage();
+      //state.messages.data = [];
+      //state.currentChannelId = 1;
+      //state.channels = initialState.channels;
     },
 
     removeChannel: (state, action) => {
@@ -129,7 +93,6 @@ export const chatSlice = createSlice({
       if (state.currentChannelId === channelId) {
         state.currentChannelId = 1;
       }
-      saveChatState(state);
     },
 
     renameChannel: (state, action) => {
@@ -138,9 +101,9 @@ export const chatSlice = createSlice({
       const channel = state.channels.find(ch => ch.id === id);
       
       if (channel) {
-        channel.name = String(name);
+        channel.name = name.trim();
       }
-      saveChatState(state);
+      //saveChatState(state);
     },
   },
 });
