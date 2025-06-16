@@ -20,19 +20,6 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    rollupOptions: {
-      external: [
-        'leo-profanity',
-        'i18next',
-        'react-i18next',
-        'i18next-browser-languagedetector',
-        'i18next-http-backend',
-        'react-toastify',
-        'react-toastify/dist/ReactToastify.css'
-      ]
-    }
-  },
   resolve: {
     alias: {
       '@': '/src'
