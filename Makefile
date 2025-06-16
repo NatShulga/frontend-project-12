@@ -5,7 +5,7 @@ build:
 	make install && npm run build
 
 start:
-	npm run start
+	npx start-server -s ./frontend/dist
 
 build-frontend-and-start:
 	npm ci && npm run build && make start

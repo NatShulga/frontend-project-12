@@ -1,7 +1,7 @@
 install:
 	npm ci
 
-start:
+start: 
 	npx start-server -s ./frontend/dist
 
 build:
