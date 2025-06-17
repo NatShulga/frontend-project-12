@@ -7,7 +7,7 @@ import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
 import RenameChannelModal from '../Modals/RenameChannelModal';
 import DeleteChannelModal from '../Modals/DeleteChannelModal';
-import defaultChannel from './defaultChannel';
+
 
 const ChannelList = () => {
   const dispatch = useDispatch();
