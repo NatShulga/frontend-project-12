@@ -82,7 +82,7 @@ const ChannelList = () => {
       
       <ListGroup style={{ marginTop: '40px' }}>
   {channels.map((channel) => (
-    <div
+    <button
       key={channel.id}
       className={`channel-item d-flex justify-content-between align-items-center list-group-item ${channel.id === currentChannel?.id ? 'active' : ''}`}
       onClick={() => dispatch(setCurrentChannel(channel.id))}
@@ -141,7 +141,7 @@ const ChannelList = () => {
           </Dropdown.Menu>
         </Dropdown>
       )}
-    </div>
+    </button>
   ))}
 </ListGroup>
 
