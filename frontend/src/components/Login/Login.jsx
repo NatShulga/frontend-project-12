@@ -138,7 +138,9 @@ function LoginPage() {
                                 </div>
                                 
                                 <Form.Group className="mb-4">
+                                    <Form.Label htmlFor="username">{t("Ваш ник")}</Form.Label>
                                     <Form.Control
+                                        id= "username"
                                         type="text"
                                         name="username"
                                         placeholder={t("Ваш ник")}
@@ -155,7 +157,9 @@ function LoginPage() {
                                 </Form.Group>
 
                                 <Form.Group className="mb-4">
+                                    <Form.Label htmlFor="password">{t("Пароль")}</Form.Label>
                                     <Form.Control
+                                        id= "password"
                                         type="password"
                                         name="password"
                                         placeholder={t("Пароль")}

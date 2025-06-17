@@ -130,7 +130,9 @@ function RegisterPage() {
                                         <Form.Group className="mb-3">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
+                                                    <Form.Label htmlFor="username">{t("Имя пользователя")}</Form.Label>
                                                     <Form.Control
+                                                        id= "username"
                                                         type="text"
                                                         name="username"
                                                         placeholder={t("Имя пользователя")}
@@ -152,7 +154,9 @@ function RegisterPage() {
                                         <Form.Group className="mb-3">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
+                                                    <Form.Label htmlFor="password">{t("Пароль")}</Form.Label>
                                                     <Form.Control
+                                                        id= "password"
                                                         type="password"
                                                         name="password"
                                                         placeholder={t("Пароль")}
@@ -174,7 +178,9 @@ function RegisterPage() {
                                         <Form.Group className="mb-4">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
+                                                    <Form.Label htmlFor="confirmPassword">{t("Подтвердите пароль")}</Form.Label>
                                                     <Form.Control
+                                                        id= "confirmPassword"
                                                         type="password"
                                                         name="confirmPassword"
                                                         placeholder={t("Подтвердите пароль")}
@@ -212,6 +218,7 @@ function RegisterPage() {
                                                 onMouseDown={() => setIsButtonPressed(true)}
                                                 onMouseUp={() => setIsButtonPressed(false)}
                                                 onMouseLeave={() => setIsButtonPressed(false)}
+                                                aria-label={t('Регистрация')}
                                             >
                                                 {formik.isSubmitting ? t('Регистрация...') : t('Регистрация')}
                                             </Button>

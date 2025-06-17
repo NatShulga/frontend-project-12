@@ -32,7 +32,9 @@ const MessageInput = ({ }) => {
       }}>
         <Form onSubmit={handleSubmit}>
           <InputGroup>
+          <Form.Label htmlFor="messageInput" className="visually-hidden">{t("Введите сообщение")}</Form.Label>
             <Form.Control
+            id="messageInput"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={t("Введите сообщение...")}
