@@ -136,9 +136,10 @@ function LoginPage() {
                                         />
                                     </Col>
                                 </div>
-                                
-                                <Form.Group className="mb-4">
-                                    <Form.Label htmlFor="username">{t("Ваш ник")}</Form.Label>
+
+                                <div className="mb-1">
+                                    <Form.Group className="mb-1">
+                                    <Form.Label htmlFor="username">{t("")}</Form.Label>
                                     <Form.Control
                                         id= "username"
                                         type="text"
@@ -173,8 +174,8 @@ function LoginPage() {
                                         }}
                                         autoComplete="new-password"
                                     />
-                                </Form.Group>
-                                
+                                    </Form.Group>
+                                </div>
                                 <div className="d-flex justify-content-end">
                                 <Button 
                                     variant="primary" 

@@ -127,10 +127,10 @@ function RegisterPage() {
                                     {error && <Alert variant="danger" className="text-center">{error}</Alert>}
                                     
                                     <Form onSubmit={formik.handleSubmit}>
-                                        <Form.Group className="mb-3">
+                                        <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="username">{t("Имя пользователя")}</Form.Label>
+                                                    <Form.Label htmlFor="username">{t("")}</Form.Label>
                                                     <Form.Control
                                                         id= "username"
                                                         type="text"
@@ -151,10 +151,10 @@ function RegisterPage() {
                                             </div>
                                         </Form.Group>
 
-                                        <Form.Group className="mb-3">
+                                        <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="password">{t("Пароль")}</Form.Label>
+                                                    <Form.Label htmlFor="password">{t("")}</Form.Label>
                                                     <Form.Control
                                                         id= "password"
                                                         type="password"
@@ -178,7 +178,7 @@ function RegisterPage() {
                                         <Form.Group className="mb-4">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="confirmPassword">{t("Подтвердите пароль")}</Form.Label>
+                                                    <Form.Label htmlFor="confirmPassword">{t("")}</Form.Label>
                                                     <Form.Control
                                                         id= "confirmPassword"
                                                         type="password"
@@ -203,7 +203,7 @@ function RegisterPage() {
                                             <Button 
                                                 variant="primary" 
                                                 type="submit" 
-                                                className="py-2 mb-3"
+                                                className="py-2 mb-4"
                                                 style={{ 
                                                     backgroundColor: '#eec111', 
                                                     border: 'none',
