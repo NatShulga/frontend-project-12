@@ -157,7 +157,7 @@ function LoginPage() {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-4">
+                                <Form.Group className="mb-4" style={{ marginTop: '-8px' }}>
                                     <Form.Label htmlFor="password">{t("Пароль")}</Form.Label>
                                     <Form.Control
                                         id= "password"
@@ -166,7 +166,7 @@ function LoginPage() {
                                         placeholder={t("Пароль")}
                                         onChange={formik.handleChange}
                                         value={formik.values.password}
-                                        className="py-2"
+                                        className="py-0,2"
                                         style={{ 
                                             maxWidth: '250px',
                                             marginLeft: 'auto',

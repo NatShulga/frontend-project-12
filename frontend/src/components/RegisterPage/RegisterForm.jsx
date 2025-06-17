@@ -119,9 +119,9 @@ function RegisterPage() {
                                     />
                                 </Col>
                                 <div style={{ flex: 1 }}>
-                                    <div className="text-center mb-4">
+                                    <div className="text-center mb-0,5">
                                         <h2 className="fw-bold">{t("Регистрация")}</h2>
-                                        <p className="text-muted">{t("Создайте новый аккаунт")}</p>
+                                        <p className="text-muted">{t("")}</p>
                                     </div>
                                     
                                     {error && <Alert variant="danger" className="text-center">{error}</Alert>}
@@ -224,7 +224,7 @@ function RegisterPage() {
                                             </Button>
                                         </div>
 
-                                        <div className="text-center mt-3">
+                                        <div className="text-center mt-1">
                                             <span className="text-muted">{t("Уже есть аккаунт?")} </span>
                                             <Link 
                                                 to="/login" 
