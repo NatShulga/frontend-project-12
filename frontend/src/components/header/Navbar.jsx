@@ -12,7 +12,7 @@ const navBar = () => {
     const logout = () => {
         try {
           localStorage.removeItem("token"); // Удаляем только токен
-        navigate("/login, /signup");
+        navigate("/login");
         } catch (error) {
         console.error("Ошибка при выходе:", error);
         }
