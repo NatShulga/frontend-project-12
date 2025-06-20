@@ -45,7 +45,7 @@ export const chatSlice = createSlice({
     addChannel: (state, action) => {
       const newChannel = {
         id: Date.now(),
-        name: action.payload.name,
+        name:  action.payload,
         unread: 0,
         removable: true,
         creator: action.payload.creator // Сохраняем создателя канала
