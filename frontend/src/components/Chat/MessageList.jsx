@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentMessages } from '../../features/slice/chatSlice';
+import { selectCurrentMessages, selectMessagesLoading, selectMessagesError  } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
 import ProfanityFilter from 'leo-profanity';
@@ -13,17 +13,20 @@ const cleanText = (text) => {
 const MessageList = () => {
   const { t } = useTranslation();
   const messages = useSelector(selectCurrentMessages);
+  const isLoading = useSelector(selectMessagesLoading);
+  const error = useSelector(selectMessagesError);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
   const username = useSelector((state) => state.auth.username);
 
   //отладка, проверка загруженных сообщений
   useEffect(() => {
     console.log('Текущие сообщения:', messages);
-  }, [messages]);
+    console.log('Текущий channelId:', currentChannelId);
+  }, [messages, currentChannelId]);
 
-  const filteredMessages = messages.filter(
-    message => message.channelId === currentChannelId
-  );
+  const filteredMessages = Array.isArray(messages) 
+    ? messages.filter(message => message.channelId === currentChannelId)
+    : [];
 
   return (
   <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>
@@ -64,7 +67,7 @@ const MessageList = () => {
           {filteredMessages.map(message => {
             // Проверка, является ли автор сообщения текущим пользователем, упрощенная
             const isCurrentUser = username === message.username;
-            const displayName = isCurrentUser ? t('Вы') : cleanText(message.username);
+            const displayName = cleanText(message.username);
             
             return (
               <div 
