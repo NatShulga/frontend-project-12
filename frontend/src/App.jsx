@@ -26,7 +26,7 @@ const AppContent = () => {
 }, [authState]);
     
     return (
-        <Router>
+        <Router basename="/">
             <Navbar />
             <ToastContainer position="top-right" autoClose={3000} />
             <Routes>
