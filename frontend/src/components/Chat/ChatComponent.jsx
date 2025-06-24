@@ -49,7 +49,7 @@ const ChatComponent = () => {
 
     useEffect(() => {
         // Инициализация WebSocket
-        wsRef.current = new ChatWebSocket('ws://your-websocket-url', (message) => {
+        wsRef.current = new ChatWebSocket('wss://your-websocket-url', (message) => {
             setMessages(prev => [...prev, message]);
             setIsConnected(true);
         });
