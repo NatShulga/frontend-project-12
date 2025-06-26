@@ -79,6 +79,8 @@ function RegisterPage() {
                 localStorage.setItem('token', receivedToken);
                 localStorage.setItem('user', JSON.stringify(userInfo));
 
+                dispatch({ type: 'LOGIN_SUCCESS', payload: userInfo });
+
                 toast.success(t('Регистрация и вход выполнены!'));
                 navigate('/'); // Перенаправляем в корневой
 
