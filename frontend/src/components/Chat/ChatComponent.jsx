@@ -48,20 +48,6 @@ const ChatComponent = () => {
     const username = useSelector(state => state.auth.username); // Добавлено получение username
 
     useEffect(() => {
-        // Инициализация WebSocket
-        wsRef.current = new ChatWebSocket('wss://your-websocket-url', (message) => {
-            setMessages(prev => [...prev, message]);
-            setIsConnected(true);
-        });
-
-        return () => {
-            if (wsRef.current) {
-                wsRef.current.close();
-            }
-        };
-    }, []);
-
-    useEffect(() => {
         if (resetFlag) {
             setMessages([]);
         }
@@ -85,7 +71,7 @@ const ChatComponent = () => {
     };
 
     return (
-        <div style={{ /* ваши стили */ }}>
+        <div style={{ }}>
 
         </div>
     );
