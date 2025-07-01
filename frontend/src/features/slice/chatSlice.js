@@ -1,40 +1,56 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-// Функция для загрузки сохраненного состояния
-const loadSavedState = () => {
-  try {
-    const savedState = localStorage.getItem('chatState');
-    return savedState ? JSON.parse(savedState) : null;
-  } catch (e) {
-    console.error('Failed to parse saved state', e);
-    return null;
-  }
-};
 
-// Функция для сохранения состояния в localStorage
-const saveState = (state) => {
-  try {
-    const stateToSave = {
-      messages: state.messages,
-      channels: state.channels,
-      currentChannelId: state.currentChannelId
-    };
-    localStorage.setItem('chatState', JSON.stringify(stateToSave));
-  } catch (e) {
-    console.error('Failed to save state', e);
+export const fetchChannels = createAsyncThunk(
+  'channels/fetchChannels',
+  async (_, { getState }) => {
+    const { token } = getState().auth;
+    const response = await axios.get('/api/v1/channels', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
   }
-};
+);
+
+export const fetchMessages = createAsyncThunk(
+  'messages/fetchMessages',
+  async (_, { getState }) => {
+    const { token } = getState().auth;
+    const response = await axios.get('/api/v1/messages', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  }
+);
+
+export const sendMessage = createAsyncThunk(
+  'chat/sendMessage',
+  async ({ body, channelId, username }, { getState }) => {
+    const { token } = getState().auth;
+    const response = await axios.post('/api/v1/messages', 
+      { body, channelId, username },
+      { headers: { Authorization: `Bearer ${token}` }
+  });
+    return response.data;
+  }
+);
+
 
 const initialState = {
-  channels: [
-    { id: 1, name: 'general', unread: 0, removable: false },
-    { id: 2, name: 'random', unread: 3, removable: false },
-  ],
+  channels: {
+    loading: false,
+    error: null,
+    data: [
+      { id: 1, name: 'general', removable: false },
+      { id: 2, name: 'random', removable: false }
+    ],
+  },
   currentChannelId: 1,
   messages: {
     loading: false,
     error: null,
-    data: loadSavedState()?.messages.data || [], // Загружаем сохраненные сообщения
+    data: [],
   }
 };
 
@@ -45,22 +61,16 @@ export const chatSlice = createSlice({
     addChannel: (state, action) => {
       const newChannel = {
         id: Date.now(),
-        name:  action.payload,
-        unread: 0,
+        name: action.payload,
         removable: true,
-        creator: action.payload.creator // Сохраняем создателя канала
+        creator: action.payload.creator
       };
-      state.channels.push(newChannel);
-      saveState(state); // Сохраняем состояние
+      state.channels.data.push(newChannel);
     },
     
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload;
-      const channel = state.channels.find(c => c.id === action.payload);
-      if (channel) {
-        channel.unread = 0;
-      }
-      saveState(state); // Сохраняем состояние
+    
     },
     
     addMessage: (state, action) => {
@@ -68,39 +78,29 @@ export const chatSlice = createSlice({
         ...action.payload,
         id: Date.now(),
         timestamp: new Date().toISOString(),
-        user: action.payload.user // Сохраняем информацию о пользователе
+        user: action.payload.user
       };
       state.messages.data.push(newMessage);
       
-      // Обновляем счетчик непрочитанных для канала (кроме текущего)
-      if (action.payload.channelId !== state.currentChannelId) {
-        const channel = state.channels.find(c => c.id === action.payload.channelId);
-        if (channel) channel.unread += 1;
-      }
-      
-      saveState(state); // Сохраняем состояние
     },
     
     clearMessages: (state) => {
       state.messages.data = [];
-      saveState(state); // Сохраняем состояние
     },
     
     resetChatState: (state) => {
-      // Сохраняем только сообщения при сбросе
-      const savedMessages = state.messages.data;
       return {
         ...initialState,
         messages: {
           ...initialState.messages,
-          data: savedMessages
+          data: state.messages.data
         }
       };
     },
 
     removeChannel: (state, action) => {
       const channelId = action.payload;
-      state.channels = state.channels.filter(channel => channel.id !== channelId);
+      state.channels.data = state.channels.data.filter(channel => channel.id !== channelId);
       state.messages.data = state.messages.data.filter(
         message => message.channelId !== channelId
       );
@@ -108,47 +108,55 @@ export const chatSlice = createSlice({
       if (state.currentChannelId === channelId) {
         state.currentChannelId = 1;
       }
-      
-      saveState(state); // Сохраняем состояние
     },
 
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
-      const channel = state.channels.find(ch => ch.id === id);
+      const channel = state.channels.data.find(ch => ch.id === id);
       if (channel) {
         channel.name = name.trim();
       }
-      saveState(state); // Сохраняем состояние
     },
+  },
+  
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchChannels.pending, (state) => {
+        state.channels.loading = true;
+        state.channels.error = null;
+      })
+      .addCase(fetchChannels.fulfilled, (state, action) => {
+        state.channels.loading = false;
+        state.channels.data = action.payload;
+      })
+      .addCase(fetchChannels.rejected, (state, action) => {
+        state.channels.loading = false;
+        state.channels.error = action.error.message;
+      })
+      .addCase(fetchMessages.pending, (state) => {
+        state.messages.loading = true;
+        state.messages.error = null;
+      })
+      .addCase(fetchMessages.fulfilled, (state, action) => {
+        state.messages.loading = false;
+        state.messages.data = action.payload;
+      })
+      .addCase(fetchMessages.rejected, (state, action) => {
+        state.messages.loading = false;
+        state.messages.error = action.error.message;
+      });
   },
 });
 
-// Селекторы с учетом пользователей
-export const selectMessageAuthor = (messageId) => (state) => {
-  const message = state.chat.messages.data.find(m => m.id === messageId);
-  return message?.user || null;
-};
-
-export const selectChannelCreator = (channelId) => (state) => {
-  const channel = state.chat.channels.find(c => c.id === channelId);
-  return channel?.creator || null;
-};
-
-// Остальные селекторы остаются без изменений
-export const selectIsChannelRemovable = (channelId) => (state) => {
-  const channel = state.chat.channels.find(c => c.id === channelId);
-  return channel ? channel.removable : false;
-};
 
 export const selectCurrentChannelId = (state) => state.chat.currentChannelId;
-export const selectAllChannels = (state) => state?.chat?.channels || [];
-
-export const selectCurrentChannel = (state) => {
-  const currentChannelId = state?.chat?.currentChannelId;
-  return selectAllChannels(state).find(c => c.id === currentChannelId) || null;
-};
+export const selectAllChannels = (state) => state.chat.channels.data || [];
+export const selectChannelsLoading = (state) => state.chat.channels.loading;
+export const selectChannelsError = (state) => state.chat.channels.error;
 
 export const selectAllMessages = (state) => state.chat.messages.data || [];
+export const selectMessagesLoading = (state) => state.chat.messages.loading;
+export const selectMessagesError = (state) => state.chat.messages.error;
 
 export const selectCurrentMessages = (state) => {
   const messages = selectAllMessages(state);
@@ -158,8 +166,11 @@ export const selectCurrentMessages = (state) => {
     : [];
 };
 
-export const selectMessagesLoading = (state) => state.chat.messages.loading;
-export const selectMessagesError = (state) => state.chat.messages.error;
+export const selectCurrentChannel = (state) => {
+  const currentChannelId = state.chat.currentChannelId;
+  return selectAllChannels(state).find(c => c.id === currentChannelId) || null;
+};
+
 
 export const { 
   addChannel, 

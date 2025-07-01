@@ -1,32 +1,39 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { selectCurrentMessages, selectMessagesLoading, selectMessagesError  } from '../../features/slice/chatSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCurrentMessages, selectMessagesLoading, selectMessagesError, fetchMessages } from '../../features/slice/chatSlice';
 import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
 import ProfanityFilter from 'leo-profanity';
+
 
 const cleanText = (text) => {
   if (!text) return text;
   return ProfanityFilter.clean(text, '****');
 };
 
+
 const MessageList = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const messages = useSelector(selectCurrentMessages);
   const isLoading = useSelector(selectMessagesLoading);
   const error = useSelector(selectMessagesError);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
   const username = useSelector((state) => state.auth.username);
 
+
   //отладка, проверка загруженных сообщений
   useEffect(() => {
+    dispatch(fetchMessages())
     console.log('Текущие сообщения:', messages);
     console.log('Текущий channelId:', currentChannelId);
   }, [messages, currentChannelId]);
 
+
   const filteredMessages = Array.isArray(messages) 
     ? messages.filter(message => message.channelId === currentChannelId)
     : [];
+
 
   return (
   <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>

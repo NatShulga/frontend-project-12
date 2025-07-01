@@ -8,6 +8,7 @@ import { Button, Form, Alert, Container, Row, Col, Card } from 'react-bootstrap'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
 import LoginProsses from '@/assets/LoginProsses.jpg';
 
 function RegisterPage() {
@@ -15,6 +16,7 @@ function RegisterPage() {
         console.log(location.pathname);
     const {t} = useTranslation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [error, setError] = useState('');
     const [isMounted, setIsMounted] = useState(false);
     const [isButtonPressed, setIsButtonPressed] = useState(false);
@@ -57,6 +59,10 @@ function RegisterPage() {
                 await axios.post('/api/v1/signup', {
                 username: values.username,
                 password: values.password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                }
                 });
                 
                 //автоматич.вход после загрузки
