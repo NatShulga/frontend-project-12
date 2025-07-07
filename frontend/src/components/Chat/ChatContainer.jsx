@@ -15,8 +15,18 @@ const ChatContainer = ({ }) => {
   };
 
   return (
-    <div className="d-flex flex-column h-100">
-
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh'
+    }}>
+      { }
+      
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        <MessageList messages={messages} />
+      </div>
+      
+      <MessageInput />
     </div>
   );
 };

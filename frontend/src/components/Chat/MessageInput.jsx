@@ -26,48 +26,48 @@ const MessageInput = ({ }) => {
   };
 
   return (
-    <div style={{ position: 'fixed', bottom: "100px", width: '50%', 
-      padding: '0 15px',
-      left: '35%' 
+     <div className="message-input-container" 
+      style={{ 
+        padding: '15px',
+        backgroundColor: '#fff',
+        borderTop: '1px solid #eee'
       }}>
-        <Form onSubmit={handleSubmit}>
-          <InputGroup>
-          <Form.Label htmlFor="messageInput" className="visually-hidden">{t("Введите сообщение")}</Form.Label>
-            <Form.Control
+      <Form onSubmit={handleSubmit}>
+        <InputGroup>
+          <Form.Control
             id="messageInput"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={t("Введите сообщение...")}
+            style={{
+              borderRadius: '20px',
+              border: '1px solid #ced4da'
+            }}
+          />
+          <Button 
+            variant="primary" 
+            type="submit"
+            disabled={!text.trim()}
+            style={{
+              borderRadius: '20px',
+              marginLeft: '10px',
+              backgroundColor: '#4682B4',
+              border: 'none'
+            }}
+          >
+            <img 
+              src={sendIcon} 
+              alt={t("Отправить")}
+              style={{
+                width: '20px',
+                height: '20px',
+                filter: 'brightness(0) invert(1)'
+              }}
             />
-          <Button variant="primary" 
-          type="submit"
-          onClick={handleSubmit}
-          style={{
-            width: "40px",
-            height: "38px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 0, 
-            backgroundColor: '#4682B4',
-            border: '2px solid #4682B4',
-          }}
-            >
-              <img 
-                src={sendIcon} 
-                alt=""
-                style={{
-                  width: '23px',
-                  height: '23px',
-                  marginLeft: '1px',
-                  filter: 'invert(99%) sepia(1%) saturate(0%) hue-rotate(355deg) brightness(115%) contrast(100%)',
-                  
-                  }}
-              />
           </Button>
         </InputGroup>
       </Form>
-      </div>
+    </div>
   );
 };
 

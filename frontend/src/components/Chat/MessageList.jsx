@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCurrentMessages, selectMessagesLoading, selectMessagesError, fetchMessages } from '../../features/slice/chatSlice';
+import { selectCurrentMessages, selectMessagesLoading, selectMessagesError } from '../../features/slice/chatSlice';
+import { fetchMessages } from '../../store/api/messagesApi';
 import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
 import ProfanityFilter from 'leo-profanity';
@@ -12,10 +13,10 @@ const cleanText = (text) => {
 };
 
 
-const MessageList = () => {
+const MessageList = ({ messages }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const messages = useSelector(selectCurrentMessages);
+  //const messages = useSelector(selectCurrentMessages);
   const isLoading = useSelector(selectMessagesLoading);
   const error = useSelector(selectMessagesError);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);

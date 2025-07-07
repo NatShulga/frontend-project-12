@@ -8,8 +8,11 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
-import { selectCurrentChannel } from '../../features/slice/chatSlice';
+import { selectCurrentChannel, selectCurrentMessages, addMessage } from '../../features/slice/chatSlice';
 import ChatComponent from './ChatComponent';
+import { fetchChannels } from '../../store/api/channelsApi';
+import { toast } from 'react-toastify'; // Для уведомлений
+
 
 const ChatPage = () => {
   const location = useLocation();
@@ -17,10 +20,11 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [setMessages] = useState([]);
   
   
   const currentChannel = useSelector(selectCurrentChannel);
+  const messages = useSelector(selectCurrentMessages);
   const username = useSelector(state => state.auth.username); 
   const socketRef = useRef(null);
 
@@ -31,18 +35,21 @@ const ChatPage = () => {
       navigate('/login', { replace: true });
     } else {
       setAuthChecked(true);
+      dispatch(fetchChannels());
     }
   }, [navigate]);
 
   const handleSendMessage = (text) => {
+    if (!text.trim() || !currentChannel) return;
+
     const newMessage = {
       id: Date.now(),
       text,
       username: username,
-      timestamp: new Date().toLocaleTimeString(),
+      timestamp: new Date().toISOString(),
       channelId: currentChannel.id,
     };
-    setMessages([...messages, newMessage]);
+    dispatch(addMessage(newMessage));
   };
 
   return (
@@ -69,11 +76,7 @@ const ChatPage = () => {
                   title={currentChannel.name} 
                   usersCount={currentChannel.users?.length || 0}
                 />
-                <MessageList 
-                  messages={messages.filter(
-                    msg => msg.channelId === currentChannel.id
-                  )} 
-                />
+                <MessageList messages={messages} />
                 <MessageInput 
                   onSend={handleSendMessage}
                   placeholder={t('chat.message_placeholder')}

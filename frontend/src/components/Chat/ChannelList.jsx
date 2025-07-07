@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { selectAllChannels, selectCurrentChannel, addChannel, setCurrentChannel, removeChannel, renameChannel } from '../../features/slice/chatSlice';
+import { selectAllChannels, selectCurrentChannel, setCurrentChannel } from '../../features/slice/chatSlice';
+import { fetchChannels, addChannel, removeChannel, editChannel } from '../../store/api/channelsApi';
+import { selectChannelsLoading, selectChannelsError } from '../../features/slice/chatSlice';
 import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
 import RenameChannelModal from '../Modals/RenameChannelModal';
 import DeleteChannelModal from '../Modals/DeleteChannelModal';
-
 
 const ChannelList = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,20 @@ const ChannelList = () => {
   const [currentChannelId, setCurrentChannelId] = React.useState(null);
   const channels = useSelector(selectAllChannels) || [];
   const currentChannel = useSelector(selectCurrentChannel);
+  const loading = useSelector(selectChannelsLoading);
+  const error = useSelector(selectChannelsError);
+
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    dispatch(fetchChannels(token))
+      .unwrap()
+      .catch(err => {
+        console.error('Ошибка загрузки каналов:', err);
+        toast.error(t('Ошибка загрузки каналов'));
+      });
+  }
+}, [dispatch, t]);
 
   const handleRename = (channelId) => {
     setCurrentChannelId(channelId);
@@ -36,8 +51,9 @@ const ChannelList = () => {
 };
   
   const handleConfirmDelete = async () => {
+  const token = localStorage.getItem('token');
   try {
-    await dispatch(removeChannel(currentChannelId));
+    await dispatch(removeChannel({ channelId: currentChannelId, token }));
     toast.success(t('Канал успешно удалён'));
     setShowDeleteModal(false);
   } catch (err) {
@@ -45,7 +61,9 @@ const ChannelList = () => {
   }
 };
 
-  if (!channels) return <div>Загрузка каналов...</div>;
+  if (channels.length === 0) {
+    return <div className="p-3">{t('Загрузка каналов...')}</div>;
+  }
 
   return (
     <>

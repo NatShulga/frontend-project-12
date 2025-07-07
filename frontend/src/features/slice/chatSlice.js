@@ -1,57 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-
-export const fetchChannels = createAsyncThunk(
-  'channels/fetchChannels',
-  async (_, { getState }) => {
-    const { token } = getState().auth;
-    const response = await axios.get('/api/v1/channels', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
-  }
-);
-
-export const fetchMessages = createAsyncThunk(
-  'messages/fetchMessages',
-  async (_, { getState }) => {
-    const { token } = getState().auth;
-    const response = await axios.get('/api/v1/messages', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
-  }
-);
-
-export const sendMessage = createAsyncThunk(
-  'chat/sendMessage',
-  async ({ body, channelId, username }, { getState }) => {
-    const { token } = getState().auth;
-    const response = await axios.post('/api/v1/messages', 
-      { body, channelId, username },
-      { headers: { Authorization: `Bearer ${token}` }
-  });
-    return response.data;
-  }
-);
-
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchChannels } from '../../store/api/channelsApi';
+import { sendMessage } from '../../store/api/messagesApi';
 
 const initialState = {
   channels: {
+    data: [],
     loading: false,
     error: null,
-    data: [
-      { id: 1, name: 'general', removable: false },
-      { id: 2, name: 'random', removable: false }
-    ],
   },
   currentChannelId: 1,
-  messages: {
-    loading: false,
-    error: null,
-    data: [],
-  }
+  messages: [],
+  loading: false,
+  error: null,
 };
 
 export const chatSlice = createSlice({
@@ -74,14 +34,8 @@ export const chatSlice = createSlice({
     },
     
     addMessage: (state, action) => {
-      const newMessage = {
-        ...action.payload,
-        id: Date.now(),
-        timestamp: new Date().toISOString(),
-        user: action.payload.user
-      };
-      state.messages.data.push(newMessage);
-      
+      state.messages.push(action.payload);
+    
     },
     
     clearMessages: (state) => {
@@ -133,15 +87,15 @@ export const chatSlice = createSlice({
         state.channels.loading = false;
         state.channels.error = action.error.message;
       })
-      .addCase(fetchMessages.pending, (state) => {
+      .addCase(sendMessage.pending, (state) => {
         state.messages.loading = true;
         state.messages.error = null;
       })
-      .addCase(fetchMessages.fulfilled, (state, action) => {
+      .addCase(sendMessage.fulfilled, (state, action) => {
         state.messages.loading = false;
         state.messages.data = action.payload;
       })
-      .addCase(fetchMessages.rejected, (state, action) => {
+      .addCase(sendMessage.rejected, (state, action) => {
         state.messages.loading = false;
         state.messages.error = action.error.message;
       });

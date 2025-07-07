@@ -11,6 +11,8 @@ import Navbar from './components/header/Navbar';
 import ChatPage from './components/Chat/ChatPage';
 import NotFound from './components/NotFound';
 import ChatComponent from '../src/components/Chat/ChatComponent';
+import { addChannel, removeChannel, updateChannel } from '../src/features/slice/channelsSlice';
+
 
 const rollbarConfig = {
   accessToken: 'f4a3d7a1106d41789162305de0df95be',
@@ -20,6 +22,7 @@ const rollbarConfig = {
 };
 
 const AppContent = () => {
+  const dispatch = useDispatch();
     const authState = useSelector(state => state.auth);
     useEffect(() => {
     console.log('Auth state:', authState);
