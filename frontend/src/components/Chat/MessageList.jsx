@@ -75,14 +75,14 @@ const MessageList = () => {
         </div>
       ) : (
         <div className="messages-flow">
-          {filteredMessages.map(message => {
+          {filteredMessages.map(messages => {
             // Проверка, является ли автор сообщения текущим пользователем, упрощенная
-            const isCurrentUser = username === message.username;
-            const displayName = cleanText(message.username);
+            const isCurrentUser = username === messages.username;
+            const displayName = cleanText(messages.username);
             
             return (
               <div 
-                key={message.id} 
+                key={messages.id} 
                 className={`mb-2 ${isCurrentUser ? 'current-user-message' : ''}`}
               >
                 <div className="d-flex justify-content-between">
@@ -90,11 +90,11 @@ const MessageList = () => {
                     {displayName}
                   </strong>
                   <small className="text-muted">
-                    {new Date(message.timestamp).toLocaleTimeString()}
+                    {new Date(messages.timestamp).toLocaleTimeString()}
                   </small>
                 </div>
                 <div className="message-text">
-                  {cleanText(message.text)}
+                  {cleanText(messages.text)}
                 </div>
               </div>
             );

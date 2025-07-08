@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { sendMessage } from '../../store/api/messagesApi.js';
-import { removeChannelAsync } from './channelsSlice.js';
+import { removeChannel } from '../../store/api/channelsApi.js';
 
 const initialState = {
   messages: [],
@@ -32,9 +32,10 @@ const messagesSlice = createSlice({
         state.status = 'failed';
         state.errors = action.error.message;
       })
-      .addCase(removeChannelAsync.fulfilled, (state, action) => {
-        state.messages = state.messages.filter((msg) => msg.channelId !== action.payload);
-      });
+      .addCase(removeChannel.fulfilled, (state, action) => {
+      const channelId = action.payload;
+      state.data = state.data.filter(msg => msg.channelId !== channelId);
+    })
   },
 });
 

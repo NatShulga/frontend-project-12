@@ -12,49 +12,49 @@ export const fetchChannels = createAsyncThunk(
   }
 );
 
-export const addChannel = async (name, token) => {
-  try {
-    const newChannel = { name };
-    const response = await axios.post('/api/v1/channels', newChannel, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (err) {
-    console.error('Ошибка при создании канала', err);
-    throw err;
+export const addChannel = createAsyncThunk(
+  'channels/addChannel',
+  async (name, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      const response = await axios.post('/api/v1/channels', { name }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data; // Сервер должен возвращать созданный канал
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
   }
-};
+);
 
-export const removeChannel = async (channelId, token) => {
-  try {
-    const response = await axios.delete(`/api/v1/channels/${channelId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (err) {
-    console.error('Ошибка при удалении канала', err);
-    throw err;
+export const removeChannel = createAsyncThunk(
+  'channels/removeChannel',
+  async (channelId, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      const response = await axios.delete(`/api/v1/channels/${channelId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return channelId;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
   }
-};
+);
 
-export const editChannel = async (channelId, name, token) => {
-  try {
-    const response = await axios.patch(
-      `/api/v1/channels/${channelId}`,
-      { name },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-    return response.data;
-  } catch (err) {
-    console.error('Ошибка при редактировании поста:', err);
-    throw err;
+export const editChannel = createAsyncThunk(
+  'channels/editChannel',
+  async ({ channelId, name }, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      const response = await axios.patch(
+        `/api/v1/channels/${channelId}`,
+        { name },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return { id: channelId, name: response.data.name };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
   }
-};
+);

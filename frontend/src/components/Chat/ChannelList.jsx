@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { selectAllChannels, selectCurrentChannel, setCurrentChannel } from '../../features/slice/chatSlice';
+import { selectAllChannels, selectCurrentChannel, setCurrentChannel } from '../../features/slice/channelsSlice';
 import { fetchChannels, addChannel, removeChannel, editChannel } from '../../store/api/channelsApi';
-import { selectChannelsLoading, selectChannelsError } from '../../features/slice/chatSlice';
+import { selectChannelsLoading, selectChannelsError } from '../../features/slice/channelsSlice';
 import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
 import RenameChannelModal from '../Modals/RenameChannelModal';
@@ -25,7 +25,7 @@ const ChannelList = () => {
   useEffect(() => {
   const token = localStorage.getItem('token');
   if (token) {
-    dispatch(fetchChannels(token))
+    dispatch(fetchChannels())
       .unwrap()
       .catch(err => {
         console.error('Ошибка загрузки каналов:', err);
@@ -42,7 +42,7 @@ const ChannelList = () => {
   const handleDelete = async (channelId) => {
   if (window.confirm(t('Вы уверены, что хотите удалить канал?'))) {
     try {
-      await dispatch(removeChannel(channelId));
+      await dispatch(removeChannel(channelId)).unwrap();
       toast.success(t('Канал успешно удалён'));
     } catch (err) {
       toast.error(t('Ошибка при удалении канала'));
@@ -169,8 +169,8 @@ const ChannelList = () => {
         channelId={currentChannelId}
         onRename={async (newName) => {
           try {
-            await dispatch(renameChannel({ 
-              id: currentChannelId, 
+            await dispatch(editChannel({ 
+              channelId: currentChannelId, 
               name: newName 
             })).unwrap();
             setShowRenameModal(false);

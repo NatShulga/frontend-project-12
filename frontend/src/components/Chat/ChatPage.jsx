@@ -8,10 +8,11 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
-import { selectCurrentChannel, selectCurrentMessages, addMessage } from '../../features/slice/chatSlice';
+import { selectCurrentChannel } from '../../features/slice/channelsSlice';
 import ChatComponent from './ChatComponent';
+import { selectCurrentMessages, addMessage } from '../../features/slice/chatSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
-import { toast } from 'react-toastify'; // Для уведомлений
+//import { addMessage } from '../../features/slice/chatSlice';
 
 
 const ChatPage = () => {
@@ -20,13 +21,12 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
-  const [messages,setMessages] = useState([]);
+  //const [messages,setMessages] = useState([]);
   
   
   const currentChannel = useSelector(selectCurrentChannel);
-  //const messages = useSelector(selectCurrentMessages);
+  const messages = useSelector(selectCurrentMessages);
   const username = useSelector(state => state.auth.username); 
-  const socketRef = useRef(null);
 
   
   useEffect(() => {

@@ -11,7 +11,7 @@ import Navbar from './components/header/Navbar';
 import ChatPage from './components/Chat/ChatPage';
 import NotFound from './components/NotFound';
 import ChatComponent from '../src/components/Chat/ChatComponent';
-import { addChannel, removeChannel, updateChannel } from '../src/features/slice/channelsSlice';
+
 
 
 const rollbarConfig = {

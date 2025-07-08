@@ -79,10 +79,10 @@ const ChatComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!message.trim() || !currentChannelId || !username || !socket) return;
+    if (!messages.trim() || !currentChannelId || !username || !socket) return;
 
     socket.emit('newMessage', {
-      body: message,
+      body: messages,
       channelId: currentChannelId,
       username,
     });
@@ -90,9 +90,6 @@ const ChatComponent = () => {
     setMessage('');
   };
 
-  const handleChannelChange = (channelId) => {
-    dispatch(setCurrentChannel(channelId));
-  };
 
   return (
     {}

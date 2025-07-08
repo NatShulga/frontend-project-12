@@ -1,12 +1,13 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchChannels, removeChannel as removeChannelApi } from '../../store/api/channelsApi';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchChannels, addChannel, removeChannel, editChannel } from '../../store/api/channelsApi';
+
 
 const initialState = {
-  channels: [],
-  currentChannelId: null,
-  status: 'idle',
-  errors: null,
-};
+  channels: {
+    data: [],
+    loading: false,
+    error: null,
+  }}
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -15,56 +16,53 @@ const channelsSlice = createSlice({
     setCurrentChannel(state, action) {
       state.currentChannelId = action.payload;
     },
-    addChannel(state, action) {
-      state.channels.push(action.payload);
-    },
-    removeChannel(state, action) {
-      state.channels = state.channels.filter((ch) => ch.id !== action.payload);
-      if (state.currentChannelId === action.payload) {
-        state.currentChannelId = state.channels[0]?.id || null;
-      }
-    },
-    updateChannel(state, action) {
-      const { id, name, removable } = action.payload;
-      const channel = state.channels.find((ch) => ch.id === id);
-      if (channel) {
-        channel.name = name;
-        channel.removable = removable;
-      }
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChannels.pending, (state) => {
-        state.status = 'loading';
-        state.errors = null;
+        .addCase(fetchChannels.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(fetchChannels.fulfilled, (state, action) => {
-        state.channels = action.payload;
-        state.currentChannelId = action.payload[0]?.id || null;
-        state.status = 'success';
+        state.data = action.payload;
+        state.loading = false;
+        if (!state.currentChannelId && action.payload.length > 0) {
+          state.currentChannelId = action.payload[0].id;
+        }
       })
       .addCase(fetchChannels.rejected, (state, action) => {
-        state.status = 'failed';
-        state.errors = action.error.message;
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addChannel.fulfilled, (state, action) => {
+        state.data.push(action.payload);
+      })
+      .addCase(editChannel.fulfilled, (state, action) => {
+        const channel = state.data.find(c => c.id === action.payload.id);
+        if (channel) {
+          channel.name = action.payload.name;
+        }
+      })
+      .addCase(removeChannel.fulfilled, (state, action) => {
+        state.data = state.data.filter(c => c.id !== action.payload);
+        if (state.currentChannelId === action.payload) {
+          state.currentChannelId = state.data[0]?.id || null;
+        }
       });
   },
 });
 
-export const {
-  setCurrentChannel,
-  addChannel,
-  removeChannel,
-  updateChannel,
-} = channelsSlice.actions;
+export const selectAllChannels = (state) => state.channels.data || [];
+export const selectCurrentChannelId = (state) => state.channels.currentChannelId;
+export const selectChannelsLoading = (state) => state.channels.loading;
+export const selectChannelsError = (state) => state.channels.error;
 
-export const removeChannelAsync = createAsyncThunk(
-  'channels/removeChannel',
-  async ({ channelId, token }, { dispatch }) => {
-    await removeChannelApi(channelId, token);
-    dispatch(removeChannel(channelId));
-    return channelId;
-  },
-);
+  export const selectCurrentChannel = (state) => {
+  const currentChannelId = selectCurrentChannelId(state);
+  return selectAllChannels(state).find(c => c.id === currentChannelId) || null;
+  }
+
+export const { setCurrentChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;
+
