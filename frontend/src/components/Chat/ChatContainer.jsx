@@ -22,9 +22,9 @@ const ChatContainer = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <div style={{ flex: 1, overflow: 'hidden' }}>
-        <MessageList messages={messages} />
+        
       </div>
-      <MessageInput onSendMessage={handleSendMessage} />
+      
     </div>
   );
 };

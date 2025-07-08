@@ -26,11 +26,17 @@ const MessageInput = ({ }) => {
   };
 
   return (
-     <div className="message-input-container" 
-      style={{ 
-        padding: '15px',
+    <div className="message-input-container" 
+      style={{
+        width: '100%',
+        minWidth: '0',
+        flex: '0 0 auto',
+        padding: '20px 45px',
         backgroundColor: '#fff',
-        borderTop: '1px solid #eee'
+        borderTop: '1px solid #eee',
+        position: 'sticky',
+        bottom: 0,
+        marginTop: 'auto'
       }}>
       <Form onSubmit={handleSubmit}>
         <InputGroup>
@@ -41,7 +47,7 @@ const MessageInput = ({ }) => {
             placeholder={t("Введите сообщение...")}
             style={{
               borderRadius: '20px',
-              border: '1px solid #ced4da'
+              border: '1px solid #ced4da',
             }}
           />
           <Button 

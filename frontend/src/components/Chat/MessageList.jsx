@@ -68,7 +68,7 @@ const MessageList = ({ messages }) => {
           <div className="mb-3">
             <i className="bi bi-chat-square-text fs-1"></i>
           </div>
-          <h5>{t('нет сообщений')}</h5>
+          
         </div>
       ) : (
         <div className="messages-flow">
@@ -107,7 +107,7 @@ const MessageList = ({ messages }) => {
         bottom: 0,
       }}
     >
-      <MessageInput currentChannelId={currentChannelId} />
+      
     </div>
   </div>
 );
