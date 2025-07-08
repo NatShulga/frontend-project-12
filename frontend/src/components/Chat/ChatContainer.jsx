@@ -1,32 +1,30 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMessage } from '../../features/slice/chatSlice';
+import { addMessage, selectCurrentMessages } from '../../features/slice/chatSlice';
+import MessageList from './MessageList';
+import MessageInput from './MessageInput';
 
-const ChatContainer = ({ }) => {
-  const dispatch = useDispatch();
+
+const ChatContainer = () => { 
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
+  const messages = useSelector(selectCurrentMessages);
 
   const handleSendMessage = ({ text, username }) => {
     dispatch(addMessage({
+      id: Date.now(),
       text,
       username,
       channelId: currentChannelId,
+      timestamp: new Date().toISOString()
     }));
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh'
-    }}>
-      { }
-      
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <div style={{ flex: 1, overflow: 'hidden' }}>
         <MessageList messages={messages} />
       </div>
-      
-      <MessageInput />
+      <MessageInput onSendMessage={handleSendMessage} />
     </div>
   );
 };

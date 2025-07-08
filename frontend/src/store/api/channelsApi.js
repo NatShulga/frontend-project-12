@@ -3,14 +3,13 @@ import axios from 'axios';
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
-  async (token) => {
+  async (_, { getState }) => {
+    const { token } = getState().auth;
     const response = await axios.get('/api/v1/channels', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;
-  },
+  }
 );
 
 export const addChannel = async (name, token) => {

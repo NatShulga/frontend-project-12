@@ -20,11 +20,11 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
-  const [setMessages] = useState([]);
+  const [messages,setMessages] = useState([]);
   
   
   const currentChannel = useSelector(selectCurrentChannel);
-  const messages = useSelector(selectCurrentMessages);
+  //const messages = useSelector(selectCurrentMessages);
   const username = useSelector(state => state.auth.username); 
   const socketRef = useRef(null);
 

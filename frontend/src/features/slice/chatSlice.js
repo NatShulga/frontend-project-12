@@ -30,12 +30,10 @@ export const chatSlice = createSlice({
     
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload;
-    
     },
     
     addMessage: (state, action) => {
       state.messages.push(action.payload);
-    
     },
     
     clearMessages: (state) => {
