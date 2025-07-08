@@ -9,9 +9,11 @@ const initialState = {
     error: null,
   },
   currentChannelId: 1,
-  messages: [],
-  loading: false,
-  error: null,
+  messages: {
+    data: [],
+    loading: false,
+    error: null,
+  },
 };
 
 export const chatSlice = createSlice({
@@ -30,10 +32,12 @@ export const chatSlice = createSlice({
     
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload;
+    
     },
     
     addMessage: (state, action) => {
-      state.messages.push(action.payload);
+      state.messages.data.push(action.payload);
+    
     },
     
     clearMessages: (state) => {
@@ -91,7 +95,7 @@ export const chatSlice = createSlice({
       })
       .addCase(sendMessage.fulfilled, (state, action) => {
         state.messages.loading = false;
-        state.messages.data = action.payload;
+        state.messages.data.push(action.payload);
       })
       .addCase(sendMessage.rejected, (state, action) => {
         state.messages.loading = false;

@@ -3,12 +3,13 @@ import axios from 'axios';
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
-  async (_, { getState }) => {
-  const { token } = getState().auth;
-    const response = await axios.get('/api/v1/messages', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
+  async (channelId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`/api/v1/channels/${channelId}/messages`);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 

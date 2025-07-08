@@ -4,11 +4,11 @@ import { io } from 'socket.io-client';
 import { fetchMessages, fetchChannels, addMessage, setCurrentChannel, addChannel, removeChannel, renameChannel } from './chatSlice';
 
 const ChatComponent = () => {
-  const [message, setMessage] = useState('');
+  const [messages, setMessage] = useState('');
   const [socket, setSocket] = useState(null);
   const dispatch = useDispatch();
 
-  const { messages, channels, currentChannelId } = useSelector(state => ({
+  const { channels, currentChannelId } = useSelector(state => ({
     messages: state.chat.messages.data,
     channels: state.chat.channels.data,
     currentChannelId: state.chat.currentChannelId,
@@ -79,7 +79,7 @@ const ChatComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!message.trim() || !currentChannelId || !username) return;
+    if (!message.trim() || !currentChannelId || !username || !socket) return;
 
     socket.emit('newMessage', {
       body: message,

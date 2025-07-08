@@ -6,22 +6,10 @@ import MessageInput from './MessageInput';
 
 
 const ChatContainer = () => { 
-  const currentChannelId = useSelector(state => state.chat.currentChannelId);
-  const messages = useSelector(selectCurrentMessages);
-
-  const handleSendMessage = ({ text, username }) => {
-    dispatch(addMessage({
-      id: Date.now(),
-      text,
-      username,
-      channelId: currentChannelId,
-      timestamp: new Date().toISOString()
-    }));
-  };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <div style={{ flex: 1, overflow: 'hidden' }}>
+    <div style={{ }}>
+      <div style={{  }}>
         
       </div>
       

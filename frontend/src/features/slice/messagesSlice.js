@@ -4,9 +4,8 @@ import { removeChannelAsync } from './channelsSlice.js';
 
 const initialState = {
   messages: [],
-  loading: false,
+  status: 'idle',
   error: null,
-  currentChannelId: 1,
 };
 
 const messagesSlice = createSlice({

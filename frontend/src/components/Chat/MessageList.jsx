@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCurrentMessages, selectMessagesLoading, selectMessagesError } from '../../features/slice/chatSlice';
+import { selectMessagesLoading, selectMessagesError } from '../../features/slice/chatSlice';
 import { fetchMessages } from '../../store/api/messagesApi';
 import { useTranslation } from 'react-i18next';
 import MessageInput from './MessageInput';
@@ -13,10 +13,13 @@ const cleanText = (text) => {
 };
 
 
-const MessageList = ({ messages }) => {
+const MessageList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  //const messages = useSelector(selectCurrentMessages);
+  const messages = useSelector(state => {
+  const currentChannelId = state.chat.currentChannelId;
+  return state.messages.messages.filter(msg => msg.channelId === currentChannelId);
+});
   const isLoading = useSelector(selectMessagesLoading);
   const error = useSelector(selectMessagesError);
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
@@ -28,7 +31,7 @@ const MessageList = ({ messages }) => {
     dispatch(fetchMessages())
     console.log('Текущие сообщения:', messages);
     console.log('Текущий channelId:', currentChannelId);
-  }, [messages, currentChannelId]);
+  }, [dispatch, currentChannelId]);
 
 
   const filteredMessages = Array.isArray(messages) 
@@ -107,7 +110,6 @@ const MessageList = ({ messages }) => {
         bottom: 0,
       }}
     >
-      
     </div>
   </div>
 );

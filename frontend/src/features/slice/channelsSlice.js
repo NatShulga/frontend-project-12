@@ -4,7 +4,7 @@ import { fetchChannels, removeChannel as removeChannelApi } from '../../store/ap
 const initialState = {
   channels: [],
   currentChannelId: null,
-  loading: false,
+  status: 'idle',
   errors: null,
 };
 

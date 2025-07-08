@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { addMessage } from '../../features/slice/chatSlice';
 import sendIcon from '../../assets/5064452.svg'; 
+import messagesSlice from '../../features/slice/messagesSlice';
 
-const MessageInput = ({ }) => {
+const MessageInput = () => {
   const {t} = useTranslation();
   const [text, setText] = useState('');
   const currentChannelId = useSelector(state => state.chat.currentChannelId);
@@ -27,16 +28,9 @@ const MessageInput = ({ }) => {
 
   return (
     <div className="message-input-container" 
-      style={{
-        width: '100%',
-        minWidth: '0',
-        flex: '0 0 auto',
-        padding: '20px 45px',
+      style={{ 
+        padding: '45px',
         backgroundColor: '#fff',
-        borderTop: '1px solid #eee',
-        position: 'sticky',
-        bottom: 0,
-        marginTop: 'auto'
       }}>
       <Form onSubmit={handleSubmit}>
         <InputGroup>
@@ -58,7 +52,10 @@ const MessageInput = ({ }) => {
               borderRadius: '20px',
               marginLeft: '10px',
               backgroundColor: '#4682B4',
-              border: 'none'
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center', 
             }}
           >
             <img 
