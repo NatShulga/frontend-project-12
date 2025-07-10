@@ -43,6 +43,8 @@ const channelsSlice = createSlice({
           channel.name = action.payload.name;
         }
       })
+
+      //ПОЧЕМУ ЭТО ПРАВИЛО НЕ РАБОТАЕТ
       .addCase(removeChannel.fulfilled, (state, action) => {
         const { id } = action.payload; //id канала который удаляем
         state.data = state.data.filter(channel => channel.id !== id);//убираем его из списка
@@ -50,7 +52,10 @@ const channelsSlice = createSlice({
         if (state.currentChannelId === id) {
           state.currentChannelId = state.data[0]?.id || null;
         }
-        });
+        })
+        .addCase(removeChannel.rejected, (state, action) => {
+  state.error = action.payload?.message || 'Ошибка удаления';
+})
   },
 });
 

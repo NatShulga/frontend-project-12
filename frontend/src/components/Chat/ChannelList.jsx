@@ -25,7 +25,7 @@ const ChannelList = () => {
   useEffect(() => {
   const token = localStorage.getItem('token');
   if (token) {
-    dispatch(fetchChannels(token))
+    dispatch(fetchChannels())
       .unwrap()
       .catch(err => {
         console.error('Ошибка загрузки каналов:', err);
@@ -43,10 +43,11 @@ const handleDelete = async (channelId) => {
   setCurrentChannelId(channelId); // Сохраняем ID для модалки
   if (window.confirm(t('Вы уверены, что хотите удалить канал?'))) {
     try {
-      const result = dispatch(removeChannel(channelId));
+      await dispatch(removeChannel(channelId)).unwrap();//ДОМПАТЧИМ УДАЛЕНИЕ
       if (removeChannel.fulfilled.match(result)) {
         toast.success(t('Канал успешно удалён'));
-        // Если удаляем текущий канал - сбрасываем выбор
+
+        // Если удаляем текущий канал, обновляем это
         if (currentChannel?.id === channelId) {
           dispatch(setCurrentChannel(null));
         }
@@ -178,9 +179,12 @@ const handleDelete = async (channelId) => {
 
       <DeleteChannelModal
         show={showDeleteModal}
-        onHide={() => setShowDeleteModal(false)}
-        onDelete={handleDelete}
-        channelName={channels.find(c => c.id === currentChannelId)?.name || ''}
+        onHide={() => {
+        setShowDeleteModal(false);
+        setCurrentChannelId(null);
+        }}
+        onDelete={() => handleDelete()}
+        channelName={channels.find(channels => channels.id === currentChannelId)?.name || ''}
       />
 
       <AddChannelModal 

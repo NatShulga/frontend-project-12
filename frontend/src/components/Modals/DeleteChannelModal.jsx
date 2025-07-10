@@ -3,14 +3,14 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-const DeleteChannelModal = ({ show, onHide, channelId, onDelete, channelName }) => {
+const DeleteChannelModal = ({ show, onHide, onDelete, channelName }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = React.useState(false);
 
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await onDelete(channelId);
+      await onDelete();
       toast.success(t('Канал "{{name}}" успешно удален', { name: channelName }), {
         position: "top-right",
         autoClose: 3000,

@@ -57,7 +57,7 @@ export const authSlice = createSlice({
 export const { 
   setAuthToken, 
   softReset,
-  logout,  // Заменили hardReset на более понятное название
+  logout,
   restoreAuth 
 } = authSlice.actions;
 

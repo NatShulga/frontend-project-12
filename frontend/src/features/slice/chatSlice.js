@@ -33,10 +33,10 @@ const chatSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(removeChannel.fulfilled, (state, action) => {
-        const { id } = action.payload;
-        state.data = state.data.filter(msg => msg.channelId !== id);
-      });
+      //.addCase(removeChannel.fulfilled, (state, action) => {
+        //const { id } = action.payload;
+        //state.data = state.data.filter(msg => msg.channelId !== id);
+      //});
   }
 });
 
