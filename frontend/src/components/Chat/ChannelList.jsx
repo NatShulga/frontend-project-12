@@ -43,7 +43,7 @@ const handleDelete = async (channelId) => {
   setCurrentChannelId(channelId); // Сохраняем ID для модалки
   if (window.confirm(t('Вы уверены, что хотите удалить канал?'))) {
     try {
-      await dispatch(removeChannel(channelId)).unwrap();//ДОМПАТЧИМ УДАЛЕНИЕ
+      const result = await dispatch(removeChannel(channelId)).unwrap();//ДИСПАТЧИМ УДАЛЕНИЕ
       if (removeChannel.fulfilled.match(result)) {
         toast.success(t('Канал успешно удалён'));
 

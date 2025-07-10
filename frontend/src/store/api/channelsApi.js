@@ -48,11 +48,20 @@ export const removeChannel = createAsyncThunk('channels/removeChannel',
   async (channelId, { getState, rejectWithValue }) => {
     try {
       const { token } = getState().auth;
-      await axios.delete(`/api/v1/channels/${channelId}`, {
+
+      //ЗАПРОС НА УДАЛЕНИЕЕЕЕ
+      const response = await axios.delete(`/api/v1/channels/${channelId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
+      // 2. Логируем ответ сервера перед возвратом
+      console.log('API Response:', response.data);
+      console.log('Deleted channel ID:', channelId);
+
       return { id: channelId };
     } catch (err) {
+      // Логируем ошибку
+      console.error('Delete channel error:', err.response?.data || err.message);
       return rejectWithValue(err.response?.data?.message || err.message);
     }
   }

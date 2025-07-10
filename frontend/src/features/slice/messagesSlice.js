@@ -34,8 +34,8 @@ const messagesSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
-      const channelId = action.payload;
-      state.data = state.data.filter(msg => msg.channelId !== channelId);
+      const channelId = action.payload.id;
+      state.messages = state.messages.filter(msg => msg.channelId !== channelId);
     })
   },
 });
