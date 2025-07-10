@@ -27,21 +27,6 @@ export const addChannel = createAsyncThunk(
   }
 );
 
-export const removeChannel = createAsyncThunk(
-  'channels/removeChannel',
-  async (channelId, { getState, rejectWithValue }) => {
-    try {
-      const { token } = getState().auth;
-      const response = await axios.delete(`/api/v1/channels/${channelId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      return channelId;
-    } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
-    }
-  }
-);
-
 export const editChannel = createAsyncThunk(
   'channels/editChannel',
   async ({ channelId, name }, { getState, rejectWithValue }) => {
@@ -53,6 +38,20 @@ export const editChannel = createAsyncThunk(
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return { id: channelId, name: response.data.name };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+export const removeChannel = createAsyncThunk('channels/removeChannel',
+  async (channelId, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      const response = await axios.delete(`/api/v1/channels/${channelId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return channelId;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }

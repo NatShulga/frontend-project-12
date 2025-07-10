@@ -4,7 +4,7 @@ import { removeChannel } from '../../store/api/channelsApi.js';
 
 const initialState = {
   messages: [],
-  status: 'idle',
+  loading: false,
   error: null,
 };
 
@@ -23,14 +23,15 @@ const messagesSlice = createSlice({
     builder
       .addCase(sendMessage.pending, (state) => {
         state.status = true;
-        state.errors = null;
+        state.error = null;
       })
       .addCase(sendMessage.fulfilled, (state) => {
-        state.status = 'success';
+        state.loading = false;
+        state.messages = action.payload;
       })
       .addCase(sendMessage.rejected, (state, action) => {
         state.status = 'failed';
-        state.errors = action.error.message;
+        state.error = action.error.message;
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
       const channelId = action.payload;

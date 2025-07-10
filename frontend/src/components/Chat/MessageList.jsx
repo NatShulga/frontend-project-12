@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectMessagesLoading, selectMessagesError } from '../../features/slice/chatSlice';
 import { fetchMessages } from '../../store/api/messagesApi';
 import { useTranslation } from 'react-i18next';
-import MessageInput from './MessageInput';
 import ProfanityFilter from 'leo-profanity';
 
 
@@ -12,12 +11,11 @@ const cleanText = (text) => {
   return ProfanityFilter.clean(text, '****');
 };
 
-
 const MessageList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const messages = useSelector(state => {
-  const currentChannelId = state.chat.currentChannelId;
+  const currentChannelId = state.channels.currentChannelId;
   return state.messages.messages.filter(msg => msg.channelId === currentChannelId);
 });
   const isLoading = useSelector(selectMessagesLoading);
@@ -28,7 +26,7 @@ const MessageList = () => {
 
   //отладка, проверка загруженных сообщений
   useEffect(() => {
-    dispatch(fetchMessages())
+    dispatch(fetchMessages('token'))// ???
     console.log('Текущие сообщения:', messages);
     console.log('Текущий channelId:', currentChannelId);
   }, [dispatch, currentChannelId]);
@@ -37,7 +35,6 @@ const MessageList = () => {
   const filteredMessages = Array.isArray(messages) 
     ? messages.filter(message => message.channelId === currentChannelId)
     : [];
-
 
   return (
   <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>

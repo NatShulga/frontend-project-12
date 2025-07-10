@@ -3,11 +3,11 @@ import { fetchChannels, addChannel, removeChannel, editChannel } from '../../sto
 
 
 const initialState = {
-  channels: {
     data: [],
+    currentChannelId: null,
     loading: false,
     error: null,
-  }}
+  }
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -38,17 +38,19 @@ const channelsSlice = createSlice({
         state.data.push(action.payload);
       })
       .addCase(editChannel.fulfilled, (state, action) => {
-        const channel = state.data.find(c => c.id === action.payload.id);
+        const channel = state.data.find(channel => channel.id === action.payload.id);
         if (channel) {
           channel.name = action.payload.name;
         }
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
-        state.data = state.data.filter(c => c.id !== action.payload);
-        if (state.currentChannelId === action.payload) {
+        const { id } = action.payload; //id канала который удаляем
+        state.data = state.data.filter(channel => channel.id !== id);//убираем его из списка
+        //после удаления канала, переключается на текущий. 
+        if (state.currentChannelId === id) {
           state.currentChannelId = state.data[0]?.id || null;
         }
-      });
+        });
   },
 });
 

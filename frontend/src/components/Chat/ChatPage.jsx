@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,7 +12,6 @@ import { selectCurrentChannel } from '../../features/slice/channelsSlice';
 import ChatComponent from './ChatComponent';
 import { selectCurrentMessages, addMessage } from '../../features/slice/chatSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
-//import { addMessage } from '../../features/slice/chatSlice';
 
 
 const ChatPage = () => {
@@ -21,13 +20,10 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [authChecked, setAuthChecked] = useState(false);
-  //const [messages,setMessages] = useState([]);
-  
   
   const currentChannel = useSelector(selectCurrentChannel);
   const messages = useSelector(selectCurrentMessages);
   const username = useSelector(state => state.auth.username); 
-
   
   useEffect(() => {
     const token = localStorage.getItem('token');
