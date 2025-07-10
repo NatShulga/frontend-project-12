@@ -49,7 +49,7 @@ const channelsSlice = createSlice({
         const { id } = action.payload; //id канала который удаляем
         state.data = state.data.filter(channel => channel.id !== id);//убираем его из списка
         //после удаления канала, переключается на текущий. 
-        if (state.currentChannelId === deletedId) {
+        if (state.currentChannelId === id) {
           state.currentChannelId = state.data[0]?.id || null;
         }
         state.loading = false; 
