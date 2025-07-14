@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { addMessage } from '../../features/slice/chatSlice';
 import sendIcon from '../../assets/5064452.svg'; 
-import messagesSlice from '../../features/slice/messagesSlice';
+//import messagesSlice from '../../features/slice/messagesSlice';
 
 const MessageInput = () => {
   const {t} = useTranslation();

@@ -32,11 +32,8 @@ const chatSlice = createSlice({
       .addCase(sendMessage.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        console.error("Ошибка при отправке:", action.error.message);
       })
-      //.addCase(removeChannel.fulfilled, (state, action) => {
-        //const { id } = action.payload;
-        //state.data = state.data.filter(msg => msg.channelId !== id);
-      //});
   }
 });
 

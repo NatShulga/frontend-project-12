@@ -12,30 +12,34 @@ const cleanText = (text) => {
 };
 
 const MessageList = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const messages = useSelector(state => {
-  const currentChannelId = state.channels.currentChannelId;
-  return state.messages.messages.filter(msg => msg.channelId === currentChannelId);
-});
+  const { t } = useTranslation();
+  const currentChannelId = useSelector(state => state.chat.currentChannelId);
+  const messages = useSelector(state => state.messages.messages);
   const isLoading = useSelector(selectMessagesLoading);
   const error = useSelector(selectMessagesError);
-  const currentChannelId = useSelector(state => state.chat.currentChannelId);
-  const username = useSelector((state) => state.auth.username);
+  const username = useSelector(state => state.auth.username);
 
+  const filteredMessages = messages.filter(message => message.channelId === currentChannelId);
 
-  //отладка, проверка загруженных сообщений
   useEffect(() => {
-    dispatch(fetchMessages('token'))// ???
-    console.log('Текущие сообщения:', messages);
-    console.log('Текущий channelId:', currentChannelId);
+    dispatch(fetchMessages('token'));
   }, [dispatch, currentChannelId]);
 
+  // Логирование
+  useEffect(() => {
+    console.log('Текущие сообщения:', messages);
+    console.log('Текущий channelId:', currentChannelId);
+  }, [messages, currentChannelId]);
 
-  const filteredMessages = Array.isArray(messages) 
-    ? messages.filter(message => message.channelId === currentChannelId)
-    : [];
+  if (isLoading) {
+    return <div>Загрузка...</div>;
+  }
 
+  if (error) {
+    return <div>Ошибка загрузки сообщений.</div>;
+  }
+  
   return (
   <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>
     <div className="channel-header p-3">

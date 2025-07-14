@@ -22,20 +22,20 @@ const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(sendMessage.pending, (state) => {
-        state.status = true;
+        state.loading = true;
         state.error = null;
       })
-      .addCase(sendMessage.fulfilled, (state) => {
+      .addCase(sendMessage.fulfilled, (state ) => { //сохранение сообщений в списке
         state.loading = false;
-        state.messages = action.payload;
+        state.messages.push(action.payload);
       })
       .addCase(sendMessage.rejected, (state, action) => {
-        state.status = 'failed';
+        state.loading = 'failed';
         state.error = action.error.message;
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
-      const channelId = action.payload.id;
-      state.messages = state.messages.filter(msg => msg.channelId !== channelId);
+      //const channelId = action.payload.id;
+      state.messages = state.messages.filter(msg => msg.channelId !== channelId.payload);
     })
   },
 });
