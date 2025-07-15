@@ -50,5 +50,12 @@ export const selectCurrentMessages = (state) => {
     : [];
 };
 
+export const getCurrentChannelId = (state) =>{
+  const currentChannelId = state?.channels?.currentChannelId;
+
+  if(currentChannelId){
+    return currentChannelId
+  }
+}
 export const { addMessage, clearMessages } = chatSlice.actions;
 export default chatSlice.reducer;

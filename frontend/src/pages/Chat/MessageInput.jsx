@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { addMessage } from '../../store/slice/chatSlice';
+import { addMessage } from '../../store/slice/messagesSlice';
 import sendIcon from '../../assets/5064452.svg'; 
-import messagesSlice from '../../store/slice/messagesSlice';
+import { getCurrentChannelId } from '../../store/slice/chatSlice';
+
+
 
 const MessageInput = () => {
   const {t} = useTranslation();
   const [text, setText] = useState('');
-  const currentChannelId = useSelector(state => state.chat.currentChannelId);
+  const currentChannelId = useSelector(getCurrentChannelId);
   const dispatch = useDispatch();
   const username = useSelector(state => state.auth.username);
 

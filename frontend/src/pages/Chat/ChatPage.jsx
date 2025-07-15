@@ -6,13 +6,11 @@ import { Container, Row, Col } from 'react-bootstrap';
 import ChannelList from './ChannelList';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
-import ChatContainer from './ChatContainer';
 import ChatHeader from './ChatHeader';
 import { selectCurrentChannel } from '../../store/slice/channelsSlice';
 import ChatComponent from './ChatComponent';
 import { selectCurrentMessages, addMessage } from '../../store/slice/messagesSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
-
 
 const ChatPage = () => {
   const location = useLocation();
@@ -77,10 +75,7 @@ const ChatPage = () => {
                   onSend={handleSendMessage}
                   placeholder={t('chat.message_placeholder')}
                 />
-                <ChatContainer 
-                  currentChannel={currentChannel}
-                  username={username}
-                />
+                
               </>
             ) : (
               <div className="d-flex justify-content-center align-items-center h-100">

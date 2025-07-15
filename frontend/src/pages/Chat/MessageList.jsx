@@ -4,6 +4,8 @@ import { selectMessagesLoading, selectMessagesError } from '../../store/slice/ch
 import { fetchMessages } from '../../store/api/messagesApi';
 import { useTranslation } from 'react-i18next';
 import ProfanityFilter from 'leo-profanity';
+import { getCurrentChannelId } from '../../store/slice/chatSlice';
+import { selectCurrentMessages } from '../../store/slice/messagesSlice';
 
 
 const cleanText = (text) => {
@@ -14,18 +16,23 @@ const cleanText = (text) => {
 const MessageList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const currentChannelId = useSelector(state => state.chat.currentChannelId);
-  const messages = useSelector(state => state.messages.messages);
+
+  //получение данных из редукс стора
+  const currentChannelId = useSelector(getCurrentChannelId);
+  const messages = useSelector(selectCurrentMessages);
   const isLoading = useSelector(selectMessagesLoading);
   const error = useSelector(selectMessagesError);
   const username = useSelector(state => state.auth.username);
+  const token = useSelector(state => state.auth.token);//добавлено
 
-  const filteredMessages = messages.filter(message => message.channelId === currentChannelId);
+  const filteredMessages = messages?.filter(message => message.channelId === currentChannelId) || [];;
 
   useEffect(() => {
-    console.log('currentChannelId:', currentChannelId);
-    dispatch(fetchMessages(currentChannelId));
-  }, [dispatch, currentChannelId]);
+    if (currentChannelId) { //проверка что Id канала существует
+    console.log('currentChannelId:', currentChannelId); //логирование косячка
+    dispatch(fetchMessages(currentChannelId));//диспатч асинх запроса
+    }
+  }, [currentChannelId]); //зависимости
 
   // Логирование
   useEffect(() => {
