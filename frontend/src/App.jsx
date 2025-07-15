@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
-import Login from './components/Login/Login';
-import RegisterPage from './components/RegisterPage/RegisterForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import './i18n';
-import Navbar from './components/header/Navbar';
-import ChatPage from './components/Chat/ChatPage';
-import NotFound from './components/NotFound';
-import ChatComponent from '../src/components/Chat/ChatComponent';
+import Navbar from './pages/header/Navbar';
+import AppRoutes from './routes/Routes';
 
 
 
@@ -31,20 +27,8 @@ const AppContent = () => {
     return (
         <Router>
             <Navbar />
+            <AppRoutes />
             <ToastContainer position="top-right" autoClose={3000} />
-            <Routes>
-              
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<RegisterPage />} />
-                <Route path="/" element={
-                    <>
-                        <ChatPage />
-                    </>
-                } />
-                <Route path="/chat" element={<ChatComponent />} />
-                {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
-                <Route path="*" element={<NotFound />} />
-            </Routes>
           </Router>
     );
 };
