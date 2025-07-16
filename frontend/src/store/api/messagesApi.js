@@ -5,11 +5,22 @@ export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (channelId, { getState, rejectWithValue }) => {
     try {
-      const { token } = getState().auth;
-      const response = await axios.get(`/api/v1/channels/${channelId}/messages`);
-      return { channelId, messages: response.data };
+      const { token } = getState().auth; // Достаем токен из state
+      
+      // Запрос к серверу
+      const response = await axios.get(`/api/v1/channels/${channelId}/messages`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Показываем ключ (токен)
+        },
+      });
+      
+      return { channelId, messages: response.data }; // Возвращаем данные для Redux
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
+      // Если сломалось — возвращаем ошибку
+      return rejectWithValue({
+        message: 'Не удалось загрузить сообщения',
+        error: err.response?.data?.message || err.message,
+      });
     }
   }
 );
