@@ -6,8 +6,6 @@ import { addMessage } from '../../store/slice/messagesSlice';
 import sendIcon from '../../assets/5064452.svg'; 
 import { getCurrentChannelId } from '../../store/slice/chatSlice';
 
-
-
 const MessageInput = () => {
   const {t} = useTranslation();
   const [text, setText] = useState('');

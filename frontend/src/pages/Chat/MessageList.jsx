@@ -28,11 +28,10 @@ const MessageList = () => {
   const filteredMessages = messages?.filter(message => message.channelId === currentChannelId) || [];;
 
   useEffect(() => {
-    if (currentChannelId) { //проверка что Id канала существует
-    console.log('currentChannelId:', currentChannelId); //логирование косячка
-    dispatch(fetchMessages(currentChannelId));//диспатч асинх запроса
+    if (currentChannelId) {
+      dispatch(fetchMessages(currentChannelId));
     }
-  }, [currentChannelId]); //зависимости
+  }, [currentChannelId, dispatch]);
 
   // Логирование
   useEffect(() => {
@@ -84,14 +83,14 @@ const MessageList = () => {
         </div>
       ) : (
         <div className="messages-flow">
-          {filteredMessages.map(messages => {
+          {filteredMessages.map(message => {
             // Проверка, является ли автор сообщения текущим пользователем, упрощенная
-            const isCurrentUser = username === messages.username;
-            const displayName = cleanText(messages.username);
+            const isCurrentUser = username === message.username;
+            const displayName = cleanText(message.username);
             
             return (
               <div 
-                key={messages.id} 
+                key={message.id} 
                 className={`mb-2 ${isCurrentUser ? 'current-user-message' : ''}`}
               >
                 <div className="d-flex justify-content-between">
@@ -99,11 +98,11 @@ const MessageList = () => {
                     {displayName}
                   </strong>
                   <small className="text-muted">
-                    {new Date(messages.timestamp).toLocaleTimeString()}
+                    {new Date(message.timestamp).toLocaleTimeString()}
                   </small>
                 </div>
                 <div className="message-text">
-                  {cleanText(messages.text)}
+                  {cleanText(message.text)}
                 </div>
               </div>
             );

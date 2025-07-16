@@ -3,12 +3,13 @@ import axios from 'axios';
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
-  async (channelId, { rejectWithValue }) => {
+  async (channelId, { getState, rejectWithValue }) => {
     try {
+      const { token } = getState().auth;
       const response = await axios.get(`/api/v1/channels/${channelId}/messages`);
-      return response.data;
+      return { channelId, messages: response.data };
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      return rejectWithValue(err.response?.data?.message || err.message);
     }
   }
 );
@@ -35,16 +36,4 @@ try {
   }
 );
 
-export const removeMessage = async (messageId, token) => {
-  try {
-    const response = await axios.delete(`/api/v1/messages/${messageId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (err) {
-    console.error('Ошибка при удалении сообщения', err);
-    throw err;
-  }
-};
+

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { sendMessage } from "../api/messagesApi.js";
+import { sendMessage, fetchMessages } from "../api/messagesApi.js";
 import { removeChannel } from "../api/channelsApi.js";
 
 const initialState = {
@@ -15,18 +15,16 @@ const messagesSlice = createSlice({
     addMessage(state, action) {
       state.messages.push(action.payload);
     },
-    removeMessageRedux(state, action) {
-      state.messages = state.messages.filter(
-        (msg) => msg.channelId !== action.payload
-      );
-    },
+
   },
   extraReducers: (builder) => {
     builder
-      .addCase(sendMessage.pending, (state) => {
+      .addCase(fetchMessages.pending, (state) => {
         state.loading = true;
+        state.messages = action.payload;
         state.error = null;
       })
+      
       .addCase(sendMessage.fulfilled, (state, action) => {
         //сохранение сообщений в списке
         state.loading = false;
@@ -48,6 +46,6 @@ const messagesSlice = createSlice({
 export const selectCurrentMessages = (state) => state.messages.messages;
 export const selectMessagesLoading = (state) => state.messages.loading;
 
-export const { addMessage, removeMessageRedux } = messagesSlice.actions;
+export const { addMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
