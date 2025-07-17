@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { addMessage } from '../../store/slice/messagesSlice';
+import { sendMessageApi } from '../../store/api/messagesApi';
 import sendIcon from '../../assets/5064452.svg'; 
 import { getCurrentChannelId } from '../../store/slice/chatSlice';
 
@@ -16,13 +16,14 @@ const MessageInput = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text.trim()) {
-      dispatch(addMessage({
+      dispatch(sendMessageApi({
         text,
         username,
         channelId: currentChannelId,
         timestamp: new Date().toISOString(),
-      }));
-      setText('');
+      })).unwrap() // Добавляем unwrap для обработки ошибок
+      .then(() => setText(''))
+      .catch((err) => console.error('Ошибка отправки:', err));
     }
   };
 

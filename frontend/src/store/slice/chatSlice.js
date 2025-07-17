@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { removeChannel } from '../../store/api/channelsApi';
-import { sendMessage } from '../../store/api/messagesApi';
+import { sendMessageApi } from '../../store/api/messagesApi';
 
 const initialState = {
   data: [],
@@ -21,15 +21,15 @@ const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(sendMessage.pending, (state) => {
+      .addCase(sendMessageApi.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(sendMessage.fulfilled, (state, action) => {
+      .addCase(sendMessageApi.fulfilled, (state, action) => {
         state.loading = false;
         state.data.push(action.payload);
       })
-      .addCase(sendMessage.rejected, (state, action) => {
+      .addCase(sendMessageApi.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
         console.error("Ошибка при отправке:", action.error.message);
@@ -57,5 +57,5 @@ export const getCurrentChannelId = (state) =>{
     return currentChannelId
   }
 }
-export const { addMessage, clearMessages } = chatSlice.actions;
+export const { clearMessages } = chatSlice.actions;
 export default chatSlice.reducer;

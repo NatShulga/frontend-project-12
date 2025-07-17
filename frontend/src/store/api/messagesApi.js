@@ -25,7 +25,7 @@ export const fetchMessages = createAsyncThunk(
   }
 );
 
-export const sendMessage = createAsyncThunk(
+export const sendMessageApi = createAsyncThunk(
   'messages/sendMessage',
   async ({ body, channelId, username }, { getState, rejectWithValue }) => {
     const { auth } = getState();

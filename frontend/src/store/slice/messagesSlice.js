@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { sendMessage, fetchMessages } from "../api/messagesApi.js";
+import { sendMessageApi, fetchMessages } from "../api/messagesApi.js";
 import { removeChannel } from "../api/channelsApi.js";
 
 const initialState = {
-  messages: [],
+  messages: [], //меняем массив на объект
   loading: false,
   error: null,
 };
@@ -11,26 +11,39 @@ const initialState = {
 const messagesSlice = createSlice({
   name: "messages",
   initialState,
-  reducers: {
-    addMessage(state, action) {
-      state.messages.push(action.payload);
-    },
+  reducers: {},
 
-  },
   extraReducers: (builder) => {
     builder
+    //ЗАГРУЗКА СООБЩЕНИЙ
       .addCase(fetchMessages.pending, (state) => {
         state.loading = true;
         state.messages = action.payload;
         state.error = null;
       })
-      
-      .addCase(sendMessage.fulfilled, (state, action) => {
-        //сохранение сообщений в списке
+      .addCase(fetchMessages.fulfilled, (state, action) => {
+        const { channelId, messages } = action.payload;
+        state.messages[channelId] = messages;
         state.loading = false;
-        state.messages.push(action.payload);
       })
-      .addCase(sendMessage.rejected, (state, action) => {
+      .addCase(fetchMessages.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Ошибка загрузки сообщений";
+      })
+      //ОТПРАВКА СООБЩЕНИЙ
+      .addCase(sendMessageApi.fulfilled, (state, action) => {
+        const { channelId, ...message } = action.payload;
+        
+        // Инициализируем этот массив для канала
+        if (!state.messages[channelId]) {
+          state.messages[channelId] = [];
+        }
+        
+        // Добавляем сообщение в нужный канал
+        state.messages[channelId].push(message);
+        state.loading = false;
+      })
+      .addCase(sendMessageApi.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Ошибка отправки сообщения";
       })
@@ -46,6 +59,6 @@ const messagesSlice = createSlice({
 export const selectCurrentMessages = (state) => state.messages.messages;
 export const selectMessagesLoading = (state) => state.messages.loading;
 
-export const { addMessage } = messagesSlice.actions;
+//export const { sendMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

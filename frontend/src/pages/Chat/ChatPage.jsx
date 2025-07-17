@@ -8,8 +8,8 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import ChatHeader from './ChatHeader';
 import { selectCurrentChannel } from '../../store/slice/channelsSlice';
-import ChatComponent from './ChatComponent';
-import { selectCurrentMessages, addMessage } from '../../store/slice/messagesSlice';
+//import ChatComponent from './ChatComponent';
+import { selectCurrentMessages} from '../../store/slice/messagesSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
 
 const ChatPage = () => {
@@ -43,7 +43,7 @@ const ChatPage = () => {
       timestamp: new Date().toISOString(),
       channelId: currentChannel.id,
     };
-    dispatch(addMessage(newMessage));
+    dispatch(sendMessage(newMessage));
   };
 
   return (
@@ -84,7 +84,7 @@ const ChatPage = () => {
             )}
           </Col>
         </Row>
-        <ChatComponent />
+      
       </div>
     </Container>
   );
