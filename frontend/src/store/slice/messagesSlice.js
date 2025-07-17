@@ -3,7 +3,7 @@ import { sendMessageApi, fetchMessages } from "../api/messagesApi.js";
 import { removeChannel } from "../api/channelsApi.js";
 
 const initialState = {
-  messages: [],
+  messagesByChannel: {},
   loading: false,
   error: null,
 };
@@ -23,7 +23,7 @@ const messagesSlice = createSlice({
       })
       .addCase(fetchMessages.fulfilled, (state, action) => {
         const { channelId, messages } = action.payload;
-        state.messages[channelId] = messages;
+        state.messagesByChannel[channelId] = messages;
         state.loading = false;
       })
       .addCase(fetchMessages.rejected, (state, action) => {
@@ -35,30 +35,31 @@ const messagesSlice = createSlice({
         const { channelId, ...message } = action.payload;
         
         // Инициализируем этот массив для канала
-        if (!state.messages[channelId]) {
-          state.messages[channelId] = [];
+        if (!state.messagesByChannel[channelId]) {
+          state.messagesByChannel[channelId] = [];
         }
-        
-        // Добавляем сообщение в нужный канал
-        state.messages[channelId].push(message);
-        state.loading = false;
+        state.messagesByChannel[channelId].push(message);
       })
-      //.addCase(sendMessageApi.rejected, (state, action) => {
-        //state.loading = false;
-        //state.error = action.payload || "Ошибка отправки сообщения";
-      //})
+
+      .addCase(sendMessageApi.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Ошибка отправки сообщения";
+      })
+      
       .addCase(removeChannel.fulfilled, (state, action) => {
         const channelId = action.payload.id;
-        state.messages = state.messages.filter(
-          (msg) => msg.channelId !== channelId
-        );
+        if (state.messagesByChannel[channelId]) {
+        delete state.messagesByChannel[channelId];
+        }
       });
   },
 });
 
-export const selectCurrentMessages = (state) => state.messages.messages;
+export const selectMessagesByChannel = (channelId) => (state) => 
+  state.messages.messagesByChannel[channelId] || [];
+
 export const selectMessagesLoading = (state) => state.messages.loading;
 export const selectMessagesError = (state) => state.messages.error;
-//export const { sendMessage } = messagesSlice.actions;
+
 
 export default messagesSlice.reducer;

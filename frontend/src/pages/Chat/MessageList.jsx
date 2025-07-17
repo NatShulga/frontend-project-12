@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectMessagesLoading, selectMessagesError } from '../../store/slice/chatSlice';
+import { selectMessagesByChannel, selectMessagesLoading, selectMessagesError } from '../../store/slice/messagesSlice';
 import { fetchMessages } from '../../store/api/messagesApi';
 import { useTranslation } from 'react-i18next';
 import ProfanityFilter from 'leo-profanity';
 import { getCurrentChannelId } from '../../store/slice/chatSlice';
-import { selectCurrentMessages } from '../../store/slice/messagesSlice';
+//import { selectCurrentMessages } from '../../store/slice/messagesSlice';
 
 
 const cleanText = (text) => {
@@ -19,13 +19,12 @@ const MessageList = () => {
 
   //получение данных из редукс стора
   const currentChannelId = useSelector(getCurrentChannelId);
-  const messages = useSelector(selectCurrentMessages);
+  const messages = useSelector(selectMessagesByChannel(currentChannelId));
   const isLoading = useSelector(selectMessagesLoading);
   const error = useSelector(selectMessagesError);
   const username = useSelector(state => state.auth.username);
-  const token = useSelector(state => state.auth.token);//добавлено
 
-  const filteredMessages = messages?.filter(message => message.channelId === currentChannelId) || [];;
+  //const filteredMessages = messages?.filter(message => message.channelId === currentChannelId) || [];;//заменено фильтрацией по каналу
 
   useEffect(() => {
     if (currentChannelId) {
@@ -58,7 +57,7 @@ const MessageList = () => {
             color: 'white',
           }}
         >
-          {filteredMessages.length} {t('сообщений')}
+          {messages.length} {t('сообщений')}
         </span>
       </h5>
     </div>
@@ -74,7 +73,7 @@ const MessageList = () => {
         backgroundColor: 'white',
       }}
     > 
-      {filteredMessages.length === 0 ? (
+      {messages.length === 0 ? (
         <div className="text-center text-muted h-100 d-flex flex-column align-items-center justify-content-center">
           <div className="mb-3">
             <i className="bi bi-chat-square-text fs-1"></i>
@@ -83,7 +82,7 @@ const MessageList = () => {
         </div>
       ) : (
         <div className="messages-flow">
-          {filteredMessages.map(message => {
+          {messages.map(message => {
             // Проверка, является ли автор сообщения текущим пользователем, упрощенная
             const isCurrentUser = username === message.username;
             const displayName = cleanText(message.username);
@@ -98,7 +97,7 @@ const MessageList = () => {
                     {displayName}
                   </strong>
                   <small className="text-muted">
-                    {new Date(message.timestamp).toLocaleTimeString()}
+                    {new Date(message.timestamp || Date.now()).toLocaleTimeString()}
                   </small>
                 </div>
                 <div className="message-text">

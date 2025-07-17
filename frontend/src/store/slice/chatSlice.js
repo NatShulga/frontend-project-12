@@ -17,20 +17,15 @@ const chatSlice = createSlice({
 });
 
 // Селекторы сообщений
-export const selectAllMessages = (state) => state.chat.data || [];
+//export const selectAllMessages = (state) => state.chat.data || [];
 export const selectMessagesLoading = (state) => state.chat.loading;
 export const selectMessagesError = (state) => state.chat.error;
 
-export const selectCurrentMessages = (state) => {
-state.messages[getCurrentChannelId]?.map(message => message) || [];
-};
+//export const selectCurrentMessages = (state) => {
+//state.messages[getCurrentChannelId]?.map(message => message) || [];
+//};
 
-export const getCurrentChannelId = (state) =>{
-  const currentChannelId = state?.channels?.currentChannelId;
+export const getCurrentChannelId = (state) => state.chat.currentChannelId;
 
-  if(currentChannelId){
-    return currentChannelId
-  }
-}
 export const { clearMessages } = chatSlice.actions;
 export default chatSlice.reducer;

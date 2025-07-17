@@ -8,7 +8,8 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import ChatHeader from './ChatHeader';
 import { selectCurrentChannel } from '../../store/slice/channelsSlice';
-import { selectCurrentMessages} from '../../store/slice/messagesSlice';
+import { selectMessagesByChannel } from '../../store/slice/messagesSlice';
+//import { selectCurrentMessages} from '../../store/slice/messagesSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
 
 const ChatPage = () => {
@@ -19,7 +20,8 @@ const ChatPage = () => {
   const [authChecked, setAuthChecked] = useState(false);
   
   const currentChannel = useSelector(selectCurrentChannel);
-  const messages = useSelector(selectCurrentMessages);
+  const currentChannelId = currentChannel?.id;
+  const messages = useSelector(selectMessagesByChannel(currentChannelId));
   const username = useSelector(state => state.auth.username); 
   
   useEffect(() => {
@@ -42,7 +44,7 @@ const ChatPage = () => {
       timestamp: new Date().toISOString(),
       channelId: currentChannel.id,
     };
-    dispatch(sendMessage(newMessage));
+    dispatch(sendMessageApi(newMessage));
   };
 
   return (
