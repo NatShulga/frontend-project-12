@@ -8,7 +8,6 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import ChatHeader from './ChatHeader';
 import { selectCurrentChannel } from '../../store/slice/channelsSlice';
-//import ChatComponent from './ChatComponent';
 import { selectCurrentMessages} from '../../store/slice/messagesSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
 

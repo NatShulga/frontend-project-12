@@ -3,7 +3,7 @@ import { sendMessageApi, fetchMessages } from "../api/messagesApi.js";
 import { removeChannel } from "../api/channelsApi.js";
 
 const initialState = {
-  messages: [], //меняем массив на объект
+  messages: [],
   loading: false,
   error: null,
 };
@@ -43,10 +43,10 @@ const messagesSlice = createSlice({
         state.messages[channelId].push(message);
         state.loading = false;
       })
-      .addCase(sendMessageApi.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || "Ошибка отправки сообщения";
-      })
+      //.addCase(sendMessageApi.rejected, (state, action) => {
+        //state.loading = false;
+        //state.error = action.payload || "Ошибка отправки сообщения";
+      //})
       .addCase(removeChannel.fulfilled, (state, action) => {
         const channelId = action.payload.id;
         state.messages = state.messages.filter(
@@ -58,7 +58,7 @@ const messagesSlice = createSlice({
 
 export const selectCurrentMessages = (state) => state.messages.messages;
 export const selectMessagesLoading = (state) => state.messages.loading;
-
+export const selectMessagesError = (state) => state.messages.error;
 //export const { sendMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
