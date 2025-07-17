@@ -4,6 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentChannelId: null,
+  loading: false,
+  error: null,
 };
 
 const chatSlice = createSlice({

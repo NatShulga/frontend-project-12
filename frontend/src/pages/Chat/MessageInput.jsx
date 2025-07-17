@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -8,24 +9,41 @@ import { getCurrentChannelId } from '../../store/slice/chatSlice';
 
 const MessageInput = () => {
   const {t} = useTranslation();
-  const [text, setText] = useState('');
   const currentChannelId = useSelector(getCurrentChannelId);
   const dispatch = useDispatch();
   const username = useSelector(state => state.auth.username);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (text.trim()) {
+
+  const formik = useFormik({
+    initialValues: {
+      message: '',
+    },
+    validate: (values) => {
+      const errors = {};
+      if (!values.message.trim()) {
+        errors.message = t('Сообщение не может быть пустым');
+      }
+      return errors;
+    },
+    onSubmit: (values, { resetForm, setSubmitting }) => {
       dispatch(sendMessageApi({
-        text,
+        body: values.message,
         username,
         channelId: currentChannelId,
         timestamp: new Date().toISOString(),
-      })).unwrap() // Добавляем unwrap для обработки ошибок
-      .then(() => setText(''))
-      .catch((err) => console.error('Ошибка отправки:', err));
-    }
-  };
+      }))
+        .unwrap()
+        .then(() => {
+          resetForm();
+        })
+        .catch((err) => {
+          console.error('Ошибка отправки:', err);
+        })
+        .finally(() => {
+          setSubmitting(false);
+        });
+    },
+  });
 
   return (
     <div className="message-input-container" 
@@ -33,13 +51,17 @@ const MessageInput = () => {
         padding: '45px',
         backgroundColor: '#fff',
       }}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
         <InputGroup>
           <Form.Control
-            id="messageInput"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
+            id="message"
+            name="message"
+            type="text"
+            value={formik.values.message}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder={t("Введите сообщение...")}
+            isInvalid={formik.touched.message && !!formik.errors.message}
             style={{
               borderRadius: '20px',
               border: '1px solid #ced4da',
@@ -48,7 +70,7 @@ const MessageInput = () => {
           <Button 
             variant="primary" 
             type="submit"
-            disabled={!text.trim()}
+            disabled={!formik.values.message.trim() || formik.isSubmitting}
             style={{
               borderRadius: '20px',
               marginLeft: '10px',
@@ -69,6 +91,11 @@ const MessageInput = () => {
               }}
             />
           </Button>
+          {formik.touched.message && formik.errors.message ? (
+            <Form.Control.Feedback type="invalid" style={{ display: 'block' }}>
+              {formik.errors.message}
+            </Form.Control.Feedback>
+          ) : null}
         </InputGroup>
       </Form>
     </div>

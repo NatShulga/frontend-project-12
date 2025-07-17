@@ -11,7 +11,11 @@ const initialState = {
 const messagesSlice = createSlice({
   name: "messages",
   initialState,
-  reducers: {},
+  reducers: {
+    removeMessageRedux(state, action) {
+      state.messages = state.messages.filter((msg) => msg.channelId !== action.payload);
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -47,11 +51,9 @@ const messagesSlice = createSlice({
       })
       
       .addCase(removeChannel.fulfilled, (state, action) => {
-        const channelId = action.payload.id;
-        if (state.messagesByChannel[channelId]) {
-        delete state.messagesByChannel[channelId];
-        }
+        state.messages = state.messages.filter((msg) => msg.channelId !== action.payload);
       });
+
   },
 });
 
