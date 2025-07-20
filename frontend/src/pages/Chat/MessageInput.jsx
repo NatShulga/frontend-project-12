@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { sendMessageApi } from '../../store/api/messagesApi';
 import sendIcon from '../../assets/5064452.svg'; 
-import { getCurrentChannelId } from '../../store/slice/chatSlice';
+import { getCurrentChannelId } from '../../store/slice/channelsSlice';
+
 
 const MessageInput = () => {
   const {t} = useTranslation();

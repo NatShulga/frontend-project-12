@@ -61,6 +61,7 @@ export const selectAllChannels = (state) => state.channels.data || [];
 export const selectCurrentChannelId = (state) => state.channels.currentChannelId;
 export const selectChannelsLoading = (state) => state.channels.loading;
 export const selectChannelsError = (state) => state.channels.error;
+export const getCurrentChannelId = (state) => state.channels.currentChannelId;
 
   export const selectCurrentChannel = (state) => {
   const currentChannelId = selectCurrentChannelId(state);

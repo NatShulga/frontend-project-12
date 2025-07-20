@@ -33,7 +33,7 @@ export const editChannel = createAsyncThunk(
     try {
       const { token } = getState().auth;
       const response = await axios.patch(
-        `/api/v1/channels/${channelId}`,
+        `/api/v1/channels/`,
         { name },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -50,7 +50,7 @@ export const removeChannel = createAsyncThunk('channels/removeChannel',
       const { token } = getState().auth;
 
       //ЗАПРОС НА УДАЛЕНИЕЕЕЕ
-      const response = await axios.delete(`/api/v1/channels/${channelId}`, {
+      const response = await axios.delete(`/api/v1/channels/`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

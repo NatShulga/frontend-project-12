@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectMessagesByChannel, selectMessagesLoading, selectMessagesError } from '../../store/slice/messagesSlice';
-import { fetchMessages } from '../../store/api/messagesApi';
 import { useTranslation } from 'react-i18next';
 import ProfanityFilter from 'leo-profanity';
-import { getCurrentChannelId } from '../../store/slice/chatSlice';
-//import { selectCurrentMessages } from '../../store/slice/messagesSlice';
+import { getCurrentChannelId } from '../../store/slice/channelsSlice';
 
 
 const cleanText = (text) => {
@@ -19,32 +16,11 @@ const MessageList = () => {
 
   //получение данных из редукс стора
   const currentChannelId = useSelector(getCurrentChannelId);
-  const messages = useSelector(selectMessagesByChannel(currentChannelId));
-  const isLoading = useSelector(selectMessagesLoading);
-  const error = useSelector(selectMessagesError);
   const username = useSelector(state => state.auth.username);
+  const sliceMessages = useSelector(state => state.messages);
+  const messages = sliceMessages.messages;
+  
 
-  //const filteredMessages = messages?.filter(message => message.channelId === currentChannelId) || [];;//заменено фильтрацией по каналу
-
-  useEffect(() => {
-    if (currentChannelId) {
-      dispatch(fetchMessages(currentChannelId));
-    }
-  }, [currentChannelId, dispatch]);
-
-  // Логирование
-  useEffect(() => {
-    console.log('Текущие сообщения:', messages);
-    console.log('Текущий channelId:', currentChannelId);
-  }, [messages, currentChannelId]);
-
-  if (isLoading) {
-    return <div>Загрузка...</div>;
-  }
-
-  if (error) {
-    return <div>Ошибка загрузки сообщений.</div>;
-  }
   
   return (
   <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>
@@ -101,7 +77,7 @@ const MessageList = () => {
                   </small>
                 </div>
                 <div className="message-text">
-                  {cleanText(message.text)}
+                  {cleanText(message.body)}
                 </div>
               </div>
             );

@@ -3,8 +3,7 @@ import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { selectAllChannels, selectCurrentChannel, setCurrentChannel } from '../../store/slice/channelsSlice';
-import { fetchChannels, addChannel, removeChannel, editChannel } from '../../store/api/channelsApi';
-import { selectChannelsLoading, selectChannelsError } from '../../store/slice/channelsSlice';
+import { addChannel, removeChannel, editChannel } from '../../store/api/channelsApi';
 import AddChannelModal from '../Modals/AddChannelModal';
 import { useTranslation } from 'react-i18next';
 import RenameChannelModal from '../Modals/RenameChannelModal';
@@ -19,20 +18,6 @@ const ChannelList = () => {
   const [currentChannelId, setCurrentChannelId] = React.useState(null);
   const channels = useSelector(selectAllChannels) || [];
   const currentChannel = useSelector(selectCurrentChannel);
-  const loading = useSelector(selectChannelsLoading);
-  const error = useSelector(selectChannelsError);
-
-  useEffect(() => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    dispatch(fetchChannels())
-      .unwrap()
-      .catch(err => {
-        console.error('Ошибка загрузки каналов:', err);
-        toast.error(t('Ошибка загрузки каналов'));
-      });
-  }
-}, [dispatch, t]);
 
   const handleRename = (channelId) => {
     setCurrentChannelId(channelId);

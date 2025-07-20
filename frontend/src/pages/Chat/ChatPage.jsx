@@ -8,9 +8,10 @@ import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import ChatHeader from './ChatHeader';
 import { selectCurrentChannel } from '../../store/slice/channelsSlice';
-import { selectMessagesByChannel } from '../../store/slice/messagesSlice';
+import { fetchMessages } from '../../store/api/messagesApi';
 //import { selectCurrentMessages} from '../../store/slice/messagesSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
+//import { sendMessageApi } from '../../store/api/messagesApi';
 
 const ChatPage = () => {
   const location = useLocation();
@@ -21,8 +22,8 @@ const ChatPage = () => {
   
   const currentChannel = useSelector(selectCurrentChannel);
   const currentChannelId = currentChannel?.id;
-  const messages = useSelector(selectMessagesByChannel(currentChannelId));
   const username = useSelector(state => state.auth.username); 
+  const messages = [];
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -31,21 +32,10 @@ const ChatPage = () => {
     } else {
       setAuthChecked(true);
       dispatch(fetchChannels());
+      dispatch(fetchMessages());
     }
   }, [navigate]);
 
-  const handleSendMessage = (text) => {
-    if (!text.trim() || !currentChannel) return;
-
-    const newMessage = {
-      id: Date.now(),
-      text,
-      username: username,
-      timestamp: new Date().toISOString(),
-      channelId: currentChannel.id,
-    };
-    dispatch(sendMessageApi(newMessage));
-  };
 
   return (
     <Container fluid className="vh-90 d-flex justify-content-center align-items-center mt-3">
@@ -73,7 +63,6 @@ const ChatPage = () => {
                 />
                 <MessageList messages={messages} />
                 <MessageInput 
-                  onSend={handleSendMessage}
                   placeholder={t('chat.message_placeholder')}
                 />
                 
