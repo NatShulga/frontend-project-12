@@ -17,8 +17,8 @@ const MessageList = () => {
   //получение данных из редукс стора
   const currentChannelId = useSelector(getCurrentChannelId);
   const username = useSelector(state => state.auth.username);
-  const sliceMessages = useSelector(state => state.messages);
-  const messages = sliceMessages.messages;
+  const rendMessages = useSelector(state => state.messages);
+  const messages = rendMessages.messages;
   
 
   
@@ -59,15 +59,14 @@ const MessageList = () => {
       ) : (
         <div className="messages-flow">
           {messages.map(message => {
+            //console.log('current message:', message)
+            //<Message key={msg.id} text={msg.text} username={msg.username} />
             // Проверка, является ли автор сообщения текущим пользователем, упрощенная
             const isCurrentUser = username === message.username;
-            const displayName = cleanText(message.username);
+            const displayName = message.username || 'Unknown';;
             
             return (
-              <div 
-                key={message.id} 
-                className={`mb-2 ${isCurrentUser ? 'current-user-message' : ''}`}
-              >
+              <div key={message.id} className={`mb-2 ${isCurrentUser ? 'current-user-message' : ''}`}>
                 <div className="d-flex justify-content-between">
                   <strong className="message-username">
                     {displayName}
