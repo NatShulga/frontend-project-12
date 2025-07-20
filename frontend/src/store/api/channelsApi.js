@@ -33,7 +33,7 @@ export const editChannel = createAsyncThunk(
     try {
       const { token } = getState().auth;
       const response = await axios.patch(
-        `/api/v1/channels/`,
+        `/api/v1/channels/${channelId}`,
         { name },
         { headers: { Authorization: `Bearer ${token}` } }
       );

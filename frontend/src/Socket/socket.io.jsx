@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import { fetchMessages, fetchChannels, addMessage, setCurrentChannel, addChannel, removeChannel, renameChannel } from './chatSlice';
 
 const ChatComponent = () => {
   const [messages, setMessage] = useState('');
