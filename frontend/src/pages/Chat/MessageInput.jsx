@@ -49,8 +49,15 @@ const MessageInput = () => {
   return (
     <div className="message-input-container" 
       style={{ 
-        padding: '45px',
+        position: 'absolute',
+        width: '100%',
+              padding: '10px 15px',
+              fontSize: '1rem',
+        bottom: 0,
+        padding: '1rem',
         backgroundColor: '#fff',
+        borderTop: '1px solid #eee',
+        zIndex: 100
       }}>
       <Form onSubmit={formik.handleSubmit}>
         <InputGroup>
@@ -66,6 +73,8 @@ const MessageInput = () => {
             style={{
               borderRadius: '20px',
               border: '1px solid #ced4da',
+              flex: 1,
+              
             }}
           />
           <Button 

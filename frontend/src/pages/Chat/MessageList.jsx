@@ -19,9 +19,7 @@ const MessageList = () => {
   const currentChannelId = useSelector(getCurrentChannelId);
   const username = useSelector(state => state.auth.username);
   const rendMessages = useSelector(state => state.messages);
-  const messages = rendMessages.messages.filter(
-  (message) => message.channelId === currentChannelId
-);
+  const messages = rendMessages.messages.filter((message) => message.channelId === currentChannelId);
   
   
   return (
@@ -44,7 +42,7 @@ const MessageList = () => {
       className="mb-4 p-3 small messages-container"
       style={{ 
         minHeight: 0,
-        height: '65%',
+        height: '55%',
         willChange: 'transform',
         overflow: 'hidden auto',
         paddingBottom: '80px',
@@ -86,10 +84,9 @@ const MessageList = () => {
     </div>
 
     <div 
-      className="p-3"
+      className=""
       style={{
-        position: 'sticky',
-        bottom: 0,
+        
       }}
     >
     </div>
