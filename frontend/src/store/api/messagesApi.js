@@ -18,7 +18,7 @@ export const sendMessageApi = createAsyncThunk(
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
-  async (... { getState }) => {
+  async (_, { getState }) => {
     console.log(111)
     const { auth } = getState();
     const response = await axios.get('/api/v1/messages', {
