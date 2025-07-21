@@ -9,9 +9,7 @@ import MessageInput from './MessageInput';
 import ChatHeader from './ChatHeader';
 import { selectCurrentChannel } from '../../store/slice/channelsSlice';
 import { fetchMessages } from '../../store/api/messagesApi';
-//import { selectCurrentMessages} from '../../store/slice/messagesSlice';
 import { fetchChannels } from '../../store/api/channelsApi';
-//import { sendMessageApi } from '../../store/api/messagesApi';
 
 const ChatPage = () => {
   const location = useLocation();

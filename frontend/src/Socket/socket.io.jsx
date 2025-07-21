@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
+import { fetchMessages, sendMessageApi } from '../store/api/messagesApi';
 
 const ChatComponent = () => {
   const [messages, setMessage] = useState('');
@@ -30,24 +31,24 @@ const ChatComponent = () => {
 
     // Обработчики событий сокета
     const handleNewMessage = (payload) => {
-      dispatch(addMessage(payload));
+      dispatch(sendMessageApi(payload));
       // Дополнительно перезагружаем сообщения для синхронизации
-      dispatch(fetchMessages());
+      //dispatch(fetchMessages());
     };
 
     const handleNewChannel = (payload) => {
-      dispatch(addChannel(payload));
-      dispatch(fetchChannels()); // для синхронизации с сервером
+      dispatch(sendMessageApi(payload));
+      //dispatch(fetchChannels()); // для синхронизации с сервером
     };
 
     const handleRemoveChannel = (payload) => {
       dispatch(removeChannel(payload))
-      dispatch(fetchChannels());
+      //dispatch(fetchChannels());
     };
 
     const handleRenameChannel = (payload) => {
       dispatch(renameChannel(payload))
-      dispatch(fetchChannels());
+      //dispatch(fetchChannels());
     };
 
 
@@ -60,7 +61,7 @@ const ChatComponent = () => {
     //загр.данных при монтировании
     dispatch(fetchChannels()).then(() => {
       if (!currentChannelId && channels.length > 0) {
-        dispatch(setCurrentChannel(channels[0].id));
+        dispatch(getCurrentChannel(channels[0].id));
       }
     });
     

@@ -14,13 +14,13 @@ const MessageList = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+
   //получение данных из редукс стора
   const currentChannelId = useSelector(getCurrentChannelId);
   const username = useSelector(state => state.auth.username);
   const rendMessages = useSelector(state => state.messages);
   const messages = rendMessages.messages;
   
-
   
   return (
   <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>
@@ -59,8 +59,6 @@ const MessageList = () => {
       ) : (
         <div className="messages-flow">
           {messages.map(message => {
-            //console.log('current message:', message)
-            //<Message key={msg.id} text={msg.text} username={msg.username} />
             // Проверка, является ли автор сообщения текущим пользователем, упрощенная
             const isCurrentUser = username === message.username;
             const displayName = message.username || 'Unknown';;

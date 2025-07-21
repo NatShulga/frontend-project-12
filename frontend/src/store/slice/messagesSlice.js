@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchMessages, sendMessageApi } from "../api/messagesApi.js";
 import { removeChannel } from "../api/channelsApi.js";
-//import { fetchMessages } from "../api/messagesApi.js";
 
 const initialState = {
   loading: false,
