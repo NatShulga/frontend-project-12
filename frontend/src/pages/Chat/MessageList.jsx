@@ -19,7 +19,9 @@ const MessageList = () => {
   const currentChannelId = useSelector(getCurrentChannelId);
   const username = useSelector(state => state.auth.username);
   const rendMessages = useSelector(state => state.messages);
-  const messages = rendMessages.messages;
+  const messages = rendMessages.messages.filter(
+  (message) => message.channelId === currentChannelId
+);
   
   
   return (
