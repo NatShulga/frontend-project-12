@@ -3,12 +3,58 @@ import axios from 'axios';
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
-  async (_, { getState }) => {
-    const { token } = getState().auth;
-    const response = await axios.get('/api/v1/channels', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
+  async (_, { getState, dispatch, rejectWithValue }) => {
+    try {
+      // Проверяем наличие токена
+      const { token } = getState().auth;
+      if (!token) {
+        console.error('Токен отсутствует в Redux store');
+        dispatch(logout()); // Очищаем состояние
+        return rejectWithValue('Токен отсутствует');
+      }
+
+      //Проверяем валидность базового URL
+      if (!axios.defaults.baseURL) {
+        console.warn('Базовый URL не установлен, используем относительный');
+      }
+
+      // Отправляем запрос с таймаутом
+      const response = await axios.get('/api/v1/channels', {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 5000 // Таймаут 5 секунд
+      });
+
+      //Проверяем структуру ответа
+      if (!Array.isArray(response.data)) {
+        console.error('Некорректный формат каналов:', response.data);
+        throw new Error('Сервер вернул некорректные данные');
+      }
+
+      return response.data;
+
+    } catch (error) {
+      //логирование ошибок
+      console.error('Ошибка при загрузке каналов:', {
+        status: error.response?.status,
+        message: error.message,
+        config: error.config
+      });
+
+    
+      if (error.response?.status === 401) {//выходим, если 401, а не топчемся в локалсторидже
+        dispatch(logout());
+        localStorage.removeItem('token');
+      }
+
+      //тож ошибочки
+      return rejectWithValue({
+        status: error.response?.status || 500,
+        message: error.response?.data?.message || error.message || 'Неизвестная ошибка при загрузке каналов'
+      });
+    }
   }
 );
 
