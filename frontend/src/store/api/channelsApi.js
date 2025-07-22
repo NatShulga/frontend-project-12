@@ -3,12 +3,26 @@ import axios from 'axios';
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
-  async (_, { getState }) => {
-    const { token } = getState().auth;
-    const response = await axios.get('/api/v1/channels', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { token } = getState().auth;
+      
+      if (!token) {
+        throw new Error('Токен не найден');
+      }
+
+      const response = await axios.get('/api/v1/channels', {
+        headers: { 
+          Authorization: `Bearer ${token}` 
+        },
+        timeout: 5000 // Таймаут 5 секунд
+      });
+
+      return response.data;
+    } catch (err) {
+      console.error('Channels fetch error:', err);
+      return rejectWithValue(err.response?.data || err.message);
+    }
   }
 );
 
