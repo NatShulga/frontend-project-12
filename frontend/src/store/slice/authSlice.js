@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const loadInitialAuthState = () => {
-  const token = localStorage.getItem('token');
-  const username = localStorage.getItem('username');
+  const token = localStorage.getItem('token') || null;
+  const username = localStorage.getItem('username') || null;
 
   return {
     token,

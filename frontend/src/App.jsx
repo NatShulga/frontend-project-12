@@ -18,9 +18,12 @@ const rollbarConfig = {
 };
 
 const AppContent = () => {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
     const authState = useSelector(state => state.auth);
+
     useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token) {}
     console.log('Auth state:', authState);
 }, [authState]);
     
