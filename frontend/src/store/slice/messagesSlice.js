@@ -5,7 +5,7 @@ import { removeChannel } from "../api/channelsApi.js";
 const initialState = {
   loading: false,
   error: null,
-  username: null,
+  //username: null,
   messages: []
 };
 

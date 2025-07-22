@@ -4,9 +4,9 @@ import axios from 'axios';
 
 export const sendMessageApi = createAsyncThunk(
   'messages/sendMessage',
-  async ({ body, channelId, username }, { getState }) => {
+  async ({ body, channelId }, { getState }) => {
     const { auth } = getState();
-    const response = await axios.post('/api/v1/messages', { body, channelId, username }, {
+    const response = await axios.post('/api/v1/messages', { body, channelId, username: auth.username }, {//username из auth, а не из параметра
       headers: {
         Authorization: `Bearer ${auth.token}`,
       },
