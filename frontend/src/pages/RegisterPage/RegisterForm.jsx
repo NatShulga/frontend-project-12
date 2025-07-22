@@ -88,6 +88,7 @@ function RegisterPage() {
                 dispatch({ type: 'LOGIN_SUCCESS', payload: userInfo });
 
                 toast.success(t('Регистрация и вход выполнены!'));
+                resetForm();
                 navigate('/'); // Перенаправляем в корневой
 
             } catch (err) {
