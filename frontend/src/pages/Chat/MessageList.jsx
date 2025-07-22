@@ -25,16 +25,9 @@ const MessageList = () => {
   return (
   <div className="d-flex flex-column h-100" style={{ position: 'relative' }}>
     <div className="channel-header p-3">
-      <h5 className="m-0">
-        <span 
-          className="badge ms-1"
-          style={{
-            backgroundColor: '#4682B4',
-            color: 'white',
-          }}
-        >
+      <h5 className="m-0" style={{ fontSize: '0.9rem', color: '#6c757d' }}>
           {messages.length} {t('сообщений')}
-        </span>
+        
       </h5>
     </div>
     

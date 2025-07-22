@@ -33,22 +33,22 @@ const ChatComponent = () => {
     const handleNewMessage = (payload) => {
       dispatch(sendMessageApi(payload));
       // Дополнительно перезагружаем сообщения для синхронизации
-      //dispatch(fetchMessages());
+      dispatch(fetchMessages());
     };
 
     const handleNewChannel = (payload) => {
       dispatch(sendMessageApi(payload));
-      //dispatch(fetchChannels()); // для синхронизации с сервером
+      dispatch(fetchChannels()); // для синхронизации с сервером
     };
 
     const handleRemoveChannel = (payload) => {
       dispatch(removeChannel(payload))
-      //dispatch(fetchChannels());
+      dispatch(fetchChannels());
     };
 
     const handleRenameChannel = (payload) => {
       dispatch(renameChannel(payload))
-      //dispatch(fetchChannels());
+      dispatch(fetchChannels());
     };
 
 

@@ -54,7 +54,7 @@ const MessageInput = () => {
               padding: '10px 15px',
               fontSize: '1rem',
         bottom: 0,
-        padding: '1rem',
+        //padding: '1rem',
         backgroundColor: '#fff',
         borderTop: '1px solid #eee',
         zIndex: 100
