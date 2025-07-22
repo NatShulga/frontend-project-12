@@ -18,9 +18,13 @@ export const authSlice = createSlice({
   reducers: {
     setAuthToken: (state, action) => {
       const { token, username } = action.payload;
+
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+
       state.token = token;
       state.isAuthenticated = true;
-      state.username = username;
+      state.username = username;//новое имя
       state.chatResetFlag = false;
 
       localStorage.setItem('token', token);
@@ -35,7 +39,7 @@ export const authSlice = createSlice({
     // Полный выход с очисткой чата
     logout: (state) => {
       state.token = null;
-      state.username = null;
+      state.username = null;//сброс имени
       state.isAuthenticated = false;
       state.chatResetFlag = true; // Флаг для очистки чата
       
@@ -46,7 +50,8 @@ export const authSlice = createSlice({
     restoreAuth: (state) => {
       const username = localStorage.getItem('username');
       if (username) {
-        state.username = username;
+        state.token = token; 
+        state.username = localStorage.getItem('username');//текущее значение
         state.isAuthenticated = !!localStorage.getItem('token');
       }
     }
