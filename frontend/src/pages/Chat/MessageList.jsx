@@ -27,7 +27,6 @@ const MessageList = () => {
     <div className="channel-header p-3">
       <h5 className="m-0" style={{ fontSize: '0.9rem', color: '#6c757d' }}>
           {messages.length} {t('сообщений')}
-        
       </h5>
     </div>
     
@@ -54,7 +53,7 @@ const MessageList = () => {
           {messages.map(message => {
             // Проверка, является ли автор сообщения текущим пользователем, упрощенная
             const isCurrentUser = username === message.username;
-            const displayName = message.username || 'Unknown';;
+            const displayName = message.username || 'Unknown';
             
             return (
               <div key={message.id} className={`mb-2 ${isCurrentUser ? 'current-user-message' : ''}`}>
