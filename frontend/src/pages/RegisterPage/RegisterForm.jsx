@@ -56,51 +56,23 @@ function RegisterPage() {
             setError('');
             try {
                 //здесь у нас данный отправляются на рег-ию
-                await axios.post('/api/v1/signup', {
-                username: values.username,
-                password: values.password
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                }
-                });
-                
-                //автоматич.вход после загрузки
-                const loginResponse = await axios.post('/api/v1/login', {
+                const res = await axios.post('/api/v1/signup', {
                     username: values.username,
                     password: values.password
                 }, {
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                }
                 });
 
-                //обрабатываетсяп олученый токен
-                const receivedToken = loginResponse.data.token || loginResponse.data.access_token;
-                const userInfo = loginResponse.data.user || {};
-
-                if (!receivedToken) throw new Error('Токен не получен');
-
-                // сохраняем юзера и токет в локал.хранилище
-                localStorage.setItem('token', receivedToken);
-                localStorage.setItem('user', JSON.stringify(userInfo));
-
-                dispatch({ type: 'LOGIN_SUCCESS', payload: userInfo });
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('user', res.data.username);
 
                 toast.success(t('Регистрация и вход выполнены!'));
-                resetForm();
-                navigate('/'); // Перенаправляем в корневой
+                navigate('/');
 
-            } catch (err) {
-                if (isMounted) {
-                    setError(err.response?.data?.message || t('Ошибка регистрации'));
-                    toast.error(t('Не удалось зарегистрироваться'));
-                    formik.setValues({ 
-                        username: values.username,
-                        password: '', 
-                        confirmPassword: '' 
-                });
-            }
+        } catch (err) {
+                toast.error(t('Ошибка регистрации'));
         } finally {
             setIsLoading(false); //выкл загрузки
         }

@@ -8,8 +8,6 @@ import './i18n';
 import Navbar from './pages/header/Navbar';
 import AppRoutes from './routes/Routes';
 
-
-
 const rollbarConfig = {
   accessToken: 'f4a3d7a1106d41789162305de0df95be',
   environment: process.env.NODE_ENV || 'development',
