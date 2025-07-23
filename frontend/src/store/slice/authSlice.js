@@ -28,7 +28,7 @@ export const authSlice = createSlice({
       state.chatResetFlag = false;
 
       localStorage.setItem('token', token);
-      localStorage.setItem('username', username);
+      //localStorage.setItem('username', username);
     },
 
     // Сброс только чата (без выхода)

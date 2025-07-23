@@ -66,7 +66,8 @@ function RegisterPage() {
                 });
 
                 localStorage.setItem('token', res.data.token);
-                localStorage.setItem('user', res.data.username);
+                localStorage.setItem('username', res.data.username);
+
 
                 toast.success(t('Регистрация и вход выполнены!'));
                 navigate('/');

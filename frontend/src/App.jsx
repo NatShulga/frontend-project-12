@@ -21,7 +21,8 @@ const AppContent = () => {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-      if (token) {}
+      const username = localStorage.getItem('username');
+      if (token && username) {}
     console.log('Auth state:', authState);
 }, [authState]);
     
