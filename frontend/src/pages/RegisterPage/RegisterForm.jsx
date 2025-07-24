@@ -112,12 +112,12 @@ function RegisterPage() {
                                         <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="username">{t("")}</Form.Label>
+                                                    <Form.Label htmlFor="username">{t("Имя пользователя")}</Form.Label>
                                                     <Form.Control
                                                         id= "username"
                                                         type="text"
                                                         name="username"
-                                                        placeholder={t("Имя пользователя")}
+                                                        placeholder=" "
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.username}
@@ -136,12 +136,12 @@ function RegisterPage() {
                                         <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="password">{t("")}</Form.Label>
+                                                    <Form.Label htmlFor="password">{t("пароль")}</Form.Label>
                                                     <Form.Control
                                                         id= "password"
                                                         type="password"
                                                         name="password"
-                                                        placeholder={t("Пароль")}
+                                                        placeholder="Не менее 6 символов"
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.password}
@@ -160,12 +160,12 @@ function RegisterPage() {
                                         <Form.Group className="mb-4">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="confirmPassword">{t("")}</Form.Label>
+                                                    <Form.Label htmlFor="confirmPassword">{t("Подтвердите пароль")}</Form.Label>
                                                     <Form.Control
                                                         id= "confirmPassword"
                                                         type="password"
                                                         name="confirmPassword"
-                                                        placeholder={t("Подтвердите пароль")}
+                                                        placeholder=" "
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
                                                         value={formik.values.confirmPassword}
