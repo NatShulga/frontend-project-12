@@ -112,7 +112,7 @@ function RegisterPage() {
                                         <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="username">{t("Имя пользователя")}</Form.Label>
+                                                    <div className="form-floating"> 
                                                     <Form.Control
                                                         id= "username"
                                                         type="text"
@@ -124,6 +124,8 @@ function RegisterPage() {
                                                         isInvalid={formik.touched.username && !!formik.errors.username}
                                                         autoComplete="off"
                                                     />
+                                                    <Form.Label htmlFor="username" className="form-label">{t("Имя пользователя")}</Form.Label>
+                                                    </div>
                                                     {formik.touched.username && formik.errors.username && (
                                                         <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
                                                             {formik.errors.username}
@@ -136,7 +138,7 @@ function RegisterPage() {
                                         <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="password">{t("пароль")}</Form.Label>
+                                                    <div className="form-floating">
                                                     <Form.Control
                                                         id= "password"
                                                         type="password"
@@ -148,6 +150,8 @@ function RegisterPage() {
                                                         isInvalid={formik.touched.password && !!formik.errors.password}
                                                         autoComplete="new-password"
                                                     />
+                                                    <Form.Label htmlFor="password" className="form-label">{t("Пароль")} <small className="text-muted">({t("От 3 до 20 символов")})</small></Form.Label>
+                                                    </div>
                                                     {formik.touched.password && formik.errors.password && (
                                                         <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
                                                             {formik.errors.password}
@@ -160,7 +164,7 @@ function RegisterPage() {
                                         <Form.Group className="mb-4">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px' }}>
-                                                    <Form.Label htmlFor="confirmPassword">{t("Подтвердите пароль")}</Form.Label>
+                                                <div className="form-floating">
                                                     <Form.Control
                                                         id= "confirmPassword"
                                                         type="password"
@@ -172,6 +176,8 @@ function RegisterPage() {
                                                         isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
                                                         autoComplete="new-password"
                                                     />
+                                                    <Form.Label htmlFor="confirmPassword" className="form-label">{t("Подтвердите пароль")}</Form.Label>
+                                                    </div>
                                                     {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                                                         <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
                                                             {formik.errors.confirmPassword}
