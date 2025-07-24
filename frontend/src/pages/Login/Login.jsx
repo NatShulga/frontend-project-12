@@ -59,8 +59,6 @@ function LoginPage() {
                     username: receivedUsername
                 }))
 
-                    localStorage.setItem('token', receivedToken);//удалить потом, потому что сохр в редьюс.
-                    //setAuthToken(receivedToken);
 
                 toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
