@@ -71,11 +71,13 @@ function RegisterPage() {
 
                 toast.success(t('Регистрация и вход выполнены!'));
                 navigate('/');
-
         } catch (err) {
-                toast.error(t('Ошибка регистрации'));
-        } finally {
-            setIsLoading(false); //выкл загрузки
+            if (err.response?.status === 409) { //конфликт, ошибка если пользователь существует
+                formik.setFieldValue('username', '');//очистка даннх поля
+            setError(t('Такой пользователь уже существует'));
+            }
+            } finally {
+                setIsLoading(false); //выкл загрузки
         }
         },
     });

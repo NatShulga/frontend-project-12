@@ -136,7 +136,7 @@ function LoginPage() {
 
                                 <div className="mb-1">
                                     <Form.Group className="mb-1">
-                                    <Form.Label htmlFor="username">{t("")}</Form.Label>
+                                    <Form.Label htmlFor="username">{t("Ваш ник")}</Form.Label>
                                     <Form.Control
                                         id= "username"
                                         type="text"
@@ -192,9 +192,7 @@ function LoginPage() {
                                     onMouseDown={() => setIsButtonPressed(true)}
                                     onMouseUp={() => setIsButtonPressed(false)}
                                     onMouseLeave={() => setIsButtonPressed(false)}
-
                                 >
-                                    
                                     {t("Войти")}
                                 </Button>
                                 </div>
