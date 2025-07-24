@@ -111,7 +111,7 @@ function RegisterPage() {
                                     <Form onSubmit={formik.handleSubmit}>
                                         <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
-                                                <div style={{ width: '250px' }}>
+                                                <div style={{ width: '250px', height: '68px' }}>
                                                     <div className="form-floating"> 
                                                     <Form.Control
                                                         id= "username"
@@ -123,6 +123,8 @@ function RegisterPage() {
                                                         value={formik.values.username}
                                                         isInvalid={formik.touched.username && !!formik.errors.username}
                                                         autoComplete="off"
+                                                        className= 'form-control-small'
+                                                        style={{ height: '38px' }}
                                                     />
                                                     <Form.Label htmlFor="username" className="form-label">{t("Имя пользователя")}</Form.Label>
                                                     </div>
@@ -137,7 +139,7 @@ function RegisterPage() {
 
                                         <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
-                                                <div style={{ width: '250px' }}>
+                                                <div style={{ width: '250px', height: '68px' }}>
                                                     <div className="form-floating">
                                                     <Form.Control
                                                         id= "password"
@@ -163,7 +165,7 @@ function RegisterPage() {
 
                                         <Form.Group className="mb-4">
                                             <div className="d-flex justify-content-end">
-                                                <div style={{ width: '250px' }}>
+                                                <div style={{ width: '250px', height: '48px' }}>
                                                 <div className="form-floating">
                                                     <Form.Control
                                                         id= "confirmPassword"
