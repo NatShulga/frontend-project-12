@@ -8,12 +8,28 @@ const fallbackLng = 'en';
 const fallbackTranslations = {
   ru: {
     translation: {
-      "Вход в систему": "Вход в систему",
-      "Ваш ник": "Ваш ник",
-      "Пароль": "Пароль",
-      "Войти": "Войти"
-    }
-  }
+      title: 'Hexlet Chat',
+      button: {
+        login: 'Войти',
+      },
+      field: {
+        username: {
+          label: 'Ваш ник',
+        },
+        password: {
+          label: 'Пароль',
+        },
+      },
+      logIn: 'Вход в систему',
+      username: 'Имя пользователя',
+      password: 'Пароль',
+      toast: {
+        login: {
+          error: 'Неверные имя пользователя или пароль',
+        },
+      },
+    },
+  },
 };
 
 i18n

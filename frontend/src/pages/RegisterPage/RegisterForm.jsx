@@ -41,7 +41,9 @@ function RegisterPage() {
             if (!values.password) {
                 errors.password = t('Обязательное поле');
             } else if (values.password.length < 6) {
-                errors.password = t('Пароль должен быть не менее 6 символов');
+                errors.password = t('Пароль должен быть не менее 6 символов')
+            } else if (values.password.length > 20) {
+                errors.password = t('Пароль должен быть не более 20 символов')
             }
             
             if (values.password !== values.confirmPassword) {
@@ -67,7 +69,6 @@ function RegisterPage() {
 
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('username', res.data.username);
-
 
                 toast.success(t('Регистрация и вход выполнены!'));
                 navigate('/');
@@ -114,7 +115,7 @@ function RegisterPage() {
                                         <Form.Group className="mb-0,5">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px', height: '68px' }}>
-                                                    <div className="form-floating"> 
+                                                    <div className="form-floating mb-n6"> 
                                                     <Form.Control
                                                         id= "username"
                                                         type="text"
@@ -125,7 +126,7 @@ function RegisterPage() {
                                                         value={formik.values.username}
                                                         isInvalid={formik.touched.username && !!formik.errors.username}
                                                         autoComplete="off"
-                                                        className= 'form-control-small'
+                                                        className= 'form-control form-control-sm'
                                                         style={{ height: '38px' }}
                                                     />
                                                     <Form.Label htmlFor="username" className="form-label">{t("Имя пользователя")}</Form.Label>
@@ -139,36 +140,57 @@ function RegisterPage() {
                                             </div>
                                         </Form.Group>
 
-                                        <Form.Group className="mb-0,5">
-                                            <div className="d-flex justify-content-end">
-                                                <div style={{ width: '250px', height: '68px' }}>
-                                                    <div className="form-floating">
-                                                    <Form.Control
-                                                        id= "password"
-                                                        type="password"
-                                                        name="password"
-                                                        placeholder="Не менее 6 символов"
-                                                        onChange={formik.handleChange}
-                                                        onBlur={formik.handleBlur}
-                                                        value={formik.values.password}
-                                                        isInvalid={formik.touched.password && !!formik.errors.password}
-                                                        autoComplete="new-password"
-                                                    />
-                                                    <Form.Label htmlFor="password" className="form-label">{t("Пароль")} <small className="text-muted">({t("От 3 до 20 символов")})</small></Form.Label>
-                                                    </div>
-                                                    {formik.touched.password && formik.errors.password && (
-                                                        <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
-                                                            {formik.errors.password}
-                                                        </div>
-                                                    )}
-                                                </div>
+                                        <Form.Group className="mb-3">
+                                        <div className="d-flex justify-content-end">
+                                            <div style={{ width: '250px' }}>
+                                            {/* оборачиваем лейбл и подсказу */}
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <Form.Label htmlFor="password" className="mb-0">
+                                                {t("")}
+                                                </Form.Label>
+                                                <Form.Text className="text-muted" style={{ fontSize: '0.75rem', }}>
+                                                {t("От 6 до 20 символов")}
+                                                </Form.Text>
                                             </div>
+
+
+                                            <div className="form-floating mb-3" style={{ height: '46px' }}>
+                                                <Form.Control
+                                                id="password"
+                                                type="password"
+                                                name="password"
+                                                placeholder=" "
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.password}
+                                                isInvalid={formik.touched.password && !!formik.errors.password}
+                                                autoComplete="new-password"
+                                                className="form-control form-control-sm"
+                                                style={{ height: '100%' }}
+                                                />
+                                                <Form.Label htmlFor="password" className="sr-only">
+                                                {t("Пароль")}
+                                                </Form.Label>
+                                            </div>
+
+                                            {/* отоброжение ошибок*/}
+                                            {formik.touched.password && formik.errors.password && (
+                                                <Form.Control.Feedback 
+                                                type="invalid" 
+                                                className="d-block text-end small"
+                                                style={{ marginTop: '0.1rem' }}
+                                                >
+                                                {formik.errors.password}
+                                                </Form.Control.Feedback>
+                                            )}
+                                            </div>
+                                        </div>
                                         </Form.Group>
 
                                         <Form.Group className="mb-4">
                                             <div className="d-flex justify-content-end">
                                                 <div style={{ width: '250px', height: '48px' }}>
-                                                <div className="form-floating">
+                                                <div className="form-floating mb-n3">
                                                     <Form.Control
                                                         id= "confirmPassword"
                                                         type="password"
