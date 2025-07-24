@@ -149,7 +149,7 @@ function RegisterPage() {
                                                 {t("")}
                                                 </Form.Label>
                                                 <Form.Text className="text-muted" style={{ fontSize: '0.75rem', }}>
-                                                {t("От 6 до 20 символов")}
+                                                {t("")}
                                                 </Form.Text>
                                             </div>
 
