@@ -27,6 +27,36 @@ const fallbackTranslations = {
         login: {
           error: 'Неверные имя пользователя или пароль',
         },
+        registration: 'Регистрация',
+      field: {
+      username: {
+        label: 'Ваш ник'
+      },
+      password: {
+        label: 'Пароль',
+        min: 'Не менее 6 символов',
+        max: 'Не более 20 символов'
+      },
+      confirmPassword: {
+        label: 'Подтвердите пароль',
+        repeat: 'Пароли должны совпадать'
+      }
+    },
+    button: {
+      register: 'Зарегистрироваться',
+      registering: 'Регистрация...'
+    },
+    modal: {
+      addChannel: {
+        title: 'Добавить канал',
+      },
+      editChannel: {
+        title: 'Переименовать канал',
+      },
+      removeChannel: {
+        titie: 'Вы уверены, что хотите удалить канал?',
+      },
+    }
       },
     },
   },
