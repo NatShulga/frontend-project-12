@@ -145,14 +145,10 @@ function RegisterPage() {
                                             <div style={{ width: '250px' }}>
                                             {/* оборачиваем лейбл и подсказу */}
                                             <div className="d-flex justify-content-between align-items-center mb-1">
-                                                <Form.Label htmlFor="password" className="mb-0">
-                                                {t("")}
-                                                </Form.Label>
                                                 <Form.Text className="text-muted" style={{ fontSize: '0.75rem', }}>
                                                 {t("")}
                                                 </Form.Text>
                                             </div>
-
 
                                             <div className="form-floating mb-3" style={{ height: '46px' }}>
                                                 <Form.Control
@@ -173,10 +169,18 @@ function RegisterPage() {
                                                 </Form.Label>
                                             </div>
 
-                                            {/* отоброжение ошибок*/}
+                                           {/* подсказка о длине пароля красным цветом */}
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
+                                                {formik.touched.password && !formik.errors.password && (
+                                                <Form.Text className="text-danger" style={{ fontSize: '0.75rem' }}>
+                                                    {t("От 3 до 20 символов")}
+                                                </Form.Text>
+                                                )}
+                                            </div>
+                                            {/* Отображение ошибок валидации красным цветом */}
                                             {formik.touched.password && formik.errors.password && (
-                                                <Form.Control.Feedback 
-                                                type="invalid" 
+                                                <Form.Control.Feedback
+                                                type="invalid"
                                                 className="d-block text-end small"
                                                 style={{ marginTop: '0.1rem' }}
                                                 >
