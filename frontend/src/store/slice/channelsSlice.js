@@ -34,9 +34,16 @@ const channelsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+
       .addCase(addChannel.fulfilled, (state, action) => {
         state.data.push(action.payload);
+
+        if (action.payload && action.payload.id) {
+        state.currentChannelId = action.payload.id;
+      }
+      state.error = null;
       })
+
       .addCase(editChannel.fulfilled, (state, action) => {
         const channel = state.data.find(channel => channel.id === action.payload.id);
         if (channel) {
@@ -71,4 +78,3 @@ export const getCurrentChannelId = (state) => state.channels.currentChannelId;
 export const { setCurrentChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;
-
