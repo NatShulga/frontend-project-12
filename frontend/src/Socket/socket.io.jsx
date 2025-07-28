@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { fetchMessages, sendMessageApi } from '../store/api/messagesApi';
 
 const ChatComponent = () => {
-  const [messages, setMessage] = useState('');
+  const [message, setMessage] = useState('');
   const [socket, setSocket] = useState(null);
   const dispatch = useDispatch();
 
@@ -79,10 +79,10 @@ const ChatComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!messages.trim() || !currentChannelId || !username || !socket) return;
+    if (!message.trim() || !currentChannelId || !username || !socket) return;
 
     socket.emit('newMessage', {
-      body: messages,
+      body: message,
       channelId: currentChannelId,
       username,
     });
@@ -92,7 +92,13 @@ const ChatComponent = () => {
 
 
   return (
-    {}
+    <div className="chat-container">
+      {/* Список сообщений */}
+      <MessageList messages={message} />
+      
+      {/* Форма ввода */}
+      <MessageInput />
+    </div>
   );
 };
 

@@ -14,9 +14,11 @@ const MessageInput = () => {
   const dispatch = useDispatch();
   const username = useSelector(state => state.auth.username);
 
+  const inputRef = React.useRef();
+
   useEffect(() => {
-    const input = document.querySelector('[aria-label="Новое сообщение"]');//не обязательно
-    input?.focus();
+    const inputRef = document.querySelector('[aria-label="Новое сообщение"]');
+    inputRef.focus();
   }, []);
 
 
@@ -27,7 +29,7 @@ const MessageInput = () => {
     validate: (values) => {
       const errors = {};
       if (!values.message.trim()) {
-        errors.message = t('Сообщение не может быть пустым');
+        errors.message = t('Сообщение не может быть пустым');//не обязательно
       }
       return errors;
     },
@@ -67,6 +69,7 @@ const MessageInput = () => {
       <Form onSubmit={formik.handleSubmit}>
         <InputGroup>
           <Form.Control
+            ref={inputRef}
             id="message"
             name="message"
             type="text"
@@ -80,7 +83,6 @@ const MessageInput = () => {
               borderRadius: '20px',
               border: '1px solid #ced4da',
               flex: 1,
-              
             }}
           />
           <Button 
