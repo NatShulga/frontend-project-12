@@ -59,23 +59,22 @@ function LoginPage() {
                     username: receivedUsername
                 }))
 
-                //setError('');
+
                 toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
                 navigate('/');
-
-            } catch (err) {
-                if (err.response?.status === 401) {
-                setError({ submit: t('Неверные имя пользователя или пароль') });
-                toast.error(t('Неверные имя пользователя или пароль'));
-                } else {
-                    const errorMessage = err.response?.data?.message || err.message || t('Ошибка сервера');
-                    setError({ submit: errorMessage });
-                    toast.error(errorMessage);
-                }
-                formik.setFieldValue('password', '');
-            } finally {
-                setIsLoading(false);
+                } catch (err) {
+                    if (err.response?.status === 401) {
+        setError({ submit: t('Неверные имя пользователя или пароль') });
+        toast.error(t('Неверные имя пользователя или пароль'));
+      } else {
+        const errorMessage = err.response?.data?.message || err.message || t('Ошибка сервера');
+        setError({ submit: errorMessage });
+        toast.error(errorMessage);
+      }
+      formik.setFieldValue('password', '');
+    } finally {
+      setIsLoading(false);
         }},
     });
 
@@ -120,7 +119,11 @@ function LoginPage() {
                                 <h2>{t("Вход в систему")}</h2>
                             </div>
                             
-                            {error && <Alert variant="danger">{error}</Alert>}
+                            {formik.errors.submit && (
+                            <Alert variant="danger" className="text-center">
+                            {formik.errors.submit}
+                            </Alert>
+                            )}
 
                             <Form onSubmit={formik.handleSubmit}>
                                 <div className="d-flex align-items-start">
