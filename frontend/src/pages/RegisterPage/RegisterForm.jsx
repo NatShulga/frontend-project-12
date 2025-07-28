@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
 import LoginProsses from '@/assets/LoginProsses.jpg';
+import { validationSchema } from '../../utils/validation';
 
 function RegisterPage() {
     const location = useLocation();
@@ -30,6 +31,7 @@ function RegisterPage() {
 
     const formik = useFormik({
         initialValues: initialFormValues,
+        validationSchema: validationSchema,
         enableReinitialize: true,
         validate: values => {
             const errors = {};
