@@ -5,7 +5,7 @@ import { removeChannel } from "../api/channelsApi.js";
 const initialState = {
   loading: false,
   error: null,
-  username: null,
+  //username: null,
   messages: []
 };
 
@@ -22,7 +22,6 @@ const messagesSlice = createSlice({
     builder
 
       //ОТПРАВКА СООБЩЕНИЙ
-      
       .addCase(sendMessageApi.fulfilled, (state, action) => {
         state.messages.push(action.payload);
       })

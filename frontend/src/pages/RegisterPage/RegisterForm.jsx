@@ -208,11 +208,7 @@ function RegisterPage() {
                                                     />
                                                     <Form.Label htmlFor="confirmPassword" className="form-label">{t("Подтвердите пароль")}</Form.Label>
                                                     </div>
-                                                    {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                                                        <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
-                                                            {formik.errors.confirmPassword}
-                                                        </div>
-                                                    )}
+                                                    
                                                 </div>
                                             </div>
                                         </Form.Group>
