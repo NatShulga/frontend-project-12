@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
 import LoginProsses from '@/assets/LoginProsses.jpg';
-import { validationSchema } from '../../utils/validation';
+import { createSignUpValidationSchema } from '../../utils/validation';
 
 function RegisterPage() {
     const location = useLocation();
@@ -31,29 +31,8 @@ function RegisterPage() {
 
     const formik = useFormik({
         initialValues: initialFormValues,
-        validationSchema: validationSchema,
+        validationSchema: createSignUpValidationSchema(t),
         enableReinitialize: true,
-        validate: values => {
-            const errors = {};
-            
-            if (!values.username) {
-                errors.username = t('Обязательное поле');
-            } 
-            
-            if (!values.password) {
-                errors.password = t('Обязательное поле');
-            } else if (values.password.length < 6) {
-                errors.password = t('Пароль должен быть не менее 6 символов')
-            } else if (values.password.length > 20) {
-                errors.password = t('Пароль должен быть не более 20 символов')
-            }
-            
-            if (values.password !== values.confirmPassword) {
-                errors.confirmPassword = t('Пароли не совпадают');
-            }
-            
-            return errors;
-        },
 
         onSubmit: async (values, { resetForm }) => {
             setIsLoading(true); //активируется загрузка
@@ -210,7 +189,12 @@ function RegisterPage() {
                                                     />
                                                     <Form.Label htmlFor="confirmPassword" className="form-label">{t("Подтвердите пароль")}</Form.Label>
                                                     </div>
-                                                    
+                                                    {/* блок ошибки при подтверждении пароля */}
+                                                    {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                                                    <div className="text-danger text-end" style={{ fontSize: '0.875rem', marginTop: '0.25rem', zIndex: '10px' }}>
+                                                    {formik.errors.confirmPassword}
+                                                    </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </Form.Group>
