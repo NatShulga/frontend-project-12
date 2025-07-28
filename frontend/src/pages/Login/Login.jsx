@@ -59,15 +59,20 @@ function LoginPage() {
                     username: receivedUsername
                 }))
 
+                //setError('');
                 toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
                 navigate('/');
 
             } catch (err) {
-
-                const errorMessage = t('Неверные имя пользователя или пароль');
-                setError(errorMessage);
-                toast.error(t(`Ошибка входа: ${errorMessage}`));
+                if (err.response?.status === 401) {
+                setError({ submit: t('Неверные имя пользователя или пароль') });
+                toast.error(t('Неверные имя пользователя или пароль'));
+                } else {
+                    const errorMessage = err.response?.data?.message || err.message || t('Ошибка сервера');
+                    setError({ submit: errorMessage });
+                    toast.error(errorMessage);
+                }
                 formik.setFieldValue('password', '');
             } finally {
                 setIsLoading(false);
