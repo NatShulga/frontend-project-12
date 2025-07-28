@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,11 @@ const MessageInput = () => {
   const currentChannelId = useSelector(getCurrentChannelId);
   const dispatch = useDispatch();
   const username = useSelector(state => state.auth.username);
+
+  useEffect(() => {
+    const input = document.querySelector('[aria-label="Новое сообщение"]');//не обязательно
+    input?.focus();
+  }, []);
 
 
   const formik = useFormik({
@@ -65,6 +70,7 @@ const MessageInput = () => {
             id="message"
             name="message"
             type="text"
+            aria-label="Новое сообщение"//добавлено лейбл
             value={formik.values.message}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
