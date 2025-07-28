@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import './i18n';
 import Navbar from './pages/header/Navbar';
 import AppRoutes from './routes/Routes';
+import { restoreAuth } from './store/slice/authSlice';
 
 const rollbarConfig = {
   accessToken: 'f4a3d7a1106d41789162305de0df95be',
@@ -16,7 +17,7 @@ const rollbarConfig = {
 };
 
 const AppContent = () => {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
     const authState = useSelector(state => state.auth);
 
     useEffect(() => {
@@ -26,6 +27,10 @@ const AppContent = () => {
     console.log('Auth state:', authState);
 }, [authState]);
     
+useEffect(() => {
+    dispatch(restoreAuth());
+  }, [dispatch]);
+
     return (
         <Router>
             <Navbar />

@@ -20,15 +20,16 @@ export const authSlice = createSlice({
       const { token, username } = action.payload;
 
       localStorage.removeItem('token');
-      localStorage.removeItem('username');
+      //localStorage.removeItem('username');
 
       state.token = token;
       state.isAuthenticated = true;
       state.username = username;//новое имя
       state.chatResetFlag = false;
 
+      //очистка старых данных
       localStorage.setItem('token', token);
-      //localStorage.setItem('username', username);
+      localStorage.setItem('username', username);
     },
 
     // Сброс только чата (без выхода)
@@ -48,12 +49,16 @@ export const authSlice = createSlice({
     },
 
     restoreAuth: (state) => {
+      const token = localStorage.getItem('token');
       const username = localStorage.getItem('username');
-      if (username) {
-        state.token = token; 
-        state.username = localStorage.getItem('username');//текущее значение
-        state.isAuthenticated = !!localStorage.getItem('token');
-      }
+      if (token && username) {
+    state.token = token;
+    state.username = username;
+    state.isAuthenticated = true;
+  } else {
+    state.isAuthenticated = false;
+    state.username = null;
+  }
     }
   },
 });

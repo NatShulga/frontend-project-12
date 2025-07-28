@@ -7,6 +7,7 @@ export const sendMessageApi = createAsyncThunk(
   async ({ body, channelId }, { rejectWithValue }) => {
     try {
     const username  = localStorage.getItem('username');
+    console.log('Отправляю username:', username); 
     const token = localStorage.getItem('token');
     
     if (!token) {
