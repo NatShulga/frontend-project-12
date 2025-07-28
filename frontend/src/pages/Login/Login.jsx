@@ -59,12 +59,13 @@ function LoginPage() {
                     username: receivedUsername
                 }))
 
-
                 toast.success(t('Вход выполнен успешно!'));
                 resetForm({ values: { username: '', password: '' } });
                 navigate('/');
+
             } catch (err) {
-                const errorMessage = err.response?.data?.message || err.message || t('Ошибка сервера')
+
+                const errorMessage = t('Неверные имя пользователя или пароль');
                 setError(errorMessage);
                 toast.error(t(`Ошибка входа: ${errorMessage}`));
                 formik.setFieldValue('password', '');
