@@ -55,7 +55,6 @@ const MessageInput = () => {
     },
   });
 
-  
   return (
     <div 
       className="message-input-container"

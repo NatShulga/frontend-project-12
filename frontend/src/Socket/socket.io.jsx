@@ -93,7 +93,6 @@ const ChatComponent = () => {
     setMessage('');
   };
 
-
   return (
     <div
     className="chat-container"
@@ -109,7 +108,11 @@ const ChatComponent = () => {
       <MessageList messages={messages} />
     </div>
 
-    <MessageInput />
+    <MessageInput 
+        handleSubmit={handleSubmit}
+        message={message}
+        setMessage={setMessage}
+        />
   </div>
   );
 };
