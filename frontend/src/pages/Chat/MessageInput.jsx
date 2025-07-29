@@ -17,9 +17,10 @@ const MessageInput = () => {
   const inputRef = React.useRef();
 
   useEffect(() => {
-    const inputRef = document.querySelector('[aria-label="Новое сообщение"]');
-    inputRef.focus();
-  }, []);
+    if (inputRef.current) {
+      inputRef.current.focus();
+  }
+}, []);
 
 
   const formik = useFormik({
@@ -73,7 +74,8 @@ const MessageInput = () => {
             id="message"
             name="message"
             type="text"
-            aria-label="Новое сообщение"//добавлено лейбл
+            data-testid="new-message"
+            aria-label="Новое сообщение"
             value={formik.values.message}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
