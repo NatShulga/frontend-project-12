@@ -12,7 +12,7 @@ const ChatComponent = () => {
   const dispatch = useDispatch();
 
   const { messages, channels, currentChannelId } = useSelector(state => ({
-  messages: state.chat.message.data,
+  messages: state.chat.messages.data,
   channels: state.chat.channels.data,
   currentChannelId: state.chat.currentChannelId,
 }));
@@ -97,7 +97,7 @@ const ChatComponent = () => {
   return (
     <div className="chat-container">
       {/* Список сообщений */}
-      <MessageList messages={message} />
+      <MessageList messages={messages} />
       
       {/* Форма ввода */}
       <MessageInput 
