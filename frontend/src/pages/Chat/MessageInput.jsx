@@ -55,24 +55,7 @@ const MessageInput = () => {
     },
   });
 
-  if (!currentChannelId) {//условие если канал не выбран
-    return (
-      <div
-        className="message-input-container"
-        style={{
-          padding: '10px 15px',
-          backgroundColor: '#f8f9fa',
-          borderTop: '1px solid #eee',
-          textAlign: 'center',
-          color: '#6c757d',
-          fontSize: '0.9rem',
-        }}
-      >
-        {t('Выберите канал')}
-      </div>
-    );
-  }
-
+  
   return (
     <div 
       className="message-input-container"
