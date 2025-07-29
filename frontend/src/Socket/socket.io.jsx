@@ -2,17 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { fetchMessages, sendMessageApi } from '../store/api/messagesApi';
+import { fetchChannels, getCurrentChannel, removeChannel, renameChannel } from '../store/api/channelsApi';
+import MessageList from './MessageList';
+import MessageInput from './MessageInput';
 
 const ChatComponent = () => {
   const [message, setMessage] = useState('');
   const [socket, setSocket] = useState(null);
   const dispatch = useDispatch();
 
-  const { channels, currentChannelId } = useSelector(state => ({
-    messages: state.chat.messages.data,
-    channels: state.chat.channels.data,
-    currentChannelId: state.chat.currentChannelId,
-  }));
+  const { messages, channels, currentChannelId } = useSelector(state => ({
+  messages: state.chat.message.data,
+  channels: state.chat.channels.data,
+  currentChannelId: state.chat.currentChannelId,
+}));
 
   const username = useSelector(state => state.auth.username);
 
@@ -75,7 +78,7 @@ const ChatComponent = () => {
       newSocket.off('renameChannel', handleRenameChannel);
       newSocket.disconnect();
     };
-  }, [dispatch, username, currentChannelId, channels.length]);
+  }, [dispatch, username, currentChannelId, channels]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -97,7 +100,11 @@ const ChatComponent = () => {
       <MessageList messages={message} />
       
       {/* Форма ввода */}
-      <MessageInput />
+      <MessageInput 
+        handleSubmit={handleSubmit}
+        message={message}
+        setMessage={setMessage}
+  />
     </div>
   );
 };
