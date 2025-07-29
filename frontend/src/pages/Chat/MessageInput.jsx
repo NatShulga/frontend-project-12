@@ -11,6 +11,7 @@ import { getCurrentChannelId } from '../../store/slice/channelsSlice';
 const MessageInput = () => {
   const {t} = useTranslation();
   const currentChannelId = useSelector(getCurrentChannelId);
+  console.log('currentChannelId:', currentChannelId);
   const dispatch = useDispatch();
   const username = useSelector(state => state.auth.username);
 
@@ -55,18 +56,21 @@ const MessageInput = () => {
   });
 
   return (
-    <div className="message-input-container" 
-      style={{ 
+    <div 
+      className="message-input-container"
+      data-testid="message-input-container"
+      style={{
         position: 'absolute',
-        width: '100%',
-              padding: '10px 15px',
-              fontSize: '1rem',
         bottom: 0,
-        //padding: '1rem',
+        left: 0,
+        right: 0,
+        padding: '10px 15px',
         backgroundColor: '#fff',
         borderTop: '1px solid #eee',
-        zIndex: 100
-      }}>
+        zIndex: 100,
+        boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
+      }}
+    >
       <Form onSubmit={formik.handleSubmit}>
         <InputGroup>
           <Form.Control

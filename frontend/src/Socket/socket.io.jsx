@@ -95,17 +95,22 @@ const ChatComponent = () => {
 
 
   return (
-    <div className="chat-container">
-      {/* Список сообщений */}
+    <div
+    className="chat-container"
+    style={{
+      position: 'relative',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+    }}
+  >
+    <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}>
       <MessageList messages={messages} />
-      
-      {/* Форма ввода */}
-      <MessageInput 
-        handleSubmit={handleSubmit}
-        message={message}
-        setMessage={setMessage}
-  />
     </div>
+
+    <MessageInput />
+  </div>
   );
 };
 
