@@ -11,7 +11,7 @@ const DeleteChannelModal = ({ show, onHide, onDelete, channelName }) => {
     setIsDeleting(true);
     try {
       await onDelete();
-      toast.success(t('Канал "{{name}}" успешно удален', { name: channelName }), {
+      toast.success(t('Канал "{{name}}" удален', { name: channelName }), {
         position: "top-right",
         autoClose: 3000,
       });

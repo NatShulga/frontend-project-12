@@ -10,6 +10,8 @@ const fallbackTranslations = {
       title: "Hexlet Chat",
       button: {
         login: "Войти",
+        register: "Зарегистрироваться",
+        registering: "Регистрация...",
       },
       field: {
         username: {
@@ -17,62 +19,49 @@ const fallbackTranslations = {
         },
         password: {
           label: "Пароль",
+          min: "Не менее 6 символов",
+          max: "Не более 20 символов",
+        },
+        confirmPassword: {
+          label: "Подтвердите пароль",
+          repeat: "Пароли должны совпадать",
+        },
+        channelName: {
+          label: "Название канала",
+          lengthError: "От 3 до 20 символов",
         },
       },
       logIn: "Вход в систему",
       username: "Имя пользователя",
       password: "Пароль",
+
+      //Глобальные toast
       toast: {
-        login: {
-          error: "Неверные имя пользователя или пароль",
+        channelCreated: 'Канал "{{name}}" создан!',
+        channelRenamed: "Канал переименован",
+      },
+
+      //Глобальные ошибки
+      errors: {
+        channelCreateError: "Ошибка при создании канала",
+        channelRenameError: "Ошибка при переименовании канала",
+      },
+
+      //Модальные окна
+      modal: {
+        addChannel: {
+          title: "Добавить канал",
         },
-        registration: "Регистрация",
-        field: {
-          username: {
-            label: "Ваш ник",
-          },
-          password: {
-            label: "Пароль",
-            min: "Не менее 6 символов",
-            max: "Не более 20 символов",
-          },
-          confirmPassword: {
-            label: "Подтвердите пароль",
-            repeat: "Пароли должны совпадать",
-          },
-          channelName: {
-            label: "Название канала",
-            lengthError: "От 3 до 20 символов",
-          },
-          validation: {
-            channelLength: "От 3 до 20 символов",
-          },
-          errors: {
-            channelCreateError: "Ошибка при создании канала",
+        editChannel: {
+          title: "Переименовать канал",
         },
-          toast: {
-            channelCreated: "Канал \"{{name}}\" создан!"
-        }
-        },
-        button: {
-          register: "Зарегистрироваться",
-          registering: "Регистрация...",
-        },
-        modal: {
-          addChannel: {
-            title: "Добавить канал",
-          },
-          editChannel: {
-            title: "Переименовать канал",
-          },
-          removeChannel: {
-            titie: "Вы уверены, что хотите удалить канал?",
-          },
+        removeChannel: {
+          title: "Вы уверены, что хотите удалить канал?",
         },
       },
-    },
-  },
-};
+          },
+          },
+        };
 
 i18n
   .use(Backend)
