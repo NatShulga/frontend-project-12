@@ -78,7 +78,7 @@ const ChatComponent = () => {
       newSocket.off('renameChannel', handleRenameChannel);
       newSocket.disconnect();
     };
-  }, [dispatch, username, currentChannelId, channels]);
+  }, [dispatch, username, currentChannelId, channels.length]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -108,11 +108,7 @@ const ChatComponent = () => {
       <MessageList messages={messages} />
     </div>
 
-    <MessageInput 
-        handleSubmit={handleSubmit}
-        message={message}
-        setMessage={setMessage}
-        />
+    <MessageInput/>
   </div>
   );
 };

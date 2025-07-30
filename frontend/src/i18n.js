@@ -1,62 +1,74 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-http-backend';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import Backend from "i18next-http-backend";
 
-
-const fallbackLng = 'en';
+const fallbackLng = "en";
 const fallbackTranslations = {
   ru: {
     translation: {
-      title: 'Hexlet Chat',
+      title: "Hexlet Chat",
       button: {
-        login: 'Войти',
+        login: "Войти",
       },
       field: {
         username: {
-          label: 'Ваш ник',
+          label: "Ваш ник",
         },
         password: {
-          label: 'Пароль',
+          label: "Пароль",
         },
       },
-      logIn: 'Вход в систему',
-      username: 'Имя пользователя',
-      password: 'Пароль',
+      logIn: "Вход в систему",
+      username: "Имя пользователя",
+      password: "Пароль",
       toast: {
         login: {
-          error: 'Неверные имя пользователя или пароль',
+          error: "Неверные имя пользователя или пароль",
         },
-        registration: 'Регистрация',
-      field: {
-      username: {
-        label: 'Ваш ник'
-      },
-      password: {
-        label: 'Пароль',
-        min: 'Не менее 6 символов',
-        max: 'Не более 20 символов'
-      },
-      confirmPassword: {
-        label: 'Подтвердите пароль',
-        repeat: 'Пароли должны совпадать'
-      }
-    },
-    button: {
-      register: 'Зарегистрироваться',
-      registering: 'Регистрация...'
-    },
-    modal: {
-      addChannel: {
-        title: 'Добавить канал',
-      },
-      editChannel: {
-        title: 'Переименовать канал',
-      },
-      removeChannel: {
-        titie: 'Вы уверены, что хотите удалить канал?',
-      },
-    }
+        registration: "Регистрация",
+        field: {
+          username: {
+            label: "Ваш ник",
+          },
+          password: {
+            label: "Пароль",
+            min: "Не менее 6 символов",
+            max: "Не более 20 символов",
+          },
+          confirmPassword: {
+            label: "Подтвердите пароль",
+            repeat: "Пароли должны совпадать",
+          },
+          channelName: {
+            label: "Название канала",
+            lengthError: "От 3 до 20 символов",
+          },
+          validation: {
+            channelLength: "От 3 до 20 символов",
+          },
+          errors: {
+            channelCreateError: "Ошибка при создании канала",
+        },
+          toast: {
+            channelCreated: "Канал \"{{name}}\" создан!"
+        }
+        },
+        button: {
+          register: "Зарегистрироваться",
+          registering: "Регистрация...",
+        },
+        modal: {
+          addChannel: {
+            title: "Добавить канал",
+          },
+          editChannel: {
+            title: "Переименовать канал",
+          },
+          removeChannel: {
+            titie: "Вы уверены, что хотите удалить канал?",
+          },
+        },
       },
     },
   },
@@ -70,19 +82,19 @@ i18n
     fallbackLng,
     //debug: process.env.NODE_ENV === 'development',
     detection: {
-      order: ['cookie', 'localStorage', 'htmlTag'],
-      caches: ['cookie']
+      order: ["cookie", "localStorage", "htmlTag"],
+      caches: ["cookie"],
     },
     backend: {
-      loadPath: '/locales/{{lng}}/translation.json',
+      loadPath: "/locales/{{lng}}/translation.json",
       requestOptions: {
-        cache: 'no-store'
-      }
+        cache: "no-store",
+      },
     },
     react: {
-      useSuspense: false
+      useSuspense: false,
     },
-    resources: fallbackTranslations
+    resources: fallbackTranslations,
   });
 
 export default i18n;

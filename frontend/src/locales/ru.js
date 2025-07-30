@@ -10,11 +10,6 @@ const ru = {
     "invalid_credentials": "Неверное имя пользователя или пароль"
   },
 
-  "chat": {
-    "welcome": "Добро пожаловать, {name}!",
-    "anonymous": "Гость"
-  }
-
 
 };
 

@@ -4,7 +4,6 @@
   "description": "[![Actions Status](https://github.com/NatShulga/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/NatShulga/frontend-project-12/actions)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "start-server",
     "build": "cd frontend && npm install && npm run build",
     "serve": "vite preview",
@@ -41,6 +40,8 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "rollup": "^4.36.0",
     "vite": "^6.3.5"
