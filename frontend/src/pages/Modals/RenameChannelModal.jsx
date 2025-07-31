@@ -22,9 +22,8 @@ React.useEffect(() => {
 
     if (value.length > 20) {
       setError(t('От 3 до 20 символов'));
-    } else {
-      setError('');
-    }
+    } 
+    
   };
 
 
