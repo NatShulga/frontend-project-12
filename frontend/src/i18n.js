@@ -63,6 +63,7 @@ const fallbackTranslations = {
           },
         };
 
+
 i18n
   .use(Backend)
   .use(LanguageDetector)

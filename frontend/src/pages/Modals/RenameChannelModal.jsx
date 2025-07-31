@@ -22,6 +22,8 @@ React.useEffect(() => {
 
     if (value.length > 20) {
       setError(t('От 3 до 20 символов'));
+    } else {
+      setError('');
     }
   };
 
@@ -31,7 +33,7 @@ React.useEffect(() => {
     const trimmedName = newName.trim();
 
   if (trimmedName.length < 3) {
-    setError(t('field.channelName.lengthError'));
+    setError(t('От 3 до 20 символов'));
     return;
   }
   if (newName.length > 20) {

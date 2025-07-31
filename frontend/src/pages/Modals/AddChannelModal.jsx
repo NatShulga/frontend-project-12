@@ -35,7 +35,7 @@ const AddChannelModal = ({ show, onHide, onAdd }) => {
 
     try {
       await onAdd(channelName);
-      toast.success(t('Канал "{{name}}" создан!', { name: channelName }));
+      //toast.success(t('Канал создан!', { name: channelName }));
       setChannelName('');
       setError('');
       onHide();

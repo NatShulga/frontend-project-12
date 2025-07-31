@@ -176,7 +176,17 @@ const handleDelete = async (channelId) => {
       <AddChannelModal 
         show={showModal}
         onHide={() => setShowModal(false)}
-        onAdd={name => dispatch(addChannel(name))}
+        onAdd={async (name) => {
+    try {
+      await dispatch(addChannel(name)).unwrap();
+      toast.success(t('Канал создан'));
+      
+      await dispatch(fetchChannels()).unwrap();
+      setShowModal(false);
+    } catch (err) {
+      toast.error(t('Ошибка при создании канала'));
+    }
+  }}
       />
     </>
   );

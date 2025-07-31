@@ -58,17 +58,20 @@ export const fetchChannels = createAsyncThunk(
 export const addChannel = createAsyncThunk(
   "channels/addChannel",
   async (name, { getState, rejectWithValue }) => {
+    const { token } = getState().auth;
+    console.log("addChannel: token exists?", !!token);
+    if (!token) {
+      return rejectWithValue("No token");
+    }
+
     try {
-      const { token } = getState().auth;
-      const response = await axios.post(
-        "/api/v1/channels",
-        { name },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      return response.data; // Сервер должен возвращать созданный канал
+      const response = await axios.post("/api/v1/channels", { name }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log("addChannel success:", response.data);
+      return response.data;
     } catch (err) {
+      console.error("addChannel error:", err.response?.data || err.message);
       return rejectWithValue(err.response?.data?.message || err.message);
     }
   }
