@@ -19,7 +19,7 @@ export const authSlice = createSlice({
     setAuthToken: (state, action) => {
       const { token, username } = action.payload;
 
-      localStorage.removeItem('token');
+      //localStorage.removeItem('token');
       //localStorage.removeItem('username');
 
       state.token = token;

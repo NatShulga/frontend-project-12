@@ -8,6 +8,8 @@ import './i18n';
 import Navbar from './pages/header/Navbar';
 import AppRoutes from './routes/Routes';
 import { restoreAuth } from './store/slice/authSlice';
+import { fetchChannels } from './store/api/channelsApi';
+import { fetchMessages } from './store/api/messagesApi';
 
 const rollbarConfig = {
   accessToken: 'f4a3d7a1106d41789162305de0df95be',
@@ -28,7 +30,10 @@ const AppContent = () => {
 }, [authState]);
     
 useEffect(() => {
-    dispatch(restoreAuth());
+    dispatch(restoreAuth());//восстановление аутентиф из локалтосридж
+
+    dispatch(fetchChannels());
+    dispatch(fetchMessages());
   }, [dispatch]);
 
     return (
