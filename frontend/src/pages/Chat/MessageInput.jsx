@@ -17,7 +17,7 @@ const MessageInput = () => {
   const inputRef = React.useRef();
 
   useEffect(() => {
-    if (inputRef.current) {
+    if (inputRef.current) {//фиксирует на инпуте при изменении канала при монтировании
       inputRef.current.focus();
   }
 }, [currentChannelId]);
