@@ -20,7 +20,7 @@ const MessageInput = () => {
     if (inputRef.current) {//фиксирует на инпуте при изменении канала при монтировании
       inputRef.current.focus();
   }
-}, [currentChannelId]);
+}, []);
 
 
   const formik = useFormik({
@@ -44,7 +44,7 @@ const MessageInput = () => {
         .unwrap()
         .then(() => {
           resetForm();
-          inputRef.current?.focus();
+          //inputRef.current?.focus();
         })
         .catch((err) => {
           console.error('Ошибка отправки:', err);
