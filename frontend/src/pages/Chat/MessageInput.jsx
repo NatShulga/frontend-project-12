@@ -14,14 +14,13 @@ const MessageInput = () => {
   console.log('currentChannelId:', currentChannelId);
   const dispatch = useDispatch();
   const username = useSelector(state => state.auth.username);
-
   const inputRef = React.useRef();
 
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
   }
-}, []);
+}, [currentChannelId]);
 
 
   const formik = useFormik({
@@ -31,7 +30,7 @@ const MessageInput = () => {
     validate: (values) => {
       const errors = {};
       if (!values.message.trim()) {
-        errors.message = t('Сообщение не может быть пустым');//не обязательно
+        errors.message = t('');//не обязательно
       }
       return errors;
     },
@@ -45,6 +44,7 @@ const MessageInput = () => {
         .unwrap()
         .then(() => {
           resetForm();
+          inputRef.current?.focus();
         })
         .catch((err) => {
           console.error('Ошибка отправки:', err);
@@ -78,12 +78,12 @@ const MessageInput = () => {
             id="message"
             name="message"
             type="text"
-            data-testid="new-message"
-            aria-label="Новое сообщение"
             value={formik.values.message}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder={t("Введите сообщение...")}
+            data-testid="new-message"
+            aria-label="Новое сообщение"
             isInvalid={formik.touched.message && !!formik.errors.message}
             style={{
               borderRadius: '20px',
