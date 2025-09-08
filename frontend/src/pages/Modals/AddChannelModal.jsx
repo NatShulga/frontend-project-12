@@ -16,7 +16,7 @@ const AddChannelModal = ({ show, onHide, onAdd }) => {
   if (value.length > 20) {
     setError(t('От 3 до 20 символов'));
   } else {
-    setError(t('От 3 до 20 символов')); // убираем ошибку, если в пределах нужных символов
+    setError(t('')); // убираем ошибку, если в пределах нужных символов
   }
 };
 

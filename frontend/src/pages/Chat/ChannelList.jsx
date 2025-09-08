@@ -83,7 +83,7 @@ const handleDelete = async (channelId) => {
       
       <ListGroup style={{ marginTop: '40px' }}>
   {channels.map((channel) => (
-    <button
+    <div
       key={channel.id}
       className={`channel-item d-flex justify-content-between align-items-center list-group-item ${channel.id === currentChannel?.id ? 'active' : ''}`}
       onClick={() => dispatch(setCurrentChannel(channel.id))} //
@@ -113,7 +113,7 @@ const handleDelete = async (channelId) => {
       {channel.name !== 'general' && channel.name !== 'random' && (
         <Dropdown onClick={(e) => e.stopPropagation()}>
           <Dropdown.Toggle
-            as={Button}
+            //as={Button}
             variant="link"
             id={`dropdown-actions-${channel.id}`}
             className="p-0 text-muted"
@@ -142,7 +142,7 @@ const handleDelete = async (channelId) => {
           </Dropdown.Menu>
         </Dropdown>
       )}
-    </button>
+    </div>
   ))}
 </ListGroup>
 

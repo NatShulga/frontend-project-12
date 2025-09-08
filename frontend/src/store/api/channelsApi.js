@@ -3,10 +3,11 @@ import axios from "axios";
 
 export const fetchChannels = createAsyncThunk(
   "channels/fetchChannels",
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue, getState }) => {
     try {
       // Проверяем наличие токена
-      const token = localStorage.getItem("token");
+      const {token} = getState().auth;
+      //const token = localStorage.getItem("token");
       if (!token) {
         console.error("Токен отсутствует в Redux store");
         dispatch(logout()); // Очищаем состояние
@@ -59,7 +60,7 @@ export const addChannel = createAsyncThunk(
   "channels/addChannel",
   async (name, { getState, rejectWithValue }) => {
     const { token } = getState().auth;
-    console.log("addChannel: token exists?", !!token);
+    console.log("addChannel: token exists?", !!token); 
     if (!token) {
       return rejectWithValue("No token");
     }
